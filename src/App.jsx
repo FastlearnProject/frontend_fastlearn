@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import {
   ErrorPage,
@@ -31,8 +30,8 @@ const App = () => {
       <Route path="/docs" element={<DocsPage />} />
       {/* Rutas protegidas */}
       <Route element={<RouteProtected />}>
+      <Route path="/student" element={<StudentPage />} />
       <Route path="/select-rol" element={<SelectRolePage />} />
-        <Route path="/student" element={<StudentPage />} />
         <Route path="/teacher" element={<TeacherPage />} />
         <Route path="/admin" element={<AdminPage />} />
       </Route>

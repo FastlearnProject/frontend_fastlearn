@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { SectionForm } from "../../components/Sections/SectionForm";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // Asegúrate de que jwt-decode esté instalado
+import { jwtDecode } from "jwt-decode";
+import axios from "axios";
+import { SectionForm } from "../../components/Sections/SectionForm";
 
 const LoginPage = () => {
   const [initialFields] = useState([
@@ -25,14 +25,18 @@ const LoginPage = () => {
         }
       );
 
+      console.log("Respuesta del servidor:", response.data); // Depuración
+
       const { token } = response.data;
       if (token) {
-        localStorage.setItem("token", token); // Guardar el token en el almacenamiento local
+        localStorage.setItem("token", token);
 
-        const decodedToken = jwtDecode(token); // Decodificar el token para obtener el rol
-        const role = decodedToken.rol;
+        const decodedToken = jwtDecode(token);
 
-        // Redirigir según el rol
+        console.log("Token decodificado", decodedToken);
+
+        const role = decodedToken.rol
+
         if (role === "student") {
           navigate("/student");
         } else if (role === "teacher") {
@@ -40,7 +44,7 @@ const LoginPage = () => {
         } else if (role === "admin") {
           navigate("/admin");
         } else {
-          console.log("Rol no valido"); // En caso de que no haya un rol válido
+          navigate("/login");
         }
       }
     } catch (error) {

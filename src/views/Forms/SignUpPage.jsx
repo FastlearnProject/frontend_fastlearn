@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { SectionForm } from "../../components/Sections/SectionForm";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { SectionForm } from "../../components/Sections/SectionForm";
 
 const SignUpPage = () => {
-
   // Pasar inputs con tipo, placeholder, id al componente form
   const [initialFields] = useState([
     { type: "text", placeholder: "Nombre", id: "nombre" },
@@ -15,22 +14,26 @@ const SignUpPage = () => {
     { type: "text", placeholder: "Teléfono", id: "telefono" },
   ]);
 
-  // Consumo de la ruta del backend 
+  // Consumo de la ruta del backend
   const navigate = useNavigate();
 
   const handleRegister = async (formData) => {
     try {
-      const response = await axios.post("http://localhost:3000/usuario", formData, {
-        headers: {
-          'Content-Type': 'application/json'
-          // Asegurar que el contenido es en formato json
+      const response = await axios.post(
+        "http://localhost:3000/usuario",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            // Asegurar que el contenido es en formato json
+          },
         }
-      });
+      );
 
       const { token } = response.data;
       if (token) {
-        localStorage.setItem('token', token); // Guardar el token en el almacenamiento local
-        navigate("/select-rol");  // Redirección del usuario a la ruta select-rol después del registro
+        localStorage.setItem("token", token); // Guardar el token en el almacenamiento local
+        navigate("/select-rol"); // Redirección del usuario a la ruta select-rol después del registro
       } else {
         console.error("Token no encontrado en la respuesta");
       }
@@ -45,9 +48,12 @@ const SignUpPage = () => {
         <title>Crear cuenta | FastLearn</title>
       </Helmet>
 
-      <main className="h-screen bg-center bg-cover flex justify-center items-center" style={{ backgroundImage: 'url(/img/forms/img1.webp)' }}>
+      <main
+        className="h-screen bg-center bg-cover flex justify-center items-center"
+        style={{ backgroundImage: "url(/img/forms/img1.webp)" }}
+      >
         <div className="absolute inset-0 bg-black opacity-50"></div>
-        <SectionForm 
+        <SectionForm
           title="Comienza tu viaje de aventuras"
           text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur labore tempora, voluptatum cupiditate quis aspernatur sequi perferendis voluptatibus! Voluptas placeat illum eum tempore cupiditate, facilis nemo doloremque optio temporibus."
           textRecovery="Olvidé mi contraseña"
