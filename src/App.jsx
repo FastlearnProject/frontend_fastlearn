@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route} from "react-router-dom";
 import {
   ErrorPage,
   HomePage,
@@ -12,13 +12,14 @@ import {
   StudentPage,
   TeacherPage,
   AdminPage,
+  SettingsPage
 } from "./views";
-import RouteProtected from "./auth/RouteProtected"; 
-import { useAuth } from './auth/useAuth';
+import RouteProtected from "./auth/RouteProtected";
+import { useAuth } from "./auth/useAuth";
 
 const App = () => {
-  const { isAuthenticated } = useAuth();
-  
+  const { isAuthenticated} = useAuth();
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -28,17 +29,22 @@ const App = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/recovery" element={<RecoveryPage />} />
       <Route path="/docs" element={<DocsPage />} />
+      <Route path="/settings" element={<SettingsPage />} />
+
       {/* Rutas protegidas */}
+
       <Route element={<RouteProtected />}>
-      <Route path="/student" element={<StudentPage />} />
-      <Route path="/select-rol" element={<SelectRolePage />} />
+        <Route path="/student" element={<StudentPage />} />
+        <Route path="/select-rol" element={<SelectRolePage />} />
         <Route path="/teacher" element={<TeacherPage />} />
         <Route path="/admin" element={<AdminPage />} />
+
       </Route>
+
       {/* Ruta de error */}
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );
-}
+};
 
 export default App;

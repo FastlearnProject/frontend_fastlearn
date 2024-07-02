@@ -10,6 +10,11 @@ const Sidebar = ({ links, btns }) => {
     setIsOpen(!isOpen);
   };
 
+  const handleLogout = () =>{
+    localStorage.removeItem('token');
+    window.location.reload();
+  }
+
   return (
     <aside className="flex h-screen">
       <div className={`relative inset-y-0 left-0 z-50 bg-primary shadow-lg transform ${isOpen ? 'w-64' : 'w-16 sm:w-20'} transition-all duration-300 flex flex-col justify-between text-white`}>
@@ -34,7 +39,7 @@ const Sidebar = ({ links, btns }) => {
           <ul>
             {btns.map((btn, index) => (
               <li key={index} className="mb-4">
-                <button className="flex justify-center items-center hover:text-gray-300">
+                <button onClick={btn.text === 'Cerrar sesión' ? handleLogout : undefined } className="flex justify-center items-center hover:text-gray-300">
                   <FontAwesomeIcon icon={btn.icon} className="w-5 h-5" />
                   <span className={`ml-4 ${isOpen ? '' : 'hidden'}`}>{btn.text}</span>
                 </button>

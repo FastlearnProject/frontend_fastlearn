@@ -1,44 +1,83 @@
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { Helmet } from "react-helmet-async";
-import { Footer } from "../../components/Footer";
+import { jwtDecode } from "jwt-decode"; 
 import { Sidebar } from "../../components/Sidebar";
+import { Footer } from "../../components/Footer";
 
 import {
-  faGear,
-  faPlus,
   faRightFromBracket,
   faSchool,
   faSearch,
-  faUserGroup,
+  faNoteSticky,
+  faCubes,
+  faGear
 } from "@fortawesome/free-solid-svg-icons";
+
 
 const StudentPage = () => {
   const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const fetchUserData = async (id_usuario) => {
+      try {
+        console.log(`Fetching data for user ID: ${id_usuario}`);
+        const response = await fetch(
+          `http://localhost:3000/usuario/${id_usuario}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.ok) {
+          const userArray = await response.json();
+          console.log("User data received:", userArray);
+          if (userArray.length > 0) {
+            setUserData(userArray[0]);
+          } else {
+            console.error("No se encontraron datos del usuario.");
+          }
+        } else {
+          console.error(
+            "Error al obtener los datos del usuario:",
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error en la conexión:", error);
+      }
+    };
+
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
+
+        const userId = decodedToken.id_usuario;
+
         if (decodedToken.rol !== "student") {
+          console.error("Rol no autorizado:", decodedToken.rol);
           navigate("/login");
+        } else {
+          fetchUserData(userId);
         }
       } catch (error) {
         console.error("Error al decodificar el token:", error);
         navigate("/login");
       }
     } else {
+      console.error("Token no encontrado en localStorage.");
       navigate("/login");
     }
-  }, [navigate]);
+  }, [navigate, token]);
 
   const sidebarLinks = [
-    { text: "Dashboard", href: "/", icon: faSchool },
+    { text: "Dashboard", href: "/student", icon: faSchool },
     { text: "Buscar", href: "/search", icon: faSearch },
-    { text: "Grupos", href: "/group", icon: faUserGroup },
-    { text: "Crear", href: "/create", icon: faPlus },
+    { text: "Personalizar", href: "/custom", icon: faCubes },
+    { text: "Mis notas", href: "/my-notes", icon: faNoteSticky },
     { text: "Ajustes", href: "/settings", icon: faGear },
   ];
   const btnsLinks = [
@@ -78,17 +117,20 @@ const StudentPage = () => {
   const companyName = "FastLearn INC";
   const companyDescription = "Todos los derechos reservados";
 
+  if (!userData) {
+    return <div>Cargando...</div>; // Muestra algún indicador mientras se cargan los datos
+  }
+
   return (
     <>
       <Helmet>
-        <title>Dashboard | </title>
+        <title>Dashboard | {userData.nombre} </title>
       </Helmet>
       <div className="flex h-screen">
         <Sidebar links={sidebarLinks} btns={btnsLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
-            <h1 className="text-xl font-bold">Dashboard de Estudiante</h1>
-            <p className="mt-2">Bienvenido al panel de control.</p>
+              <h1>Bienvenido {userData.nombre}</h1>
           </main>
           <Footer
             services={services}

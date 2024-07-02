@@ -11,3 +11,4 @@ export { default as RouteProtected } from '../auth/RouteProtected';
 export { default as StudentPage } from './Dashboard/StudentPage';
 export { default as TeacherPage } from './Dashboard/TeacherPage';
 export { default as AdminPage } from './Dashboard/AdminPage';
+export { default as SettingsPage } from './Dashboard/views/SettingsPage';

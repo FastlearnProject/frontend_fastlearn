@@ -11,16 +11,20 @@ const RouteProtected = () => {
       try {
         const decodedToken = jwtDecode(token);
         const role = decodedToken.rol;
-        if (role === "student" && window.location.pathname !== "/student") {
-          navigate("/student");
-        } else if (
-          role === "teacher" &&
-          window.location.pathname !== "/teacher"
-        ) {
-          navigate("/teacher");
-        } else if (role === "admin" && window.location.pathname !== "/admin") {
-          navigate("/admin");
+
+        let targetPath;
+        if (role === "student") {
+          targetPath = "/student";
+        } else if (role === "teacher") {
+          targetPath = "/teacher";
+        } else if (role === "admin") {
+          targetPath = "/admin";
         }
+
+        if (targetPath && window.location.pathname !== targetPath) {
+          navigate(targetPath);
+        }
+        
       } catch (error) {
         console.error("Error al decodificar el token:", error);
         navigate("/login");
