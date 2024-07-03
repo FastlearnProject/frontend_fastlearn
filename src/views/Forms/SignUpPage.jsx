@@ -22,7 +22,7 @@ const SignUpPage = () => {
   const handleRegister = async (formData) => {
     try {
       const response = await axios.post(
-        `${URL}/usuario`,
+        `${URL}usuario`,
         formData,
         {
           headers: {
