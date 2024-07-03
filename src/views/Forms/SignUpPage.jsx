@@ -22,7 +22,7 @@ const SignUpPage = () => {
   const handleRegister = async (formData) => {
     try {
       const response = await axios.post(
-        `${URL}usuario`,
+        "https://backend-fastlearn.onrender.com/usuario",
         formData,
         {
           headers: {
