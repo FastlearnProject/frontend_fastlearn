@@ -5,27 +5,25 @@ import { Helmet } from "react-helmet-async";
 import { Footer } from "../../components/Footer";
 import { Sidebar } from "../../components/Sidebar";
 
-import {
-  faCalendar,
-  faGear,
-  faRightFromBracket,
-  faSchool,
-  faSearch,
-  faUserPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faRightFromBracket,} from "@fortawesome/free-solid-svg-icons";
 
+import { getSidebarLinks } from "../../utils"
+
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 const TeacherPage = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const token = localStorage.getItem("token");
 
+  const sidebarLinks = getSidebarLinks(token);
+
   useEffect(() => {
     const fetchUserData = async (id_usuario) => {
       try {
         console.log(`Fetching data for user ID: ${id_usuario}`);
         const response = await fetch(
-          `http://localhost:3000/usuario/${id_usuario}`,
+          `${URL}/usuario/${id_usuario}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -73,14 +71,6 @@ const TeacherPage = () => {
     }
   }, [navigate, token]);
 
-  const sidebarLinks = [
-    { text: "Dashboard", href: "/teacher", icon: faSchool },
-    { text: "Asignar", href: "/assign", icon: faCalendar },
-    { text: "Buscar", href: "/search", icon: faSearch },
-    { text: "Mis temas", href: "/my-themes", icon: faSchool },
-    { text: "Crear tema", href: "/create-theme", icon: faUserPlus },
-    { text: "Ajustes", href: "/settings", icon: faGear },
-  ];
   const btnsLinks = [
     { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
   ];
@@ -125,13 +115,13 @@ const TeacherPage = () => {
   return (
     <>
       <Helmet>
-        <title>Dashboard | </title>
+        <title>Dashboard | {userData.nombre} </title>
       </Helmet>
       <div className="flex h-screen">
         <Sidebar links={sidebarLinks} btns={btnsLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
-            <h1 className="text-xl font-bold">Dashboard de Docente</h1>
+            <h1 className="text-xl font-bold">Bienvenido, Docente {userData.nombre}</h1>
             <p className="mt-2">Bienvenido al panel de control.</p>
           </main>
           <Footer

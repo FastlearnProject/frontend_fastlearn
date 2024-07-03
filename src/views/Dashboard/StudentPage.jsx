@@ -1,31 +1,28 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 import { Sidebar } from "../../components/Sidebar";
 import { Footer } from "../../components/Footer";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  faRightFromBracket,
-  faSchool,
-  faSearch,
-  faNoteSticky,
-  faCubes,
-  faGear
-} from "@fortawesome/free-solid-svg-icons";
+import { getSidebarLinks } from "../../utils"
 
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 const StudentPage = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const token = localStorage.getItem("token");
 
+  const sidebarLinks = getSidebarLinks(token);
+
   useEffect(() => {
     const fetchUserData = async (id_usuario) => {
       try {
         console.log(`Fetching data for user ID: ${id_usuario}`);
         const response = await fetch(
-          `http://localhost:3000/usuario/${id_usuario}`,
+          `${URL}/usuario/${id_usuario}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -73,13 +70,6 @@ const StudentPage = () => {
     }
   }, [navigate, token]);
 
-  const sidebarLinks = [
-    { text: "Dashboard", href: "/student", icon: faSchool },
-    { text: "Buscar", href: "/search", icon: faSearch },
-    { text: "Personalizar", href: "/custom", icon: faCubes },
-    { text: "Mis notas", href: "/my-notes", icon: faNoteSticky },
-    { text: "Ajustes", href: "/settings", icon: faGear },
-  ];
   const btnsLinks = [
     { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
   ];
@@ -130,7 +120,7 @@ const StudentPage = () => {
         <Sidebar links={sidebarLinks} btns={btnsLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
-              <h1>Bienvenido {userData.nombre}</h1>
+            <h1>Bienvenido {userData.nombre}</h1>
           </main>
           <Footer
             services={services}

@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 import { Sidebar } from "../../../components/Sidebar";
 import { HeroDash } from "../../../components/HeroDash";
 import { Footer } from "../../../components/Footer";
 
-import {
-  faGear,
-  faPlus,
-  faRightFromBracket,
-  faSchool,
-  faSearch,
-  faUserGroup,
-} from "@fortawesome/free-solid-svg-icons";
+import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
+
+import { getSidebarLinks } from "../../../utils";
+
+const URL = import.meta.env.VITE_BACKEND_URL;
 
 const SettingsPage = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+
   const token = localStorage.getItem("token");
+
+  const sidebarLinks = getSidebarLinks(token);
+
+  const btnsLinks = [
+    { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
+  ];
 
   useEffect(() => {
     const fetchUserData = async (id_usuario) => {
       try {
         console.log(`Fetching data for user ID: ${id_usuario}`);
         const response = await fetch(
-          `http://localhost:3000/usuario/${id_usuario}`,
+          `${URL}/usuario/${id_usuario}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -73,16 +77,6 @@ const SettingsPage = () => {
     }
   }, [navigate, token]);
 
-  const sidebarLinks = [
-    { text: "Dashboard", href: "/student", icon: faSchool },
-    { text: "Buscar", href: "/search", icon: faSearch },
-    { text: "Grupos", href: "/group", icon: faUserGroup },
-    { text: "Crear", href: "/create", icon: faPlus },
-    { text: "Ajustes", href: "/settings", icon: faGear },
-  ];
-  const btnsLinks = [
-    { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
-  ];
 
   const services = {
     title: "Información",
@@ -117,7 +111,7 @@ const SettingsPage = () => {
   const companyName = "FastLearn INC";
   const companyDescription = "Todos los derechos reservados";
 
-    
+
   return (
     <>
       <Helmet>
