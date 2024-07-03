@@ -5,6 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import axios from "axios";
 import { SectionForm } from "../../components/Sections/SectionForm";
 
+const URL = import.meta.env.VITE_BACKEND_URL;
+
 const LoginPage = () => {
   const [initialFields] = useState([
     { type: "email", placeholder: "Correo electrónico", id: "correo" },
@@ -16,7 +18,7 @@ const LoginPage = () => {
   const handleLogin = async (formData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/login",
+        `${URL}/login`,
         formData,
         {
           headers: {
@@ -25,7 +27,7 @@ const LoginPage = () => {
         }
       );
 
-      console.log("Respuesta del servidor:", response.data); // Depuración
+      console.log("Respuesta del servidor:", response.data);
 
       const { token } = response.data;
       if (token) {

@@ -12,7 +12,8 @@ import {
   StudentPage,
   TeacherPage,
   AdminPage,
-  SettingsPage
+  SettingsPage,
+  SearchPage
 } from "./views";
 import RouteProtected from "./auth/RouteProtected";
 import { useAuth } from "./auth/useAuth";
@@ -29,6 +30,7 @@ const App = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/recovery" element={<RecoveryPage />} />
       <Route path="/docs" element={<DocsPage />} />
+      <Route path="/search" element={<SearchPage />} />
       <Route path="/settings" element={<SettingsPage />} />
 
       {/* Rutas protegidas */}

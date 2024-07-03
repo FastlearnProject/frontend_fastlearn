@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { SectionForm } from "../../components/Sections/SectionForm";
 
+const URL = import.meta.env.VITE_BACKEND_URL;
+
 const SignUpPage = () => {
   // Pasar inputs con tipo, placeholder, id al componente form
   const [initialFields] = useState([
@@ -20,7 +22,7 @@ const SignUpPage = () => {
   const handleRegister = async (formData) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/usuario",
+        `${URL}/usuario`,
         formData,
         {
           headers: {

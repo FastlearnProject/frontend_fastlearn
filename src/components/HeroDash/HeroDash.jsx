@@ -1,6 +1,6 @@
 const HeroDash = ({userData}) => {
   if (!userData) {
-    return null; // O algún otro indicador de carga o estado vacío
+    return null; 
   }
   return (
     <>
@@ -9,23 +9,24 @@ const HeroDash = ({userData}) => {
           <div className="rounded-full bg-primary md:w-72 md:h-72 flex items-center justify-center">
             <img src="" alt="" className="max-w-full max-h-full" />
           </div>
-          <div className="flex flex-col space-y-2">
-            <span className="font-semibold">Nombre completo: {userData.nombre}</span>
-            <span >Email: {userData.correo}</span>
-            <span >Fecha de nacimiento: {userData.fechaNacimiento}</span>
-            <span >Teléfono: {userData.telefono}</span>
+          <div className="flex flex-col space-y-2 text-md">
+            <span ><b>Nombre completo: </b>{userData.nombre}</span>
+            <span ><b>Correo: </b>{userData.correo}</span>
+            <span ><b>Fecha de nacimiento: </b>{userData.fechaNacimiento}</span>
+            <span ><b>Telefono: </b>{userData.telefono}</span>
+            <textarea name="" id="" placeholder="Cuentanos de ti" className="p-2"></textarea>
           </div>
         </article>
       </section>
       <section className="flex flex-col md:flex-row justify-around mx-4 md:mx-24 my-4">
         <button
-          className="btn w-full md:w-3/12 my-2 md:my-0"
+          className="btn w-full md:w-3/12 my-2 md:my-0 bg-primary text-white"
           onClick={() => document.getElementById("my_modal_1").showModal()}
         >
           Editar Información
         </button>
         <button
-          className="btn w-full md:w-3/12 my-2 md:my-0"
+          className="btn w-full md:w-3/12 my-2 md:my-0 bg-red-500 text-white"
           onClick={() => document.getElementById("my_modal_2").showModal()}
         >
           Eliminar cuenta
