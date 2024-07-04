@@ -4,8 +4,8 @@ import { Footer } from "../../components/Footer";
 
 const ArticlesPage = () => {
   const headerImages = [
-    "/img/header/SectionArticle1.web",
-    "/img/header/SectionArticle2.web",
+    "/img/header/SectionArticle1.webp",
+    "/img/header/SectionArticle2.webp",
   ];
 
   const navItems = [
