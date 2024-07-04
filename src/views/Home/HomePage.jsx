@@ -6,8 +6,8 @@ import { Footer } from "../../components/Footer";
 
 const HomePage = () => {
   const headerImages = [
-    "/img/header/HeaderM1.webp",
-    "/img/header/HeaderM2.webp",
+    "/img/header/SectionMain1.webp",
+    "/img/header/SectionMain12.webp",
   ];
 
   const navItems = [

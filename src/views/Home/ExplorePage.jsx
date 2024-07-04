@@ -4,8 +4,8 @@ import { Footer } from "../../components/Footer";
 
 const ExplorePage = () => {
   const headerImages = [
-    "/img/header/HeaderExp1.webp",
-    "/img/header/HeaderExp2.webp",
+    "/img/header/SectionExplore1.webp",
+    "/img/header/SectionExplore2.webp",
   ];
 
   const navItems = [

@@ -1,20 +1,66 @@
-const HeroDash = ({userData}) => {
+import React, { useState, useEffect } from "react";
+
+const HeroDash = ({ userData }) => {
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState("");
+
+  useEffect(() => {
+    if (userData) {
+      const initials = userData.nombre
+        .split(" ")
+        .map((n) => n[0])
+        .join("");
+      const avatar = `https://ui-avatars.com/api/?name=${initials}&background=random&size=256`;
+      setAvatarUrl(avatar);
+    }
+  }, [userData]);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   if (!userData) {
-    return null; 
+    return null;
   }
+
   return (
     <>
       <section className="flex flex-col md:flex-row mx-4 md:mx-24">
         <article className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 my-5">
-          <div className="rounded-full bg-primary md:w-72 md:h-72 flex items-center justify-center">
-            <img src="" alt="" className="max-w-full max-h-full" />
+          <div className="flex flex-col items-center space-y-5">
+            <div className="rounded-full md:w-72 md:h-72 flex items-center justify-center overflow-hidden">
+              <img
+                src={selectedImage || avatarUrl}
+                alt="Avatar"
+                className="object-cover w-full h-full rounded-full"
+                id="img"
+              />
+              <input
+                type="file"
+                name="foto"
+                id="foto"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </div>
+            <label htmlFor="foto" className="text-black btn">
+              Cambiar foto
+            </label>
           </div>
           <div className="flex flex-col space-y-2 text-md">
-            <span ><b>Nombre completo: </b>{userData.nombre}</span>
-            <span ><b>Correo: </b>{userData.correo}</span>
-            <span ><b>Fecha de nacimiento: </b>{userData.fechaNacimiento}</span>
-            <span ><b>Telefono: </b>{userData.telefono}</span>
-            <textarea name="" id="" placeholder="Cuentanos de ti" className="p-2"></textarea>
+            <span><b>Nombre completo: </b>{userData.nombre}</span>
+            <span><b>Correo: </b>{userData.correo}</span>
+            <span><b>Fecha de nacimiento: </b>{userData.fechaNacimiento}</span>
+            <span><b>Teléfono: </b>{userData.telefono}</span>
+            <textarea name="" id="" placeholder="Agrega una descripción sobre ti" className="p-2 outline-primary border-2 border-primary" disabled>{userData.nombre}</textarea>
           </div>
         </article>
       </section>

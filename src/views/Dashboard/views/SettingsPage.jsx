@@ -5,6 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { Sidebar } from "../../../components/Sidebar";
 import { HeroDash } from "../../../components/HeroDash";
 import { Footer } from "../../../components/Footer";
+import { Loader } from "../../../components/Loader";
 
 import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
 
@@ -111,7 +112,11 @@ const SettingsPage = () => {
   const companyName = "FastLearn INC";
   const companyDescription = "Todos los derechos reservados";
 
-
+  if (!userData) {
+    return(
+      <Loader />
+    ); // Mostrar indicador de carga mientras se cargan los datos
+  }
   return (
     <>
       <Helmet>
