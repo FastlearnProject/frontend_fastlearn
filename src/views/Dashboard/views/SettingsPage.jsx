@@ -29,7 +29,7 @@ const SettingsPage = () => {
       try {
         console.log(`Fetching data for user ID: ${id_usuario}`);
         const response = await fetch(
-          `http://localhost:3000/${id_usuario}`,
+          `https://backend-fastlearn.onrender.com/usuario/${id_usuario}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
