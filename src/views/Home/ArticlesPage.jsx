@@ -4,13 +4,13 @@ import { Footer } from "../../components/Footer";
 
 const ArticlesPage = () => {
   const headerImages = [
-    "/img/header/SectionArticle1.png",
-    "/img/header/SectionArticle2.png",
+    "/img/header/SectionArticle1.web",
+    "/img/header/SectionArticle2.web",
   ];
 
   const navItems = [
+    { href: "/", label: "Inicio" },
     { href: "/explore", label: "Explorar" },
-    { href: "/articles", label: "Articulos" },
     { href: "/signup", label: "Crear cuenta" },
     { href: "/support", label: "Soporte" },
   ];
