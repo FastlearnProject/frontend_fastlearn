@@ -7,7 +7,7 @@ import { SectionForm } from "../../components/Sections/SectionForm";
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 const SignUpPage = () => {
-  // Pasar inputs con tipo, placeholder, id al componente form
+  // Inicialización de los campos del formulario
   const [initialFields] = useState([
     { type: "text", placeholder: "Nombre", id: "nombre" },
     { type: "email", placeholder: "Correo electrónico", id: "correo" },
@@ -16,26 +16,26 @@ const SignUpPage = () => {
     { type: "text", placeholder: "Teléfono", id: "telefono" },
   ]);
 
-  // Consumo de la ruta del backend
+  // Navegación
   const navigate = useNavigate();
 
+  // Manejo del registro
   const handleRegister = async (formData) => {
     try {
       const response = await axios.post(
-        "https://backend-fastlearn.onrender.com/usuario",
+        "https://backend-fastlearn.onrender.com/usuario", // Usa la URL del backend configurada
         formData,
         {
           headers: {
-            "Content-Type": "application/json",
-            // Asegurar que el contenido es en formato json
+            "Content-Type": "application/json", // Asegura que el contenido es en formato JSON
           },
         }
       );
 
       const { token } = response.data;
       if (token) {
-        localStorage.setItem("token", token); // Guardar el token en el almacenamiento local
-        navigate("/select-rol"); // Redirección del usuario a la ruta select-rol después del registro
+        localStorage.setItem("token", token); // Guarda el token en el almacenamiento local
+        navigate("/select-rol"); // Redirecciona al usuario a la ruta select-rol después del registro
       } else {
         console.error("Token no encontrado en la respuesta");
       }
@@ -66,8 +66,8 @@ const SignUpPage = () => {
           onSubmit={handleRegister}
           formType="register"
         />
-        {/* OnSubmit ejecuta la función HandleRegister  */}
-        {/* La propiedad Formtype se pasa a través de section form para llegar al componente Form  */}
+        {/* OnSubmit ejecuta la función HandleRegister */}
+        {/* La propiedad Formtype se pasa a través de section form para llegar al componente Form */}
       </main>
     </>
   );

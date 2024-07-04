@@ -22,7 +22,7 @@ const StudentPage = () => {
       try {
         console.log(`Fetching data for user ID: ${id_usuario}`);
         const response = await fetch(
-          "https://backend-fastlearn.onrender.com/usuario/${id_usuario}",
+          `https://backend-fastlearn.onrender.com/usuario/${id_usuario}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
