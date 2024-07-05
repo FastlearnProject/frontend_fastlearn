@@ -18,7 +18,7 @@ const LoginPage = () => {
   const handleLogin = async (formData) => {
     try {
       const response = await axios.post(
-        "https://backend-fastlearn.onrender.com/login",
+        `${URL}/login`,
         formData,
         {
           headers: {

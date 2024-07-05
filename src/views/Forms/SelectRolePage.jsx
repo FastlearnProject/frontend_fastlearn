@@ -31,7 +31,7 @@ const SelectRolePage = () => {
 
     try {
       const response = await axios.put(
-        "https://backend-fastlearn.onrender.com/rol",
+        `${URL}/rol`,
         { rol: role },
         {
           headers: {

@@ -38,7 +38,7 @@ const SearchPage = () => {
           throw new Error('Token no encontrado en localStorage')
         }
 
-        const response = await fetch("https://backend-fastlearn.onrender.com/usuario/", {
+        const response = await fetch(`${URL}/usuario/`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
@@ -71,7 +71,7 @@ const SearchPage = () => {
           throw new Error('Token no encontrado en localStorage')
         }
 
-        const response = await fetch(`https://backend-fastlearn.onrender.com/cursos/`, {
+        const response = await fetch(`${URL}/cursos/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

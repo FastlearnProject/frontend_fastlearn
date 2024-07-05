@@ -13,7 +13,7 @@ const SignUpPage = () => {
     { type: "email", placeholder: "Correo electrónico", id: "correo" },
     { type: "password", placeholder: "Contraseña", id: "contrasenaPlain" },
     { type: "date", placeholder: "Fecha de nacimiento", id: "fechaNacimiento" },
-    { type: "text", placeholder: "Teléfono", id: "telefono" },
+    { type: "number", placeholder: "Teléfono", id: "telefono", min: 7, max: 50 },
   ]);
 
   // Navegación
@@ -23,7 +23,7 @@ const SignUpPage = () => {
   const handleRegister = async (formData) => {
     try {
       const response = await axios.post(
-        "https://backend-fastlearn.onrender.com/usuario", // Usa la URL del backend configurada
+        `${URL}/usuario`, // Usa la URL del backend configurada
         formData,
         {
           headers: {
