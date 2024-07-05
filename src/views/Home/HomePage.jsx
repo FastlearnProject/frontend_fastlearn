@@ -27,7 +27,7 @@ const HomePage = () => {
     },
     btn2Hero: {
       label: "Ver cursos",
-      href: "/course",
+      href: "/all-courses",
     },
   };
 

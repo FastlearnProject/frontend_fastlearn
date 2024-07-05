@@ -2,6 +2,7 @@ export { default as ErrorPage } from './Home/ErrorPage';
 export { default as HomePage } from './Home/HomePage';
 export { default as ExplorePage } from './Home/ExplorePage';
 export { default as ArticlesPage } from './Home/ArticlesPage';
+export { default as PublicCoursesPage } from './Home/PublicCoursesPage';
 export { default as SignUpPage } from './Forms/SignUpPage';
 export { default as LoginPage } from './Forms/LoginPage';
 export { default as SelectRolePage } from './Forms/SelectRolePage';

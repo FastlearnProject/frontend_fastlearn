@@ -4,6 +4,7 @@ import {
   HomePage,
   ExplorePage,
   ArticlesPage,
+  PublicCoursesPage,
   SignUpPage,
   LoginPage,
   RecoveryPage,
@@ -32,6 +33,7 @@ const App = () => {
       <Route path="/docs" element={<DocsPage />} />
       <Route path="/search" element={<SearchPage />} />
       <Route path="/settings" element={<SettingsPage />} />
+      <Route path="/all-courses" element={<PublicCoursesPage />} />
 
       {/* Rutas protegidas */}
 
