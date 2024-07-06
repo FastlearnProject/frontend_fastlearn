@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
-import { Sidebar } from '../../../components/Sidebar'
-import { Footer } from '../../../components/Footer'
-import { Loader } from "../../../components/Loader";
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { Sidebar, Footer } from '../../../components/';
+import { Loader } from "../../../components/Layout";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faRightFromBracket, faSearch} from '@fortawesome/free-solid-svg-icons'

@@ -1,58 +1,50 @@
+// src/components/Layout/FilterBar.jsx
 import React from "react";
+import PropTypes from "prop-types";
 
 const FilterBar = ({ filters, setFilters }) => {
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
-  };
-
-  const handleReset = () => {
-    setFilters({
-      name: "",
-      category: "",
-      tags: "",
-    });
-  };
+    setFilters((prevFilters) => ({ ...prevFilters, [name]: value }));
+  };  
 
   return (
-    <div className="bg-gray-100 rounded-md mb-6">
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
-        <input
-          type="text"
-          name="name"
-          placeholder="Buscar por nombre"
-          value={filters.name}
-          onChange={handleChange}
-          className="grow p-2 border-2 border-slate-300 outline-none rounded-lg"
-        />
-        <input
-          type="text"
-          name="category"
-          placeholder="Buscar por categoría"
-          value={filters.category}
-          onChange={handleChange}
-          className="grow p-2 border-2 border-slate-300 outline-none rounded-lg"
-        />
-        <input
-          type="text"
-          name="tags"
-          placeholder="Buscar por tags"
-          value={filters.tags}
-          onChange={handleChange}
-          className="grow p-2 border-2 border-slate-300 outline-none rounded-lg"
-        />
-        <button
-          onClick={handleReset}
-          className="p-2 bg-red-500 text-white rounded-md"
-        >
-          Limpiar Filtros
-        </button>
-      </div>
+    <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 mb-4">
+      <input
+        type="text"
+        name="name"
+        value={filters.name}
+        onChange={handleInputChange}
+        placeholder="Buscar por nombre"
+        className="input input-bordered w-full md:w-1/3"
+      />
+      <input
+        type="text"
+        name="category"
+        value={filters.category}
+        onChange={handleInputChange}
+        placeholder="Buscar por categoría"
+        className="input input-bordered w-full md:w-1/3"
+      />
+      <input
+        type="text"
+        name="tags"
+        value={filters.tags}
+        onChange={handleInputChange}
+        placeholder="Buscar por tags"
+        className="input input-bordered w-full md:w-1/3"
+      />
     </div>
   );
+};
+
+FilterBar.propTypes = {
+  filters: PropTypes.shape({
+    name: PropTypes.string,
+    category: PropTypes.string,
+    tags: PropTypes.string,
+  }).isRequired,
+  setFilters: PropTypes.func.isRequired,
 };
 
 export default FilterBar;

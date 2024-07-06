@@ -1,10 +1,8 @@
+// src/views/Home/PublicCoursesPage.jsx
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { AlertWarning } from "../../components/Alerts"
-import { Breadcrumbs } from "../../components/Layout/Breadcrumbs"
-import { Footer } from "../../components/Footer";
-import { Loader } from "../../components/Loader";
-import { FilterBar } from "../../components/Layout/FilterBar";
+import { AlertInfo, Breadcrumbs, FilterBar, Loader, Courses} from "../../components/Layout";
+import { Footer } from "../../components/";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -24,7 +22,9 @@ const PublicCoursesPage = () => {
         const response = await fetch(`${URL}/cursos-free/`);
         if (response.ok) {
           const responseData = await response.json();
-          const coursesData = Array.isArray(responseData) ? responseData[0] : [];
+          const coursesData = Array.isArray(responseData)
+            ? responseData[0]
+            : [];
           setCourses(coursesData);
           setFilteredCourses(coursesData);
           setLoading(false);
@@ -49,7 +49,9 @@ const PublicCoursesPage = () => {
       }
       if (filters.category) {
         updatedCourses = updatedCourses.filter((course) =>
-          course.categoria_curso?.toLowerCase().includes(filters.category.toLowerCase())
+          course.categoria_curso
+            ?.toLowerCase()
+            .includes(filters.category.toLowerCase())
         );
       }
       if (filters.tags) {
@@ -66,7 +68,8 @@ const PublicCoursesPage = () => {
   const itemsBread = [
     { href: "/", label: "Inicio" },
     { href: "/all-courses", label: "Cursos" },
-  ]
+  ];
+
   const services = {
     title: "Información",
     links: [
@@ -113,36 +116,10 @@ const PublicCoursesPage = () => {
           <div className="flex flex-col justify-center m-8 space-y-4">
             <h1 className="text-3xl font-bold">Cursos Disponibles</h1>
             <FilterBar filters={filters} setFilters={setFilters} />
-            <Breadcrumbs
-              items={itemsBread}
-            />
+            <Breadcrumbs items={itemsBread} />
           </div>
-          <AlertWarning />
-
-          <div className="flex flex-col sm:flex-row justify-around items-center sm:items-start">
-            {filteredCourses.map((course) => (
-              <div
-                key={course.id_cursos}
-                className="card bg-base-100 w-72 shadow-xl transition-shadow duration-300"
-              >
-                <figure>
-                  <img
-                    src={course.imagen_curso}
-                    alt={course.nombre_curso}
-                    className="w-full h-40 object-cover rounded-md mb-4"
-                  />
-                </figure>
-                <div className="card-body">
-                  <h2 className="card-title">{course.nombre_curso}
-                    <div className="badge badge-secondary">NEW</div>
-                  </h2>
-                  <p>{course.desc_curso}</p>
-                  <p className="badge badge-outline">{course.tags_curso}</p>
-                  <p className="badge badge-outline">{course.categoria}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <AlertInfo />
+          <Courses courses={filteredCourses} />
         </main>
         <Footer
           services={services}

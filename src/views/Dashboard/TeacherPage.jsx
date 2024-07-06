@@ -2,9 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { jwtDecode } from "jwt-decode";
-import { Sidebar } from "../../components/Sidebar";
-import { Footer } from "../../components/Footer";
-import { Loader } from "../../components/Loader";
+import { Sidebar, Footer } from "../../components/";
+import { Loader } from "../../components/Layout";
 
 import { faRightFromBracket,} from "@fortawesome/free-solid-svg-icons";
 

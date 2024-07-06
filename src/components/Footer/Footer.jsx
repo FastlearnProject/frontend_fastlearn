@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 
+// Props del footer
 const Footer = ({
   services,
   company,
@@ -11,6 +12,7 @@ const Footer = ({
     <footer>
       <footer className="footer bg-base-200 text-base-content p-10">
         <nav>
+          {/* Ciclo para crear un elemento por cada item del objeto de servicios */}
           <h6 className="footer-title">{services.title}</h6>
           {services.links.map((link, index) => (
             <a key={index} href={link.href} className="link link-hover">
@@ -19,6 +21,8 @@ const Footer = ({
           ))}
         </nav>
         <nav>
+          {/* Ciclo para crear un elemento por cada item del objeto de compañia */}
+
           <h6 className="footer-title">{company.title}</h6>
           {company.links.map((link, index) => (
             <a key={index} href={link.href} className="link link-hover">
@@ -27,6 +31,8 @@ const Footer = ({
           ))}
         </nav>
         <nav>
+          {/* Ciclo para crear un elemento por cada item del objeto de legal */}
+
           <h6 className="footer-title">{legal.title}</h6>
           {legal.links.map((link, index) => (
             <a key={index} href={link.href} className="link link-hover">
@@ -35,6 +41,7 @@ const Footer = ({
           ))}
         </nav>
       </footer>
+      {/* Derechos reservados y logo de FastLearn con el nombre y la descripción */}
       <footer className="footer bg-base-200 text-base-content border-base-300 border-t px-10 py-4">
         <aside className="grid-flow-col items-center">
           <img
@@ -55,7 +62,11 @@ const Footer = ({
   );
 };
 
+// Crear props para el footer
+
 Footer.propTypes = {
+  // Objeto de servicios
+
   services: PropTypes.shape({
     title: PropTypes.string.isRequired,
     links: PropTypes.arrayOf(
@@ -66,6 +77,8 @@ Footer.propTypes = {
     ).isRequired,
   }).isRequired,
 
+  // Objeto de compañia
+
   company: PropTypes.shape({
     title: PropTypes.string.isRequired,
     links: PropTypes.arrayOf(
@@ -75,6 +88,8 @@ Footer.propTypes = {
       })
     ).isRequired,
   }).isRequired,
+
+  // Objeto legal
   legal: PropTypes.shape({
     title: PropTypes.string.isRequired,
     links: PropTypes.arrayOf(

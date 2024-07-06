@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 
+// Props de la sección Hero
 const Hero = ({
   titleHero,
   textHero,
@@ -35,6 +36,7 @@ const Hero = ({
 };
 
 Hero.propTypes = {
+  // Props para la sección Hero
   titleHero: PropTypes.string.isRequired,
   textHero: PropTypes.string.isRequired,
   btn1Hero: PropTypes.string.isRequired,

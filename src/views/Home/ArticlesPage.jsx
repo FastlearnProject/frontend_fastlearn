@@ -1,6 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import {Header} from "../../components/Header"
-import { Footer } from "../../components/Footer";
+import { Header, Footer } from "../../components/";
 
 const ArticlesPage = () => {
   const headerImages = [
@@ -17,8 +16,7 @@ const ArticlesPage = () => {
 
   const headerProps = {
     titleHero: "Bienvenido a la sección de articulos",
-    textHero:
-      "Estos son los articulos más importantes de la semana",
+    textHero: "Estos son los articulos más importantes de la semana",
     btn1Hero: {
       label: "Ver articulos",
       href: "#",
@@ -66,10 +64,12 @@ const ArticlesPage = () => {
       <Helmet>
         <title>Articulos de FastLearn</title>
       </Helmet>
-      <Header images={headerImages}
+      <Header
+        images={headerImages}
         interval={5000}
         heroProps={headerProps}
-        menuItems={navItems} />
+        menuItems={navItems}
+      />
       <Footer
         services={services}
         company={company}

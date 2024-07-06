@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet-async";
-import { SectionForm } from "../../components/Sections/SectionForm";
+import { SectionForm } from "../../components/";
 
 const RecoveryPage = () => {
   const formFields = [

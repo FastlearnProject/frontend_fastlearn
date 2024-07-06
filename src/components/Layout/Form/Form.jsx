@@ -55,8 +55,7 @@ const Form = ({ initialFields, linkText, linkHref, onSubmit, formType }) => {
             <input
               type={field.type}
               id={field.id}
-              max={field.max}
-              min={field.min}
+              pattern={field.pattern}
               required  
               placeholder={field.placeholder}
               value={formData[field.id]}

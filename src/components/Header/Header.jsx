@@ -1,21 +1,24 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Navbar } from "../Navbar";
-import Hero from "./Hero";
+import { Navbar, Hero} from "../";
+
+// Props del header
 
 const Header = ({ images, interval, heroProps, menuItems }) => {
+  // Creación de Slider automático con use state y use Effect
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [, setFade] = useState(true);
 
   useEffect(() => {
     if (images.length === 0) return;
 
+    // Constante de cambio de imagen
     const changeImage = () => {
       setFade(false);
       setTimeout(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
         setFade(true);
-      }, 1000); // Duraccióin de la transición (Igual a CSS transition duration)
+      }, 1000); // Duración de la transición (Igual a CSS transition duration)
     };
 
     const intervalId = setInterval(changeImage, interval);
@@ -25,6 +28,7 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
 
   return (
     <header className="h-screen bg-cover bg-right bg-no-repeat sm:bg-cover sm:bg-right relative md:bg-right">
+      {/* Ciclo por cada elemento que contenga una imagen */}
       {images.length > 0 &&
         images.map((image, index) => (
           <div
@@ -36,6 +40,7 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
           ></div>
         ))}
       <div className="relative z-20">
+        {/* Importar el navbar y pasar propiedades por encima del Header */}
         <Navbar
           imageLogo="/img/logo/logoWhite.webp"
           imageAlt="Logo"
@@ -44,6 +49,7 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
         />
       </div>
       <div className="relative">
+        {/* Importar Sección Hero con propiedades dinámicas del */}
         <Hero
           titleHero={heroProps.titleHero}
           textHero={heroProps.textHero}
@@ -58,8 +64,11 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
 };
 
 Header.propTypes = {
+  // Props para las imagenes, intervalos
   images: PropTypes.arrayOf(PropTypes.string).isRequired,
   interval: PropTypes.number.isRequired,
+
+  // Props para la sección Hero
   heroProps: PropTypes.shape({
     titleHero: PropTypes.string.isRequired,
     textHero: PropTypes.string.isRequired,
@@ -72,6 +81,8 @@ Header.propTypes = {
       href: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  
+  // Props para los items del navbar
   menuItems: PropTypes.arrayOf(
     PropTypes.shape({
       href: PropTypes.string.isRequired,

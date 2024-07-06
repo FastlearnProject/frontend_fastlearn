@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { SectionForm } from "../../components/Sections/SectionForm";
+import { SectionForm } from "../../components/";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -13,7 +13,7 @@ const SignUpPage = () => {
     { type: "email", placeholder: "Correo electrónico", id: "correo" },
     { type: "password", placeholder: "Contraseña", id: "contrasenaPlain" },
     { type: "date", placeholder: "Fecha de nacimiento", id: "fechaNacimiento" },
-    { type: "number", placeholder: "Teléfono", id: "telefono", min: 7, max: 50 },
+    { type: "tel", placeholder: "Teléfono", id: "telefono", pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}" },
   ]);
 
   // Navegación
