@@ -1,6 +1,6 @@
 const AlertInfo = () => {
   return (
-    <div role="alert" className="alert m-7">
+    <div role="alert" className="alert my-5">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none"

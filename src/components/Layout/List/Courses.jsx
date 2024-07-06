@@ -4,11 +4,11 @@ import PropTypes from "prop-types";
 
 const Courses = ({ courses }) => {
   return (
-    <div className="flex flex-col sm:flex-row justify-around items-center sm:items-start">
+    <div className="flex flex-col flex-wrap sm:flex-row justify-around items-center sm:items-start ">
       {courses.map((course) => (
         <div
           key={course.id_cursos}
-          className="card bg-base-100 w-72 shadow-xl transition-shadow duration-300"
+          className="card bg-base-100 w-72 mx-2 shadow-xl transition-shadow duration-300"
         >
           <figure>
             <img

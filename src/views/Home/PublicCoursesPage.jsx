@@ -1,7 +1,13 @@
 // src/views/Home/PublicCoursesPage.jsx
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { AlertInfo, Breadcrumbs, FilterBar, Loader, Courses} from "../../components/Layout";
+import {
+  AlertInfo,
+  Breadcrumbs,
+  FilterBar,
+  Loader,
+  Courses,
+} from "../../components/Layout";
 import { Footer } from "../../components/";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
@@ -111,24 +117,22 @@ const PublicCoursesPage = () => {
       <Helmet>
         <title>Cursos Disponibles</title>
       </Helmet>
-      <div className="flex flex-col">
-        <main className="flex flex-col">
-          <div className="flex flex-col justify-center m-8 space-y-4">
-            <h1 className="text-3xl font-bold">Cursos Disponibles</h1>
-            <FilterBar filters={filters} setFilters={setFilters} />
-            <Breadcrumbs items={itemsBread} />
-          </div>
-          <AlertInfo />
-          <Courses courses={filteredCourses} />
-        </main>
-        <Footer
-          services={services}
-          company={company}
-          legal={legal}
-          companyName={companyName}
-          companyDescription={companyDescription}
-        />
-      </div>
+      <header className="flex flex-col justify-center m-8 space-y-4">
+        <h1 className="text-3xl font-bold">Cursos Disponibles</h1>
+        <FilterBar filters={filters} setFilters={setFilters} />
+        <Breadcrumbs items={itemsBread} />
+      </header>
+      <main className="flex flex-col mx-5">
+        <AlertInfo />
+        <Courses courses={filteredCourses} />
+      </main>
+      <Footer
+        services={services}
+        company={company}
+        legal={legal}
+        companyName={companyName}
+        companyDescription={companyDescription}
+      />
     </>
   );
 };

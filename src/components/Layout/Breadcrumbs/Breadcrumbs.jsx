@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const Breadcrumbs = ({ items }) => {
   return (
-    <div className="breadcrumbs text-md mx-4">
+    <nav className="breadcrumbs text-md mx-4">
       <ul>
         {/* Ciclo para crear elemento por cada breadcrumbs */}
         {items.map((item, index) => (
@@ -13,7 +13,7 @@ const Breadcrumbs = ({ items }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </nav>
   );
 };
 
