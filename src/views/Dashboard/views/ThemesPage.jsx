@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { jwtDecode } from "jwt-decode";
 import { Sidebar } from "../../../components";
-import { Preview } from "../../../components"
+import { Preview } from "../../../components";
 import { getSidebarLinks } from "../../../utils";
 
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
@@ -19,7 +19,6 @@ const ThemesPage = () => {
   const btnsLinks = [
     { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
   ];
-
 
   const services = {
     title: "Información",
@@ -56,9 +55,12 @@ const ThemesPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Crear tema nuevo</title>
+      </Helmet>
       <div className="flex h-screen">
-          <Sidebar links={sidebarLinks} btns={btnsLinks} />
-          <Preview />
+        <Sidebar links={sidebarLinks} btns={btnsLinks} />
+        <Preview />
       </div>
     </>
   );
