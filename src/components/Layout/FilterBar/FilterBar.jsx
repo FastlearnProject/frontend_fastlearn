@@ -18,15 +18,15 @@ const FilterBar = ({ filters, setFilters }) => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded-md mb-6">
-      <div className="flex flex-col md:flex-row md:items-center md:space-x-4">
+    <div className="bg-gray-100 rounded-md mb-6">
+      <div className="flex flex-col md:flex-row md:items-center gap-4">
         <input
           type="text"
           name="name"
           placeholder="Buscar por nombre"
           value={filters.name}
           onChange={handleChange}
-          className="p-2 mb-2 md:mb-0 border rounded-md"
+          className="grow p-2 border-2 border-slate-300 outline-none rounded-lg"
         />
         <input
           type="text"
@@ -34,7 +34,7 @@ const FilterBar = ({ filters, setFilters }) => {
           placeholder="Buscar por categoría"
           value={filters.category}
           onChange={handleChange}
-          className="p-2 mb-2 md:mb-0 border rounded-md"
+          className="grow p-2 border-2 border-slate-300 outline-none rounded-lg"
         />
         <input
           type="text"
@@ -42,7 +42,7 @@ const FilterBar = ({ filters, setFilters }) => {
           placeholder="Buscar por tags"
           value={filters.tags}
           onChange={handleChange}
-          className="p-2 mb-2 md:mb-0 border rounded-md"
+          className="grow p-2 border-2 border-slate-300 outline-none rounded-lg"
         />
         <button
           onClick={handleReset}

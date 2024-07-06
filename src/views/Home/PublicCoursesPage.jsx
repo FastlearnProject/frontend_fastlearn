@@ -63,6 +63,10 @@ const PublicCoursesPage = () => {
     applyFilters();
   }, [filters, courses]);
 
+  const itemsBread = [
+    { href: "/", label: "Inicio" },
+    { href: "/all-courses", label: "Cursos" },
+  ]
   const services = {
     title: "Información",
     links: [
@@ -105,13 +109,17 @@ const PublicCoursesPage = () => {
         <title>Cursos Disponibles</title>
       </Helmet>
       <div className="flex flex-col">
-        <main className="p-4 flex-grow">
-          <h1 className="text-3xl font-bold mb-8">Cursos Disponibles</h1>
-          <FilterBar filters={filters} setFilters={setFilters} />
-          <Breadcrumbs />
+        <main className="flex flex-col">
+          <div className="flex flex-col justify-center m-8 space-y-4">
+            <h1 className="text-3xl font-bold">Cursos Disponibles</h1>
+            <FilterBar filters={filters} setFilters={setFilters} />
+            <Breadcrumbs
+              items={itemsBread}
+            />
+          </div>
           <AlertWarning />
 
-          <div className="flex flex-col sm:flex-row justify-around">
+          <div className="flex flex-col sm:flex-row justify-around items-center sm:items-start">
             {filteredCourses.map((course) => (
               <div
                 key={course.id_cursos}
@@ -130,6 +138,7 @@ const PublicCoursesPage = () => {
                   </h2>
                   <p>{course.desc_curso}</p>
                   <p className="badge badge-outline">{course.tags_curso}</p>
+                  <p className="badge badge-outline">{course.categoria}</p>
                 </div>
               </div>
             ))}
