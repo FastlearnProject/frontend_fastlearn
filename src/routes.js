@@ -5,6 +5,7 @@ import {
   ExplorePage,
   ArticlesPage,
   PublicCoursesPage,
+  PublicArticlesPage,
   SignUpPage,
   LoginPage,
   RecoveryPage,
@@ -15,7 +16,7 @@ import {
   AdminPage,
   SettingsPage,
   SearchPage,
-  PublicArticlesPage
+  ThemesPage
 } from "./views";
 import RouteProtected from "./auth/RouteProtected";
 
@@ -41,6 +42,7 @@ const protectedRoutes = [
 const dashboardRoutes = [
   { path: "/search", component: SearchPage },
   { path: "/settings", component: SettingsPage },
+  { path: "/create-theme", component: ThemesPage },
 ];
 
 export { publicRoutes, protectedRoutes, dashboardRoutes, RouteProtected, ErrorPage };
