@@ -3,21 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { Helmet } from "react-helmet-async";
 import { Sidebar, Footer } from "../../components/";
-
-import {
-  faGear,
-  faPlus,
-  faRightFromBracket,
-  faSchool,
-  faSearch,
-  faUserGroup,
-} from "@fortawesome/free-solid-svg-icons";
+import { getSidebarLinks } from "../../utils";
 
 const StudentPage = () => {
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
@@ -33,16 +25,7 @@ const StudentPage = () => {
     }
   }, [navigate]);
 
-  const sidebarLinks = [
-    { text: "Dashboard", href: "/", icon: faSchool },
-    { text: "Buscar", href: "/search", icon: faSearch },
-    { text: "Grupos", href: "/group", icon: faUserGroup },
-    { text: "Crear", href: "/create", icon: faPlus },
-    { text: "Ajustes", href: "/settings", icon: faGear },
-  ];
-  const btnsLinks = [
-    { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
-  ];
+  const sidebarLinks = getSidebarLinks(token);
 
   const services = {
     title: "Información",
@@ -83,7 +66,7 @@ const StudentPage = () => {
         <title>Dashboard | Admin</title>
       </Helmet>
       <div className="flex h-screen ">
-        <Sidebar links={sidebarLinks} btns={btnsLinks} />
+        <Sidebar links={sidebarLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
             <h1 className="text-xl font-bold">Admin</h1>

@@ -16,9 +16,6 @@ const ThemesPage = () => {
 
   const sidebarLinks = getSidebarLinks(token);
 
-  const btnsLinks = [
-    { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
-  ];
 
   const services = {
     title: "Información",
@@ -59,7 +56,7 @@ const ThemesPage = () => {
         <title>Crear tema nuevo</title>
       </Helmet>
       <div className="flex h-screen">
-        <Sidebar links={sidebarLinks} btns={btnsLinks} />
+        <Sidebar links={sidebarLinks} />
         <Preview />
       </div>
     </>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
@@ -12,7 +13,10 @@ const HeroDash = ({ userData }) => {
     contrasenaPlain: "",
     fechaNacimiento: "",
     telefono: "",
+    genero: "",
   });
+
+  const navigateTo = useNavigate();
 
   useEffect(() => {
     if (userData) {
@@ -29,6 +33,7 @@ const HeroDash = ({ userData }) => {
         contrasenaPlain: "",
         fechaNacimiento: userData.fechaNacimiento,
         telefono: userData.telefono,
+        genero: userData.genero,
       });
     }
   }, [userData]);
@@ -52,23 +57,15 @@ const HeroDash = ({ userData }) => {
     });
   };
 
+
   const handleUpdate = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token"); // Obtener el token del localStorage
+    const token = localStorage.getItem("token");
 
     if (!token) {
       alert("Token de autenticación no encontrado");
       return;
     }
-
-    console.log("Datos enviados:", {
-      nombre: formData.nombre,
-      correo: formData.correo,
-      contrasenaPlain: formData.contrasenaPlain,
-      fechaNacimiento: formData.fechaNacimiento,
-      genero: userData.genero, // Asumiendo que el género no se modifica
-      telefono: formData.telefono
-    });
 
     try {
       const response = await axios.put(
@@ -78,8 +75,8 @@ const HeroDash = ({ userData }) => {
           correo: formData.correo,
           contrasenaPlain: formData.contrasenaPlain,
           fechaNacimiento: formData.fechaNacimiento,
-          genero: userData.genero, // Asumiendo que el género no se modifica
-          telefono: formData.telefono
+          genero: formData.genero,
+          telefono: formData.telefono,
         },
         {
           headers: {
@@ -90,24 +87,42 @@ const HeroDash = ({ userData }) => {
 
       if (response.status === 200) {
         alert("Usuario modificado exitosamente");
+        navigateTo('/settings')
       } else {
         alert("Error al actualizar el usuario");
       }
     } catch (error) {
       console.error("Error al actualizar la información:", error);
-      if (error.response) {
-        // El servidor respondió con un estado fuera del rango 2xx
-        console.error("Datos del error:", error.response.data);
-        console.error("Estado del error:", error.response.status);
-        console.error("Encabezados del error:", error.response.headers);
-      } else if (error.request) {
-        // La solicitud fue hecha pero no hubo respuesta
-        console.error("Solicitud realizada:", error.request);
-      } else {
-        // Algo sucedió al configurar la solicitud
-        console.error("Error:", error.message);
-      }
       alert("Error al actualizar el usuario");
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Token de autenticación no encontrado");
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`${URL}/usuario/${userData.id_usuario}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        alert("Usuario eliminado exitosamente");
+        navigateTo('/login')
+
+        // Aquí podrías redirigir a la página de inicio, por ejemplo
+      } else {
+        alert("Error al eliminar el usuario");
+      }
+    } catch (error) {
+      console.error("Error al eliminar el usuario:", error);
+      alert("Error al eliminar el usuario");
     }
   };
 
@@ -139,12 +154,27 @@ const HeroDash = ({ userData }) => {
             <label htmlFor="foto" className="text-black btn">
               Cambiar foto
             </label>
+            <label htmlFor="save" className="text-black btn" onClick={() => document.getElementById("my_modal_3").showModal()}>
+              Guardar foto
+            </label>
           </div>
           <div className="flex flex-col space-y-2 text-md">
-            <span><b>Nombre completo: </b>{userData.nombre}</span>
-            <span><b>Correo: </b>{userData.correo}</span>
-            <span><b>Fecha de nacimiento: </b>{userData.fechaNacimiento}</span>
-            <span><b>Teléfono: </b>{userData.telefono}</span>
+            <span>
+              <b>Nombre completo: </b>
+              {userData.nombre}
+            </span>
+            <span>
+              <b>Correo: </b>
+              {userData.correo}
+            </span>
+            <span>
+              <b>Fecha de nacimiento: </b>
+              {userData.fechaNacimiento}
+            </span>
+            <span>
+              <b>Teléfono: </b>
+              {userData.telefono}
+            </span>
           </div>
         </article>
       </section>
@@ -167,7 +197,9 @@ const HeroDash = ({ userData }) => {
         <dialog id="my_modal_1" className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Editar Información</h3>
-            <p className="py-4">Presiona ESC o clic en <b>cancelar</b> para cerrar</p>
+            <p className="py-4">
+              Presiona ESC o clic en <b>cancelar</b> para cerrar
+            </p>
             <form onSubmit={handleUpdate} className="flex flex-col space-y-5">
               <input
                 type="text"
@@ -175,6 +207,7 @@ const HeroDash = ({ userData }) => {
                 value={formData.nombre}
                 onChange={handleChange}
                 className="px-2 py-3 outline-primary"
+                required
               />
               <input
                 type="email"
@@ -182,6 +215,7 @@ const HeroDash = ({ userData }) => {
                 value={formData.correo}
                 onChange={handleChange}
                 className="px-2 py-3 outline-primary"
+                required
               />
               <input
                 type="password"
@@ -190,6 +224,7 @@ const HeroDash = ({ userData }) => {
                 onChange={handleChange}
                 className="px-2 py-3 outline-primary"
                 placeholder="Nueva Contraseña"
+                required
               />
               <input
                 type="date"
@@ -197,13 +232,28 @@ const HeroDash = ({ userData }) => {
                 value={formData.fechaNacimiento}
                 onChange={handleChange}
                 className="px-2 py-3 outline-primary"
+                required
               />
+              <select
+                name="genero"
+                value={formData.genero}
+                onChange={handleChange}
+                className="select select-info w-full"
+                required
+              >
+                <option selected>Seleccionar género</option>
+                <option value="masculino" required>Masculino</option>
+                <option value="femenino" required>Femenino</option>
+                <option value="otro" required>Otro</option>
+              </select>
               <input
                 type="tel"
                 name="telefono"
                 value={formData.telefono}
                 onChange={handleChange}
                 className="px-2 py-3 outline-primary"
+                placeholder="Formato 123-456-7890"
+                required
               />
               <button
                 type="submit"
@@ -214,7 +264,9 @@ const HeroDash = ({ userData }) => {
               <button
                 type="button"
                 className="btn hover:bg-green-500 hover:text-white"
-                onClick={() => document.getElementById("my_modal_1").close()}
+                onClick={() =>
+                  document.getElementById("my_modal_1").close()
+                }
               >
                 Cancelar
               </button>
@@ -227,15 +279,46 @@ const HeroDash = ({ userData }) => {
             <h3 className="font-bold text-lg text-red-700">
               ¿Estás seguro de eliminar tu cuenta?
             </h3>
-            <p className="py-4">Presiona ESC o clic en cancelar para cerrar</p>
-            <button className="w-full bg-red-700 py-4 text-white rounded-md">
+            <p className="py-4">
+              Presiona ESC o clic en cancelar para cerrar
+            </p>
+            <button className="w-full bg-red-700 py-4 text-white rounded-md"
+            onClick={handleDeleteAccount}>
               Si, quiero eliminar mi cuenta
             </button>
             <div className="modal-action">
               <div className="flex space-x-5">
                 <button
                   className="btn hover:bg-green-500"
-                  onClick={() => document.getElementById("my_modal_2").close()}
+                  onClick={() =>
+                    document.getElementById("my_modal_2").close()
+                  }
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog id="my_modal_3" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg text-primary">
+              ¿Quieres actualizar tu foto de perfil?
+            </h3>
+            <p className="py-4">
+              Presiona ESC o clic en cancelar para cerrar
+            </p>
+            <button className="w-full bg-primary py-4 text-white rounded-md">
+              Si, actualizar
+            </button>
+            <div className="modal-action">
+              <div className="flex space-x-5">
+                <button
+                  className="btn hover:bg-green-500"
+                  onClick={() =>
+                    document.getElementById("my_modal_3").close()
+                  }
                 >
                   Cerrar
                 </button>

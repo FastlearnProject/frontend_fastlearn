@@ -1,10 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
-const Sidebar = ({ links, btns }) => {
+const Sidebar = ({ links }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const navigateTo = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -12,7 +14,7 @@ const Sidebar = ({ links, btns }) => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.reload();
+    navigateTo('/login')
   };
 
   return (
@@ -49,21 +51,17 @@ const Sidebar = ({ links, btns }) => {
         </nav>
         <nav className="flex flex-col justify-center items-start p-4">
           <ul>
-            {btns.map((btn, index) => (
-              <li key={index} className="mb-4">
-                <button
-                  onClick={
-                    btn.text === "Cerrar sesión" ? handleLogout : undefined
-                  }
-                  className="flex justify-center items-center hover:text-gray-300"
-                >
-                  <FontAwesomeIcon icon={btn.icon} className="w-5 h-5" />
-                  <span className={`ml-4 ${isOpen ? "" : "hidden"}`}>
-                    {btn.text}
-                  </span>
-                </button>
-              </li>
-            ))}
+            <li className="mb-4">
+              <button
+                onClick={handleLogout}
+                className="flex justify-center items-center hover:text-gray-300"
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5" />
+                <span className={`ml-4 ${isOpen ? "" : "hidden"}`}>
+                  Cerrar sesión
+                </span>
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
@@ -75,13 +73,6 @@ Sidebar.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.shape({
       href: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      icon: PropTypes.object.isRequired,
-    })
-  ).isRequired,
-
-  btns: PropTypes.arrayOf(
-    PropTypes.shape({
       text: PropTypes.string.isRequired,
       icon: PropTypes.object.isRequired,
     })

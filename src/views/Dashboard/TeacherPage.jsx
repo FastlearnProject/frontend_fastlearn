@@ -71,9 +71,6 @@ const TeacherPage = () => {
     }
   }, [navigate, token]);
 
-  const btnsLinks = [
-    { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
-  ];
 
   const services = {
     title: "Información",
@@ -120,7 +117,7 @@ const TeacherPage = () => {
         <title>Dashboard | {userData.nombre} </title>
       </Helmet>
       <div className="flex h-screen">
-        <Sidebar links={sidebarLinks} btns={btnsLinks} />
+        <Sidebar links={sidebarLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
             <h1 className="text-xl font-bold">Bienvenido, Docente {userData.nombre}</h1>

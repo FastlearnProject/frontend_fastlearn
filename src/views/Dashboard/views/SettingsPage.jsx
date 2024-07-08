@@ -1,81 +1,76 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
+import { Sidebar, HeroDash, Footer } from "../../../components";
+import { getSidebarLinks } from "../../../utils";
 import { jwtDecode } from "jwt-decode";
-import { Sidebar, HeroDash, Footer } from "../../../components/";
 import { Loader } from "../../../components/Layout";
 
-import {faRightFromBracket} from "@fortawesome/free-solid-svg-icons";
-
-import { getSidebarLinks } from "../../../utils";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 const SettingsPage = () => {
-  const navigate = useNavigate();
+  const navigateTo = useNavigate();
   const [userData, setUserData] = useState(null);
-
-  const token = localStorage.getItem("token");
-
-  const sidebarLinks = getSidebarLinks(token);
-
-  const btnsLinks = [
-    { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
-  ];
+  const [sidebarLinks, setSidebarLinks] = useState([]);
 
   useEffect(() => {
-    const fetchUserData = async (id_usuario) => {
-      try {
-        console.log(`Fetching data for user ID: ${id_usuario}`);
-        const response = await fetch(
-          `${URL}/usuario/${id_usuario}`,
-          {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Token no encontrado en localStorage.");
+      navigateTo("/login");
+      return;
+    }
+
+    try {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id_usuario;
+
+      if (
+        decodedToken.rol !== "student" &&
+        decodedToken.rol !== "teacher" &&
+        decodedToken.rol !== "admin"
+      ) {
+        console.error("Rol no autorizado:", decodedToken.rol);
+        navigateTo("/login");
+        return;
+      }
+
+      setSidebarLinks(getSidebarLinks(token));
+
+      const fetchUserData = async (id_usuario) => {
+        try {
+          const response = await fetch(`${URL}/usuario/${id_usuario}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
-        );
-        if (response.ok) {
-          const userArray = await response.json();
-          console.log("User data received:", userArray);
-          if (userArray.length > 0) {
-            setUserData(userArray[0]);
+          });
+
+          if (response.ok) {
+            const userArray = await response.json();
+            if (userArray.length > 0) {
+              setUserData(userArray[0]);
+            } else {
+              console.error("No se encontraron datos del usuario.");
+            }
           } else {
-            console.error("No se encontraron datos del usuario.");
+            console.error(
+              "Error al obtener los datos del usuario:",
+              response.statusText
+            );
           }
-        } else {
-          console.error(
-            "Error al obtener los datos del usuario:",
-            response.statusText
-          );
+        } catch (error) {
+          console.error("Error en la conexión:", error);
         }
-      } catch (error) {
-        console.error("Error en la conexión:", error);
-      }
-    };
+      };
 
-    if (token) {
-      try {
-        const decodedToken = jwtDecode(token);
-
-        const userId = decodedToken.id_usuario;
-
-        if (decodedToken.rol !== "student" && decodedToken.rol !== "teacher" && decodedToken.rol !== "admin") {
-          console.error("Rol no autorizado:", decodedToken.rol);
-          navigate("/login");
-        } else {
-          fetchUserData(userId);
-        }
-      } catch (error) {
-        console.error("Error al decodificar el token:", error);
-        navigate("/login");
-      }
-    } else {
-      console.error("Token no encontrado en localStorage.");
-      navigate("/login");
+      fetchUserData(userId);
+    } catch (error) {
+      console.error("Error al decodificar el token:", error);
+      navigateTo("/login");
     }
-  }, [navigate, token]);
-
+  }, [navigateTo]);
 
   const services = {
     title: "Información",
@@ -111,22 +106,21 @@ const SettingsPage = () => {
   const companyDescription = "Todos los derechos reservados";
 
   if (!userData) {
-    return(
-      <Loader />
-    ); // Mostrar indicador de carga mientras se cargan los datos
+    return <Loader />; // Mostrar indicador de carga mientras se cargan los datos
   }
+
   return (
     <>
       <Helmet>
-        <title>Ajustes | Sección</title>
+        <title>Ajustes | {userData.nombre}</title>
       </Helmet>
       <div className="flex h-screen">
-        <Sidebar links={sidebarLinks} btns={btnsLinks} />
-        <div className="flex flex-col w-full">
-          <main className="p-4">
+        <Sidebar links={sidebarLinks} />
+        <main className="flex flex-col w-full">
+          <section className="p-4">
             <h1 className="text-xl font-bold">Ajustes</h1>
             <HeroDash userData={userData} />
-          </main>
+          </section>
           <Footer
             services={services}
             company={company}
@@ -134,7 +128,7 @@ const SettingsPage = () => {
             companyName={companyName}
             companyDescription={companyDescription}
           />
-        </div>
+        </main>
       </div>
     </>
   );
