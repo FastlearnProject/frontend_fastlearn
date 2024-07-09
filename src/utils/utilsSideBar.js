@@ -1,5 +1,5 @@
 import { faSchool, faSearch, faCubes, faNoteSticky, faGear, faCalendar, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 /**
  * Función para obtener los enlaces de la barra lateral según el rol del usuario.

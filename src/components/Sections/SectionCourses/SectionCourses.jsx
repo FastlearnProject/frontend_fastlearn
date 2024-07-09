@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card } from "../../Layout/Card"; // Asumiendo que esta importación es necesaria
+import { Card } from "../../Layout/"; // Asumiendo que esta importación es necesaria
 
 /**
  * Componente SectionCourses

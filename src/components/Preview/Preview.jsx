@@ -75,6 +75,7 @@ const Preview = () => {
 
       if (response.status === 201) {
         alert("Curso creado exitosamente");
+        window.location.reload(true)
         // Limpiar formulario o redirigir al usuario aquí
       } else {
         alert("Error al crear curso");
