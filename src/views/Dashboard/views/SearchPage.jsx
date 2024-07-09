@@ -9,7 +9,7 @@ import {faRightFromBracket, faSearch} from '@fortawesome/free-solid-svg-icons'
 
 import { getSidebarLinks } from '../../../utils'
 
-const URL = import.meta.env.VITE_BACKEND_URL
+const URLB = import.meta.env.VITE_BACKEND_URL
 
 const SearchPage = () => {
   const navigate = useNavigate()
@@ -25,10 +25,6 @@ const SearchPage = () => {
 
   const sidebarLinks = getSidebarLinks(token)
 
-  const btnsLinks = [
-    { text: 'Cerrar sesión', href: '/', icon: faRightFromBracket },
-  ]
-
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -37,7 +33,7 @@ const SearchPage = () => {
           throw new Error('Token no encontrado en localStorage')
         }
 
-        const response = await fetch(`${URL}/usuario/`, {
+        const response = await fetch(`${URLB}/usuario/`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
@@ -70,7 +66,7 @@ const SearchPage = () => {
           throw new Error('Token no encontrado en localStorage')
         }
 
-        const response = await fetch(`${URL}/cursos/`, {
+        const response = await fetch(`${URLB}/cursos/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -170,7 +166,7 @@ const SearchPage = () => {
       </Helmet>
 
       <div className="flex h-screen">
-        <Sidebar links={sidebarLinks} btns={btnsLinks} />
+        <Sidebar links={sidebarLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
 
@@ -240,25 +236,25 @@ const SearchPage = () => {
                   >
                     <div className="flex justify-center">
                       <img
-                        src={curso.imagen_curso}
+                        src={URL.createObjectURL(new Blob, curso.imagen)}
                         alt=""
                         className="object-cover w-full h-52 rounded-sm"
                       />
                     </div>
                     <h2 className="text-md font-semibold mt-4">
-                      {curso.nombre_curso}
+                      {curso.titulo}
                     </h2>
                     <p className="text-gray-600">
                       <b>Descripción: </b>
-                      {curso.desc_curso}
+                      {curso.descripcion}
                     </p>
                     <a
-                      href={curso.link_curso}
+                      href={curso.links}
                       className="text-blue-500 hover:underline"
                     >
-                      Vistiar Link
+                      {curso.links}
                     </a>
-                    <p className="text-gray-600">{curso.tags_curso}</p>
+                    <p className="text-gray-600">{curso.tags}</p>
                   </div>
                 ))
               ) : (
