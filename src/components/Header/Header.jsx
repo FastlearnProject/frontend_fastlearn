@@ -1,24 +1,25 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Navbar, Hero} from "../";
+import { Navbar, Hero } from "../";
 
 // Props del header
 
+// Componente Header que recibe varias propiedades
 const Header = ({ images, interval, heroProps, menuItems }) => {
-  // Creación de Slider automático con use state y use Effect
+  // Creación de Slider automático con useState y useEffect
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [, setFade] = useState(true);
 
   useEffect(() => {
     if (images.length === 0) return;
 
-    // Constante de cambio de imagen
+    // Función para cambiar la imagen automáticamente
     const changeImage = () => {
       setFade(false);
       setTimeout(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
         setFade(true);
-      }, 1000); // Duración de la transición (Igual a CSS transition duration)
+      }, 1000); // Duración de la transición (Igual a la duración de la transición CSS)
     };
 
     const intervalId = setInterval(changeImage, interval);
@@ -63,11 +64,12 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
   );
 };
 
+// Definición de PropTypes para el componente Header
 Header.propTypes = {
-  // Props para las imagenes, intervalos
+  // Props para las imágenes de fondo
   images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // Propiedad para el intervalo de cambio de imagen
   interval: PropTypes.number.isRequired,
-
   // Props para la sección Hero
   heroProps: PropTypes.shape({
     titleHero: PropTypes.string.isRequired,
@@ -81,8 +83,7 @@ Header.propTypes = {
       href: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  
-  // Props para los items del navbar
+  // Props para los elementos del menú
   menuItems: PropTypes.arrayOf(
     PropTypes.shape({
       href: PropTypes.string.isRequired,

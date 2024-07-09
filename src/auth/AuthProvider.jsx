@@ -1,30 +1,27 @@
-// AuthProvider.js
 import { createContext, useState } from "react";
 import PropTypes from "prop-types";
 
-// Crear contexto
-
+// Creación de un contexto para la autenticación
 const AuthContext = createContext();
 
-// Crear proveedor de autenticación de token
-
+// Definir el proveedor de autenticación
 export const AuthProvider = ({ children }) => {
+  // Definir el estado del token utilizando useState, inicializándolo con el token almacenado en localStorage
   const [token, setToken] = useState(localStorage.getItem("token"));
 
-  // Crear token
-
+  // Función para iniciar sesión que almacena el token en localStorage y actualiza el estado del token
   const login = (newToken) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
   };
 
-  // ELiminar token de local storage
+  // Función para cerrar sesión que elimina el token de localStorage y actualiza el estado del token a null
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
   };
 
-  // Crear objeto de contexto
+  // Retornar el proveedor de contexto con el valor del token y las funciones login y logout
   return (
     <AuthContext.Provider value={{ token, login, logout }}>
       {children}
@@ -32,8 +29,10 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+// Definir las propTypes para el proveedor de autenticación
 AuthProvider.propTypes = {
   children: PropTypes.node,
 };
 
+// Exportar el contexto de autenticación
 export { AuthContext };

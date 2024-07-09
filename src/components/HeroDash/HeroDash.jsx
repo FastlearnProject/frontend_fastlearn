@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -56,7 +57,6 @@ const HeroDash = ({ userData }) => {
       [name]: value,
     });
   };
-
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -178,6 +178,7 @@ const HeroDash = ({ userData }) => {
           </div>
         </article>
       </section>
+      
       <section className="flex flex-col md:flex-row justify-around mx-4 md:mx-24 my-4">
         <button
           className="btn w-full md:w-3/12 my-2 md:my-0 bg-primary text-white"
@@ -242,9 +243,9 @@ const HeroDash = ({ userData }) => {
                 required
               >
                 <option selected>Seleccionar género</option>
-                <option value="masculino" required>Masculino</option>
-                <option value="femenino" required>Femenino</option>
-                <option value="otro" required>Otro</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
               </select>
               <input
                 type="tel"
@@ -282,8 +283,7 @@ const HeroDash = ({ userData }) => {
             <p className="py-4">
               Presiona ESC o clic en cancelar para cerrar
             </p>
-            <button className="w-full bg-red-700 py-4 text-white rounded-md"
-            onClick={handleDeleteAccount}>
+            <button className="w-full bg-red-700 py-4 text-white rounded-md" onClick={handleDeleteAccount}>
               Si, quiero eliminar mi cuenta
             </button>
             <div className="modal-action">
@@ -329,6 +329,18 @@ const HeroDash = ({ userData }) => {
       </div>
     </>
   );
+};
+
+// Definición de PropTypes para el componente HeroDash
+HeroDash.propTypes = {
+  userData: PropTypes.shape({
+    id_usuario: PropTypes.number.isRequired, // Id del usuario
+    nombre: PropTypes.string.isRequired, // Nombre completo del usuario
+    correo: PropTypes.string.isRequired, // Correo electrónico del usuario
+    fechaNacimiento: PropTypes.string.isRequired, // Fecha de nacimiento del usuario
+    telefono: PropTypes.string.isRequired, // Teléfono del usuario
+    genero: PropTypes.string.isRequired, // Género del usuario
+  }).isRequired,
 };
 
 export default HeroDash;
