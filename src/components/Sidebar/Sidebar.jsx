@@ -3,13 +3,24 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 
+/**
+ * Componente Sidebar
+ * 
+ * Muestra un sidebar con enlaces y botones, incluyendo funcionalidad para expandirse y contraerse.
+ * 
+ * @param {Object} props - Propiedades del componente Sidebar.
+ * @param {Array} props.links - Lista de enlaces del sidebar, cada uno con href, texto y icono.
+ * @param {Array} props.btns - Lista de botones del sidebar, cada uno con texto y icono.
+ */
 const Sidebar = ({ links, btns }) => {
   const [isOpen, setIsOpen] = React.useState(false);
 
+  // Función para alternar la apertura y cierre del sidebar
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
+  // Función para manejar el logout, limpia el token y recarga la página
   const handleLogout = () => {
     localStorage.removeItem("token");
     window.location.reload();
@@ -22,7 +33,9 @@ const Sidebar = ({ links, btns }) => {
           isOpen ? "w-64" : "w-16 sm:w-20"
         } transition-all duration-300 flex flex-col justify-between text-white`}
       >
+        {/* Barra superior del sidebar */}
         <div className="flex items-center justify-start p-4">
+          {/* Botón para abrir/cerrar el sidebar */}
           <button
             onClick={toggleSidebar}
             className="text-gray-600 focus:outline-none"
@@ -30,6 +43,8 @@ const Sidebar = ({ links, btns }) => {
             <FontAwesomeIcon icon={faBars} className="w-5 h-5" />
           </button>
         </div>
+
+        {/* Navegación con enlaces del sidebar */}
         <nav className="p-4 h-full flex flex-col justify-start">
           <ul>
             {links.map((link, index) => (
@@ -47,6 +62,8 @@ const Sidebar = ({ links, btns }) => {
             ))}
           </ul>
         </nav>
+
+        {/* Navegación con botones del sidebar */}
         <nav className="flex flex-col justify-center items-start p-4">
           <ul>
             {btns.map((btn, index) => (
@@ -71,19 +88,20 @@ const Sidebar = ({ links, btns }) => {
   );
 };
 
+// Definición de PropTypes para el componente Sidebar
 Sidebar.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.shape({
-      href: PropTypes.string.isRequired,
-      text: PropTypes.string.isRequired,
-      icon: PropTypes.object.isRequired,
+      href: PropTypes.string.isRequired, // URL del enlace
+      text: PropTypes.string.isRequired, // Texto del enlace
+      icon: PropTypes.object.isRequired, // Icono del enlace (object de FontAwesomeIcon)
     })
   ).isRequired,
 
   btns: PropTypes.arrayOf(
     PropTypes.shape({
-      text: PropTypes.string.isRequired,
-      icon: PropTypes.object.isRequired,
+      text: PropTypes.string.isRequired, // Texto del botón
+      icon: PropTypes.object.isRequired, // Icono del botón (object de FontAwesomeIcon)
     })
   ).isRequired,
 };

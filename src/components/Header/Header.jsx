@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Navbar } from "../Navbar";
 import Hero from "./Hero";
 
+// Componente Header que recibe varias propiedades
 const Header = ({ images, interval, heroProps, menuItems }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [, setFade] = useState(true);
@@ -15,7 +16,7 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
       setTimeout(() => {
         setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
         setFade(true);
-      }, 1000); // Duraccióin de la transición (Igual a CSS transition duration)
+      }, 1000); // Duración de la transición (Igual a la duración de la transición CSS)
     };
 
     const intervalId = setInterval(changeImage, interval);
@@ -57,9 +58,13 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
   );
 };
 
+// Definición de PropTypes para el componente Header
 Header.propTypes = {
+  // Propiedades para las imágenes de fondo
   images: PropTypes.arrayOf(PropTypes.string).isRequired,
+  // Propiedad para el intervalo de cambio de imagen
   interval: PropTypes.number.isRequired,
+  // Propiedades para el componente Hero
   heroProps: PropTypes.shape({
     titleHero: PropTypes.string.isRequired,
     textHero: PropTypes.string.isRequired,
@@ -72,6 +77,7 @@ Header.propTypes = {
       href: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
+  // Propiedades para los elementos del menú
   menuItems: PropTypes.arrayOf(
     PropTypes.shape({
       href: PropTypes.string.isRequired,

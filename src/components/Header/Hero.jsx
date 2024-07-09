@@ -1,5 +1,17 @@
 import PropTypes from "prop-types";
 
+/**
+ * Componente Hero
+ * 
+ * Muestra una sección con un título, un texto descriptivo y dos botones.
+ * 
+ * @param {string} titleHero - El título a mostrar en el componente.
+ * @param {string} textHero - El texto descriptivo a mostrar en el componente.
+ * @param {string} btn1Hero - El texto del primer botón.
+ * @param {string} btn2Hero - El texto del segundo botón.
+ * @param {string} btn1Href - El enlace del primer botón.
+ * @param {string} btn2Href - El enlace del segundo botón.
+ */
 const Hero = ({
   titleHero,
   textHero,
@@ -34,13 +46,14 @@ const Hero = ({
   );
 };
 
+// Definición de PropTypes para el componente Hero
 Hero.propTypes = {
-  titleHero: PropTypes.string.isRequired,
-  textHero: PropTypes.string.isRequired,
-  btn1Hero: PropTypes.string.isRequired,
-  btn2Hero: PropTypes.string.isRequired,
-  btn1Href: PropTypes.string.isRequired,
-  btn2Href: PropTypes.string.isRequired,
+  titleHero: PropTypes.string.isRequired, // Título del héroe
+  textHero: PropTypes.string.isRequired,  // Texto descriptivo del héroe
+  btn1Hero: PropTypes.string.isRequired,  // Texto del primer botón
+  btn2Hero: PropTypes.string.isRequired,  // Texto del segundo botón
+  btn1Href: PropTypes.string.isRequired,  // Enlace del primer botón
+  btn2Href: PropTypes.string.isRequired,  // Enlace del segundo botón
 };
 
 export default Hero;

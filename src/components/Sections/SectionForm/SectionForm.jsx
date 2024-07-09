@@ -1,6 +1,23 @@
 import PropTypes from "prop-types";
 import { Form } from "../../Layout/Form";
 
+/**
+ * Componente SectionForm
+ * 
+ * Muestra una sección con un título, texto descriptivo, un enlace de recuperación,
+ * y un formulario que utiliza el componente Form.
+ * 
+ * @param {Object} props - Propiedades del componente SectionForm.
+ * @param {string} props.title - Título de la sección.
+ * @param {string} props.text - Texto descriptivo de la sección.
+ * @param {string} props.linkRecovery - URL del enlace de recuperación.
+ * @param {string} props.textRecovery - Texto del enlace de recuperación.
+ * @param {Array} props.formFields - Campos del formulario, cada uno con tipo, marcador de posición y ID.
+ * @param {string} props.linkText - Texto del enlace dentro del formulario.
+ * @param {string} props.linkHref - URL del enlace dentro del formulario.
+ * @param {function} props.onSubmit - Función que maneja el envío del formulario.
+ * @param {string} props.formType - Tipo de formulario utilizado.
+ */
 const SectionForm = ({
   title,
   text,
@@ -14,6 +31,7 @@ const SectionForm = ({
 }) => {
   return (
     <section className="relative flex flex-col md:flex-row w-full bg-gray-900 text-white py-12 px-6">
+      {/* Columna izquierda con texto descriptivo */}
       <article className="md:w-1/2 flex flex-col justify-center items-start p-6">
         <div className="md:mx-16">
           <h1 className="text-2xl md:text-4xl font-bold mb-4">{title}</h1>
@@ -23,6 +41,8 @@ const SectionForm = ({
           </div>
         </div>
       </article>
+
+      {/* Columna derecha con el formulario */}
       <div className="md:w-1/2 flex justify-center items-center">
         <Form
           initialFields={formFields}
@@ -36,25 +56,23 @@ const SectionForm = ({
   );
 };
 
-// Propiedades del componente sectionform
-
+// Definición de PropTypes para el componente SectionForm
 SectionForm.propTypes = {
-  title: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
-  linkRecovery: PropTypes.string.isRequired,
-  textRecovery: PropTypes.string.isRequired,
-  // Propiedades del componente Form
-  formFields: PropTypes.arrayOf(
+  title: PropTypes.string.isRequired, // Título de la sección
+  text: PropTypes.string.isRequired, // Texto descriptivo de la sección
+  linkRecovery: PropTypes.string.isRequired, // URL del enlace de recuperación
+  textRecovery: PropTypes.string.isRequired, // Texto del enlace de recuperación
+  formFields: PropTypes.arrayOf( // Array de campos del formulario
     PropTypes.shape({
-      type: PropTypes.string.isRequired,
-      placeholder: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired, // Tipo de campo (ej: texto, contraseña)
+      placeholder: PropTypes.string.isRequired, // Marcador de posición del campo
+      id: PropTypes.string.isRequired, // ID único del campo
     })
   ).isRequired,
-  onSubmit: PropTypes.func.isRequired, //Indicar el atributo onSubmit al formulario
-  formType: PropTypes.string.isRequired, //Indicar que tipo de formulario se utiliza
-  linkText: PropTypes.string.isRequired,
-  linkHref: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired, // Función que maneja el envío del formulario
+  formType: PropTypes.string.isRequired, // Tipo de formulario utilizado (ej: login, registro)
+  linkText: PropTypes.string.isRequired, // Texto del enlace dentro del formulario
+  linkHref: PropTypes.string.isRequired, // URL del enlace dentro del formulario
 };
 
 export default SectionForm;

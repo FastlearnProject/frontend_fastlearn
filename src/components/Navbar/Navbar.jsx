@@ -1,21 +1,38 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
+/**
+ * Componente Navbar
+ * 
+ * Muestra una barra de navegación responsiva con logo, elementos de menú y opción de acceso.
+ * 
+ * @param {Object} props - Propiedades del componente Navbar.
+ * @param {string} props.imageLogo - URL del logo a mostrar en la barra de navegación.
+ * @param {string} props.imageAlt - Texto alternativo para el logo.
+ * @param {Array} props.items - Lista de elementos de menú con href y label.
+ * @param {string} props.hrefImg - URL a la que se dirige al hacer clic en el logo.
+ */
 export default function Navbar({ imageLogo, imageAlt, items, hrefImg }) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false); // Estado para controlar la apertura/cierre del menú desplegable en dispositivos móviles
 
+  // Función para alternar el estado del menú desplegable
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+
   return (
     <nav className="flex justify-between items-center">
+      {/* Sección izquierda del navbar */}
       <div className="flex justify-center items-center">
+        {/* Logo visible en pantallas grandes */}
         <a
           className="hidden md:flex mx-24 my-7 lg:mx-36 justify-center items-center"
           href={hrefImg}
         >
           <img src={imageLogo} alt={imageAlt} className="w-32 lg:w-32" />
         </a>
+        
+        {/* Menú desplegable visible en dispositivos móviles */}
         <div className="dropdown md:hidden m-4">
           <div
             tabIndex={0}
@@ -23,6 +40,7 @@ export default function Navbar({ imageLogo, imageAlt, items, hrefImg }) {
             className="btn btn-ghost btn-circle text-white"
             onClick={toggleDropdown}
           >
+            {/* Ícono de menú */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -38,6 +56,7 @@ export default function Navbar({ imageLogo, imageAlt, items, hrefImg }) {
               />
             </svg>
           </div>
+          {/* Menú desplegable mostrado si dropdownOpen es verdadero */}
           {dropdownOpen && (
             <ul
               tabIndex={0}
@@ -45,9 +64,11 @@ export default function Navbar({ imageLogo, imageAlt, items, hrefImg }) {
             >
               {items.map((item, index) => (
                 <li key={index} className="">
+                  {/* Elementos de menú del desplegable */}
                   <a href={item.href}>{item.label}</a>
                 </li>
               ))}
+              {/* Elemento adicional para acceder */}
               <li>
                 <a
                   href="/login"
@@ -60,6 +81,8 @@ export default function Navbar({ imageLogo, imageAlt, items, hrefImg }) {
           )}
         </div>
       </div>
+
+      {/* Sección central del navbar (logo en dispositivos móviles) */}
       <div className="navbar-center">
         <a
           className="btn btn-ghost text-xl h-auto flex md:hidden m-4"
@@ -68,6 +91,8 @@ export default function Navbar({ imageLogo, imageAlt, items, hrefImg }) {
           <img src={imageLogo} alt={imageAlt} className="w-24" />
         </a>
       </div>
+
+      {/* Sección derecha del navbar (menú en pantallas grandes) */}
       <div className="hidden md:flex mx-24">
         <ul className="flex flex-nowrap items-center text-white text-md">
           {items.map((item, index) => (
@@ -75,9 +100,11 @@ export default function Navbar({ imageLogo, imageAlt, items, hrefImg }) {
               key={index}
               className="text-nowrap border-none hover:btn rounded-lg p-3.5"
             >
+              {/* Elementos de menú en la barra de navegación */}
               <a href={item.href}>{item.label}</a>
             </li>
           ))}
+          {/* Elemento adicional para acceder */}
           <li>
             <a
               href="/login"
@@ -92,14 +119,15 @@ export default function Navbar({ imageLogo, imageAlt, items, hrefImg }) {
   );
 }
 
+// Definición de PropTypes para el componente Navbar
 Navbar.propTypes = {
-  imageLogo: PropTypes.string.isRequired,
-  imageAlt: PropTypes.string.isRequired,
+  imageLogo: PropTypes.string.isRequired, // URL del logo
+  imageAlt: PropTypes.string.isRequired, // Texto alternativo para el logo
   items: PropTypes.arrayOf(
     PropTypes.shape({
-      href: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
+      href: PropTypes.string.isRequired, // URL de los elementos de menú
+      label: PropTypes.string.isRequired, // Etiqueta de los elementos de menú
     })
   ).isRequired,
-  hrefImg: PropTypes.string.isRequired,
+  hrefImg: PropTypes.string.isRequired, // URL a la que se dirige al hacer clic en el logo
 };

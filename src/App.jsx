@@ -1,4 +1,7 @@
-import { Routes, Route} from "react-router-dom";
+// Importaciones necesarias desde React y React Router DOM
+import { Routes, Route } from "react-router-dom";
+
+// Importaciones de las diferentes páginas de la aplicación
 import {
   ErrorPage,
   HomePage,
@@ -15,14 +18,20 @@ import {
   SettingsPage,
   SearchPage
 } from "./views";
+
+// Importación del componente de rutas protegidas y el hook de autenticación
 import RouteProtected from "./auth/RouteProtected";
 import { useAuth } from "./auth/useAuth";
 
+// Componente principal de la aplicación
 const App = () => {
-  const { isAuthenticated} = useAuth();
+  // Utiliza el hook de autenticación para obtener el estado de autenticación del usuario
+  const { isAuthenticated } = useAuth();
 
   return (
+    // Configuración de las rutas de la aplicación
     <Routes>
+      {/* Rutas públicas */}
       <Route path="/" element={<HomePage />} />
       <Route path="/explore" element={<ExplorePage />} />
       <Route path="/articles" element={<ArticlesPage />} />
@@ -34,13 +43,11 @@ const App = () => {
       <Route path="/settings" element={<SettingsPage />} />
 
       {/* Rutas protegidas */}
-
       <Route element={<RouteProtected />}>
         <Route path="/student" element={<StudentPage />} />
         <Route path="/select-rol" element={<SelectRolePage />} />
         <Route path="/teacher" element={<TeacherPage />} />
         <Route path="/admin" element={<AdminPage />} />
-
       </Route>
 
       {/* Ruta de error */}
