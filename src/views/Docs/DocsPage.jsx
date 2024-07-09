@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Helmet } from "react-helmet-async";
-import { Header } from "../../components/Header";
-import { Footer } from "../../components/Footer";
+import { Header, Footer } from "../../components/";
 import dataRF from "./datos.RF.json";
 import dataRNF from "./datos.RNF.json";
 

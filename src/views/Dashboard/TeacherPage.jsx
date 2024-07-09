@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
 import { Helmet } from "react-helmet-async";
-import { Footer } from "../../components/Footer";
-import { Sidebar } from "../../components/Sidebar";
+import { jwtDecode } from "jwt-decode";
+import { Sidebar, Footer } from "../../components/";
+import { Loader } from "../../components/Layout";
 
 import { faRightFromBracket,} from "@fortawesome/free-solid-svg-icons";
 
@@ -23,7 +23,7 @@ const TeacherPage = () => {
       try {
         console.log(`Fetching data for user ID: ${id_usuario}`);
         const response = await fetch(
-          "https://backend-fastlearn.onrender.com/usuario/${id_usuario}",
+          `${URL}/usuario/${id_usuario}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -71,9 +71,6 @@ const TeacherPage = () => {
     }
   }, [navigate, token]);
 
-  const btnsLinks = [
-    { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
-  ];
 
   const services = {
     title: "Información",
@@ -109,7 +106,9 @@ const TeacherPage = () => {
   const companyDescription = "Todos los derechos reservados";
 
   if (!userData) {
-    return <div>Cargando...</div>; // Muestra algún indicador mientras se cargan los datos
+    return(
+      <Loader />
+    ); // Mostrar indicador de carga mientras se cargan los datos
   }
 
   return (
@@ -118,7 +117,7 @@ const TeacherPage = () => {
         <title>Dashboard | {userData.nombre} </title>
       </Helmet>
       <div className="flex h-screen">
-        <Sidebar links={sidebarLinks} btns={btnsLinks} />
+        <Sidebar links={sidebarLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
             <h1 className="text-xl font-bold">Bienvenido, Docente {userData.nombre}</h1>

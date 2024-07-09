@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import axios from "axios";
-import { SectionForm } from "../../components/Sections/SectionForm";
+import { SectionForm } from "../../components/";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -18,7 +18,7 @@ const LoginPage = () => {
   const handleLogin = async (formData) => {
     try {
       const response = await axios.post(
-        "https://backend-fastlearn.onrender.com/login",
+        `${URL}/login`,
         formData,
         {
           headers: {

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Form } from "../../Layout/Form";
+import { Form } from "../../Layout/";
 
 /**
  * Componente SectionForm

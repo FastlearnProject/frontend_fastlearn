@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Componente Sidebar
@@ -10,20 +11,20 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
  * 
  * @param {Object} props - Propiedades del componente Sidebar.
  * @param {Array} props.links - Lista de enlaces del sidebar, cada uno con href, texto y icono.
- * @param {Array} props.btns - Lista de botones del sidebar, cada uno con texto y icono.
  */
-const Sidebar = ({ links, btns }) => {
+const Sidebar = ({ links }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const navigateTo = useNavigate();
 
   // Función para alternar la apertura y cierre del sidebar
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  // Función para manejar el logout, limpia el token y recarga la página
+  // Función para manejar el logout, limpia el token y redirige a /login
   const handleLogout = () => {
     localStorage.removeItem("token");
-    window.location.reload();
+    navigateTo('/login');
   };
 
   return (
@@ -63,24 +64,20 @@ const Sidebar = ({ links, btns }) => {
           </ul>
         </nav>
 
-        {/* Navegación con botones del sidebar */}
+        {/* Navegación con botón de logout */}
         <nav className="flex flex-col justify-center items-start p-4">
           <ul>
-            {btns.map((btn, index) => (
-              <li key={index} className="mb-4">
-                <button
-                  onClick={
-                    btn.text === "Cerrar sesión" ? handleLogout : undefined
-                  }
-                  className="flex justify-center items-center hover:text-gray-300"
-                >
-                  <FontAwesomeIcon icon={btn.icon} className="w-5 h-5" />
-                  <span className={`ml-4 ${isOpen ? "" : "hidden"}`}>
-                    {btn.text}
-                  </span>
-                </button>
-              </li>
-            ))}
+            <li className="mb-4">
+              <button
+                onClick={handleLogout}
+                className="flex justify-center items-center hover:text-gray-300"
+              >
+                <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5" />
+                <span className={`ml-4 ${isOpen ? "" : "hidden"}`}>
+                  Cerrar sesión
+                </span>
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
@@ -95,13 +92,6 @@ Sidebar.propTypes = {
       href: PropTypes.string.isRequired, // URL del enlace
       text: PropTypes.string.isRequired, // Texto del enlace
       icon: PropTypes.object.isRequired, // Icono del enlace (object de FontAwesomeIcon)
-    })
-  ).isRequired,
-
-  btns: PropTypes.arrayOf(
-    PropTypes.shape({
-      text: PropTypes.string.isRequired, // Texto del botón
-      icon: PropTypes.object.isRequired, // Icono del botón (object de FontAwesomeIcon)
     })
   ).isRequired,
 };

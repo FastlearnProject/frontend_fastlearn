@@ -1,35 +1,180 @@
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import PropTypes from "prop-types";
 
-/**
- * Componente HeroDash
- * 
- * Muestra un dashboard de usuario con información personal y botones para editar información o eliminar la cuenta.
- * 
- * @param {Object} userData - Los datos del usuario que se mostrarán en el componente.
- * @param {string} userData.nombre - El nombre completo del usuario.
- * @param {string} userData.correo - El correo electrónico del usuario.
- * @param {string} userData.fechaNacimiento - La fecha de nacimiento del usuario.
- * @param {string} userData.telefono - El número de teléfono del usuario.
- */
+const URL = import.meta.env.VITE_BACKEND_URL;
+
 const HeroDash = ({ userData }) => {
-  // Si no hay datos del usuario, no se renderiza nada
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState("");
+  const [formData, setFormData] = useState({
+    nombre: "",
+    correo: "",
+    contrasenaPlain: "",
+    fechaNacimiento: "",
+    telefono: "",
+    genero: "",
+  });
+
+  const navigateTo = useNavigate();
+
+  useEffect(() => {
+    if (userData) {
+      const initials = userData.nombre
+        .split(" ")
+        .map((n) => n[0])
+        .join("");
+      const avatar = `https://ui-avatars.com/api/?name=${initials}&background=random&size=256`;
+      setAvatarUrl(avatar);
+
+      setFormData({
+        nombre: userData.nombre,
+        correo: userData.correo,
+        contrasenaPlain: "",
+        fechaNacimiento: userData.fechaNacimiento,
+        telefono: userData.telefono,
+        genero: userData.genero,
+      });
+    }
+  }, [userData]);
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setSelectedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Token de autenticación no encontrado");
+      return;
+    }
+
+    try {
+      const response = await axios.put(
+        `${URL}/usuario/${userData.id_usuario}`,
+        {
+          nombre: formData.nombre,
+          correo: formData.correo,
+          contrasenaPlain: formData.contrasenaPlain,
+          fechaNacimiento: formData.fechaNacimiento,
+          genero: formData.genero,
+          telefono: formData.telefono,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert("Usuario modificado exitosamente");
+        navigateTo('/settings')
+      } else {
+        alert("Error al actualizar el usuario");
+      }
+    } catch (error) {
+      console.error("Error al actualizar la información:", error);
+      alert("Error al actualizar el usuario");
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Token de autenticación no encontrado");
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`${URL}/usuario/${userData.id_usuario}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.status === 200) {
+        alert("Usuario eliminado exitosamente");
+        navigateTo('/login')
+
+        // Aquí podrías redirigir a la página de inicio, por ejemplo
+      } else {
+        alert("Error al eliminar el usuario");
+      }
+    } catch (error) {
+      console.error("Error al eliminar el usuario:", error);
+      alert("Error al eliminar el usuario");
+    }
+  };
+
   if (!userData) {
-    return null; 
+    return null;
   }
 
   return (
     <>
       <section className="flex flex-col md:flex-row mx-4 md:mx-24">
         <article className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-10 my-5">
-          <div className="rounded-full bg-primary md:w-72 md:h-72 flex items-center justify-center">
-            <img src="" alt="" className="max-w-full max-h-full" />
+          <div className="flex flex-col items-center space-y-5">
+            <div className="rounded-full md:w-72 md:h-72 flex items-center justify-center overflow-hidden">
+              <img
+                src={selectedImage || avatarUrl}
+                alt="Avatar"
+                className="object-cover w-full h-full rounded-full"
+                id="img"
+              />
+              <input
+                type="file"
+                name="foto"
+                id="foto"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+            </div>
+            <label htmlFor="foto" className="text-black btn">
+              Cambiar foto
+            </label>
+            <label htmlFor="save" className="text-black btn" onClick={() => document.getElementById("my_modal_3").showModal()}>
+              Guardar foto
+            </label>
           </div>
           <div className="flex flex-col space-y-2 text-md">
-            <span><b>Nombre completo: </b>{userData.nombre}</span>
-            <span><b>Correo: </b>{userData.correo}</span>
-            <span><b>Fecha de nacimiento: </b>{userData.fechaNacimiento}</span>
-            <span><b>Teléfono: </b>{userData.telefono}</span>
-            <textarea name="" id="" placeholder="Cuéntanos de ti" className="p-2"></textarea>
+            <span>
+              <b>Nombre completo: </b>
+              {userData.nombre}
+            </span>
+            <span>
+              <b>Correo: </b>
+              {userData.correo}
+            </span>
+            <span>
+              <b>Fecha de nacimiento: </b>
+              {userData.fechaNacimiento}
+            </span>
+            <span>
+              <b>Teléfono: </b>
+              {userData.telefono}
+            </span>
           </div>
         </article>
       </section>
@@ -49,56 +194,134 @@ const HeroDash = ({ userData }) => {
         </button>
       </section>
 
-      {/* Modales */}
       <div className="modal">
-        {/* Modal Editar Información */}
         <dialog id="my_modal_1" className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Editar Información</h3>
-            <p className="py-4">Presiona ESC o haz clic en <b>Cancelar</b> para cerrar</p>
-            <form action="" className="flex flex-col space-y-5">
+            <p className="py-4">
+              Presiona ESC o clic en <b>cancelar</b> para cerrar
+            </p>
+            <form onSubmit={handleUpdate} className="flex flex-col space-y-5">
               <input
                 type="text"
-                placeholder={userData.nombre}
                 name="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
                 className="px-2 py-3 outline-primary"
+                required
               />
               <input
                 type="email"
-                placeholder={userData.correo}
-                name="email"
+                name="correo"
+                value={formData.correo}
+                onChange={handleChange}
                 className="px-2 py-3 outline-primary"
+                required
               />
               <input
-                type="tel"
-                placeholder={userData.telefono}
-                name="telefono"
+                type="password"
+                name="contrasenaPlain"
+                value={formData.contrasenaPlain}
+                onChange={handleChange}
                 className="px-2 py-3 outline-primary"
+                placeholder="Nueva Contraseña"
+                required
               />
-              <textarea
-                placeholder="Descripción"
-                name="descripcion"
+              <input
+                type="date"
+                name="fechaNacimiento"
+                value={formData.fechaNacimiento}
+                onChange={handleChange}
                 className="px-2 py-3 outline-primary"
-              ></textarea>
-              <button type="button" className="btn bg-primary hover:bg-green-500 text-white">Actualizar</button>
-              <button type="button" className="btn hover:bg-green-500 hover:text-white" onClick={() => document.getElementById("my_modal_1").close()}>Cancelar</button>
+                required
+              />
+              <select
+                name="genero"
+                value={formData.genero}
+                onChange={handleChange}
+                className="select select-info w-full"
+                required
+              >
+                <option selected>Seleccionar género</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="otro">Otro</option>
+              </select>
+              <input
+                type="tel"
+                name="telefono"
+                value={formData.telefono}
+                onChange={handleChange}
+                className="px-2 py-3 outline-primary"
+                placeholder="Formato 123-456-7890"
+                required
+              />
+              <button
+                type="submit"
+                className="btn bg-primary hover:bg-green-500 text-white"
+              >
+                Actualizar
+              </button>
+              <button
+                type="button"
+                className="btn hover:bg-green-500 hover:text-white"
+                onClick={() =>
+                  document.getElementById("my_modal_1").close()
+                }
+              >
+                Cancelar
+              </button>
             </form>
           </div>
         </dialog>
 
-        {/* Modal Eliminar Cuenta */}
         <dialog id="my_modal_2" className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-red-700">
               ¿Estás seguro de eliminar tu cuenta?
             </h3>
-            <p className="py-4">Presiona ESC o haz clic en <b>Cancelar</b> para cerrar</p>
-            <button className="w-full bg-red-700 py-4 text-white rounded-md">
-              Sí, quiero eliminar mi cuenta
+            <p className="py-4">
+              Presiona ESC o clic en cancelar para cerrar
+            </p>
+            <button className="w-full bg-red-700 py-4 text-white rounded-md" onClick={handleDeleteAccount}>
+              Si, quiero eliminar mi cuenta
             </button>
             <div className="modal-action">
               <div className="flex space-x-5">
-                <button className="btn hover:bg-green-500" onClick={() => document.getElementById("my_modal_2").close()}>Cerrar</button>
+                <button
+                  className="btn hover:bg-green-500"
+                  onClick={() =>
+                    document.getElementById("my_modal_2").close()
+                  }
+                >
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        </dialog>
+
+        <dialog id="my_modal_3" className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg text-primary">
+              ¿Quieres actualizar tu foto de perfil?
+            </h3>
+            <p className="py-4">
+              Presiona ESC o clic en cancelar para cerrar
+            </p>
+            <button className="w-full bg-primary py-4 text-white rounded-md">
+              Si, actualizar
+            </button>
+            <div className="modal-action">
+              <div className="flex space-x-5">
+                <button
+                  className="btn hover:bg-green-500"
+                  onClick={() =>
+                    document.getElementById("my_modal_3").close()
+                  }
+                >
+                  Cerrar
+                </button>
               </div>
             </div>
           </div>
@@ -111,10 +334,12 @@ const HeroDash = ({ userData }) => {
 // Definición de PropTypes para el componente HeroDash
 HeroDash.propTypes = {
   userData: PropTypes.shape({
+    id_usuario: PropTypes.number.isRequired, // Id del usuario
     nombre: PropTypes.string.isRequired, // Nombre completo del usuario
     correo: PropTypes.string.isRequired, // Correo electrónico del usuario
     fechaNacimiento: PropTypes.string.isRequired, // Fecha de nacimiento del usuario
     telefono: PropTypes.string.isRequired, // Teléfono del usuario
+    genero: PropTypes.string.isRequired, // Género del usuario
   }).isRequired,
 };
 

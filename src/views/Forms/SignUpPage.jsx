@@ -2,40 +2,40 @@ import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { SectionForm } from "../../components/Sections/SectionForm";
+import { SectionForm } from "../../components/";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
 const SignUpPage = () => {
-  // Pasar inputs con tipo, placeholder, id al componente form
+  // Inicialización de los campos del formulario
   const [initialFields] = useState([
     { type: "text", placeholder: "Nombre", id: "nombre" },
     { type: "email", placeholder: "Correo electrónico", id: "correo" },
     { type: "password", placeholder: "Contraseña", id: "contrasenaPlain" },
     { type: "date", placeholder: "Fecha de nacimiento", id: "fechaNacimiento" },
-    { type: "text", placeholder: "Teléfono", id: "telefono" },
+    { type: "tel", placeholder: "Teléfono", id: "telefono", pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}" },
   ]);
 
-  // Consumo de la ruta del backend
+  // Navegación
   const navigate = useNavigate();
 
+  // Manejo del registro
   const handleRegister = async (formData) => {
     try {
       const response = await axios.post(
-        "https://backend-fastlearn.onrender.com/usuario",
+        `${URL}/usuario`, // Usa la URL del backend configurada
         formData,
         {
           headers: {
-            "Content-Type": "application/json",
-            // Asegurar que el contenido es en formato json
+            "Content-Type": "application/json", // Asegura que el contenido es en formato JSON
           },
         }
       );
 
       const { token } = response.data;
       if (token) {
-        localStorage.setItem("token", token); // Guardar el token en el almacenamiento local
-        navigate("/select-rol"); // Redirección del usuario a la ruta select-rol después del registro
+        localStorage.setItem("token", token); // Guarda el token en el almacenamiento local
+        navigate("/select-rol"); // Redirecciona al usuario a la ruta select-rol después del registro
       } else {
         console.error("Token no encontrado en la respuesta");
       }
@@ -66,8 +66,8 @@ const SignUpPage = () => {
           onSubmit={handleRegister}
           formType="register"
         />
-        {/* OnSubmit ejecuta la función HandleRegister  */}
-        {/* La propiedad Formtype se pasa a través de section form para llegar al componente Form  */}
+        {/* OnSubmit ejecuta la función HandleRegister */}
+        {/* La propiedad Formtype se pasa a través de section form para llegar al componente Form */}
       </main>
     </>
   );

@@ -1,1 +1,0 @@
-export { default as HeroDash } from './HeroDash';

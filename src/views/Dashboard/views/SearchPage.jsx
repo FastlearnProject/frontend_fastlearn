@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Helmet } from 'react-helmet-async'
-import { jwtDecode } from 'jwt-decode'
-import { Sidebar } from '../../../components/Sidebar'
-import { Footer } from '../../../components/Footer'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { Sidebar, Footer } from '../../../components/';
+import { Loader } from "../../../components/Layout";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faRightFromBracket, faSearch} from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +37,7 @@ const SearchPage = () => {
           throw new Error('Token no encontrado en localStorage')
         }
 
-        const response = await fetch("https://backend-fastlearn.onrender.com/usuario/", {
+        const response = await fetch(`${URL}/usuario/`, {
           headers: { Authorization: `Bearer ${token}` },
         })
 
@@ -158,8 +157,10 @@ const SearchPage = () => {
   const companyName = 'FastLearn INC'
   const companyDescription = 'Todos los derechos reservados'
 
-  if (error) {
-    return <p>Error: {error}</p>
+  if (!userData || !cursoData) {
+    return(
+      <Loader />
+    ); // Mostrar indicador de carga mientras se cargan los datos
   }
 
   return (
@@ -190,7 +191,7 @@ const SearchPage = () => {
               </button>
             </form>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
               {loading ? (
                 <p className="text-center">Cargando...</p>
               ) : Array.isArray(userDataFiltered) &&
@@ -198,16 +199,16 @@ const SearchPage = () => {
                 userDataFiltered.map((user, index) => (
                   <div
                     key={index}
-                    className="bg-white flex flex-col justify-center items-start w-56 p-5 shadow-md text rounded-lg"
+                    className="bg-white flex flex-col justify-start items-start w-48 p-5 shadow-md text-sm rounded-lg"
                   >
                     <div className="w-full h-40 overflow-hidden rounded-t-lg">
                       <img
-                        src=""
+                        src={user.foto_perfil}
                         alt=""
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <h2 className="text-md font-semibold mt-4">
+                    <h2 className="font-semibold mt-4">
                       {user.nombre}
                     </h2>
                     <a

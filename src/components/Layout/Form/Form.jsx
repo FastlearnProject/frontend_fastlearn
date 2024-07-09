@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-
+import {AlertLoad} from "../";
 const Form = ({ initialFields, linkText, linkHref, onSubmit, formType }) => {
   const [formData, setFormData] = useState(
     initialFields.reduce((acc, field) => {
@@ -8,25 +8,39 @@ const Form = ({ initialFields, linkText, linkHref, onSubmit, formType }) => {
       return acc;
     }, {})
   );
-
-  // Función para cambiar el tipo formulario
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+
+    // Ejemplo de validación para un campo específico (puedes adaptar según tus necesidades)
+    if (id === 'email') {
+      // Validación de formato de correo electrónico
+      if (!/\S+@\S+\.\S+/.test(value)) {
+        console.log('Correo electrónico no válido');
+        return; // Puedes mostrar una alerta o mensaje de error aquí
+      }
+    }
+
     setFormData((prevData) => ({
       ...prevData,
       [id]: value,
     }));
   };
 
-  // Función para cambiar cual función se va a ejectutar según la propiedad pasada
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(formData);
-  };
+    setLoading(true);
 
-  // Estilos para el botón de registro como propiedades
+    try {
+      await onSubmit(formData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      setLoading(false);
+      // Aquí puedes manejar el error específico de correo existente si lo devuelve el backend
+    }
+  };
 
   const buttonStyle = {
     backgroundImage:
@@ -48,13 +62,13 @@ const Form = ({ initialFields, linkText, linkHref, onSubmit, formType }) => {
         onSubmit={handleSubmit}
         className="w-full max-w-md mx-auto bg-white p-8 rounded-md"
       >
-        {/* Agregar inputs según el número de keys enviadas desde SignUpPage || LoginPage */}
         {initialFields.map((field) => (
-          // Agregar los atributos según las propiedades extraidas de la página
           <div key={field.id} className="mb-4">
             <input
               type={field.type}
               id={field.id}
+              pattern={field.pattern}
+              required
               placeholder={field.placeholder}
               value={formData[field.id]}
               onChange={handleChange}
@@ -62,7 +76,6 @@ const Form = ({ initialFields, linkText, linkHref, onSubmit, formType }) => {
             />
           </div>
         ))}
-        {/* Paso de estilos al botón */}
         <button
           style={buttonStyle}
           type="submit"
@@ -71,8 +84,8 @@ const Form = ({ initialFields, linkText, linkHref, onSubmit, formType }) => {
           {formType === "register" ? "Crear cuenta" : "Iniciar sesión"}
         </button>
       </form>
+      {loading && <AlertLoad />}
       <div className="my-4">
-        {/* Propiedades extraidas de SignUpPage || LoginPage */}
         <a href={linkHref}>{linkText}</a>
       </div>
     </div>
@@ -80,7 +93,6 @@ const Form = ({ initialFields, linkText, linkHref, onSubmit, formType }) => {
 };
 
 Form.propTypes = {
-  // Propiedades de los inputs
   initialFields: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.string.isRequired,
@@ -88,8 +100,8 @@ Form.propTypes = {
       id: PropTypes.string.isRequired,
     })
   ).isRequired,
-  formType: PropTypes.string.isRequired, //Indicar el atributo onSubmit al formulario
-  onSubmit: PropTypes.func.isRequired, //Indicar que tipo de formulario se utiliza
+  formType: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   linkText: PropTypes.string.isRequired,
   linkHref: PropTypes.string.isRequired,
 };

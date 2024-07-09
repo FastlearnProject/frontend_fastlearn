@@ -1,13 +1,10 @@
 import { Helmet } from "react-helmet-async";
-import { Header } from "../../components/Header";
-import { SectionBenefits } from "../../components/Sections/SectionBenefits";
-import { SectionCourses } from "../../components/Sections/SectionCourses";
-import { Footer } from "../../components/Footer";
+import { Header, SectionBenefits, SectionCourses, Footer } from "../../components/";
 
 const HomePage = () => {
   const headerImages = [
-    "/img/header/HeaderM1.webp",
-    "/img/header/HeaderM2.webp",
+    "/img/header/SectionMain1.webp",
+    "/img/header/SectionMain1.webp",
   ];
 
   const navItems = [
@@ -27,7 +24,7 @@ const HomePage = () => {
     },
     btn2Hero: {
       label: "Ver cursos",
-      href: "/course",
+      href: "/all-courses",
     },
   };
 

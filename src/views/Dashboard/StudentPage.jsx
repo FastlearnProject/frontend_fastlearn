@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { useNavigate } from "react-router-dom";
+import { Sidebar, Footer } from "../../components/";
+import { getSidebarLinks } from "../../utils";
+import { Loader } from "../../components/Layout";
 import { jwtDecode } from "jwt-decode";
-import { Sidebar } from "../../components/Sidebar";
-import { Footer } from "../../components/Footer";
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-
-import { getSidebarLinks } from "../../utils"
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -15,51 +13,38 @@ const StudentPage = () => {
   const [userData, setUserData] = useState(null);
   const token = localStorage.getItem("token");
 
-  const sidebarLinks = getSidebarLinks(token);
-
   useEffect(() => {
-    const fetchUserData = async (id_usuario) => {
-      try {
-        console.log(`Fetching data for user ID: ${id_usuario}`);
-        const response = await fetch(
-          "https://backend-fastlearn.onrender.com/usuario/${id_usuario}",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.ok) {
-          const userArray = await response.json();
-          console.log("User data received:", userArray);
-          if (userArray.length > 0) {
-            setUserData(userArray[0]);
-          } else {
-            console.error("No se encontraron datos del usuario.");
-          }
-        } else {
-          console.error(
-            "Error al obtener los datos del usuario:",
-            response.statusText
-          );
-        }
-      } catch (error) {
-        console.error("Error en la conexión:", error);
-      }
-    };
-
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
-
         const userId = decodedToken.id_usuario;
 
-        if (decodedToken.rol !== "student") {
-          console.error("Rol no autorizado:", decodedToken.rol);
-          navigate("/login");
-        } else {
-          fetchUserData(userId);
-        }
+        const fetchUserData = async (id_usuario) => {
+          try {
+            const response = await fetch(`${URL}/usuario/${id_usuario}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            if (response.ok) {
+              const userArray = await response.json();
+              if (userArray.length > 0) {
+                setUserData(userArray[0]);
+              } else {
+                console.error("No se encontraron datos del usuario.");
+              }
+            } else {
+              console.error(
+                "Error al obtener los datos del usuario:",
+                response.statusText
+              );
+            }
+          } catch (error) {
+            console.error("Error en la conexión:", error);
+          }
+        };
+
+        fetchUserData(userId);
       } catch (error) {
         console.error("Error al decodificar el token:", error);
         navigate("/login");
@@ -70,9 +55,7 @@ const StudentPage = () => {
     }
   }, [navigate, token]);
 
-  const btnsLinks = [
-    { text: "Cerrar sesión", href: "/", icon: faRightFromBracket },
-  ];
+  const sidebarLinks = getSidebarLinks(token);
 
   const services = {
     title: "Información",
@@ -108,19 +91,21 @@ const StudentPage = () => {
   const companyDescription = "Todos los derechos reservados";
 
   if (!userData) {
-    return <div>Cargando...</div>; // Muestra algún indicador mientras se cargan los datos
+    return <Loader />; // Mostrar indicador de carga mientras se cargan los datos
   }
 
   return (
     <>
       <Helmet>
-        <title>Dashboard | {userData.nombre} </title>
+        <title>Dashboard | {userData.nombre}</title>
       </Helmet>
       <div className="flex h-screen">
-        <Sidebar links={sidebarLinks} btns={btnsLinks} />
+        <Sidebar links={sidebarLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
-            <h1>Bienvenido {userData.nombre}</h1>
+            <h1 className="text-xl font-bold">
+              Bienvenido, Estudiante {userData.nombre}
+            </h1>
           </main>
           <Footer
             services={services}

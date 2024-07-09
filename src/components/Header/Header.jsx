@@ -1,16 +1,19 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Navbar } from "../Navbar";
-import Hero from "./Hero";
+import { Navbar, Hero } from "../";
+
+// Props del header
 
 // Componente Header que recibe varias propiedades
 const Header = ({ images, interval, heroProps, menuItems }) => {
+  // Creación de Slider automático con useState y useEffect
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [, setFade] = useState(true);
 
   useEffect(() => {
     if (images.length === 0) return;
 
+    // Función para cambiar la imagen automáticamente
     const changeImage = () => {
       setFade(false);
       setTimeout(() => {
@@ -26,6 +29,7 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
 
   return (
     <header className="h-screen bg-cover bg-right bg-no-repeat sm:bg-cover sm:bg-right relative md:bg-right">
+      {/* Ciclo por cada elemento que contenga una imagen */}
       {images.length > 0 &&
         images.map((image, index) => (
           <div
@@ -37,6 +41,7 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
           ></div>
         ))}
       <div className="relative z-20">
+        {/* Importar el navbar y pasar propiedades por encima del Header */}
         <Navbar
           imageLogo="/img/logo/logoWhite.webp"
           imageAlt="Logo"
@@ -45,6 +50,7 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
         />
       </div>
       <div className="relative">
+        {/* Importar Sección Hero con propiedades dinámicas del */}
         <Hero
           titleHero={heroProps.titleHero}
           textHero={heroProps.textHero}
@@ -60,11 +66,11 @@ const Header = ({ images, interval, heroProps, menuItems }) => {
 
 // Definición de PropTypes para el componente Header
 Header.propTypes = {
-  // Propiedades para las imágenes de fondo
+  // Props para las imágenes de fondo
   images: PropTypes.arrayOf(PropTypes.string).isRequired,
   // Propiedad para el intervalo de cambio de imagen
   interval: PropTypes.number.isRequired,
-  // Propiedades para el componente Hero
+  // Props para la sección Hero
   heroProps: PropTypes.shape({
     titleHero: PropTypes.string.isRequired,
     textHero: PropTypes.string.isRequired,
@@ -77,7 +83,7 @@ Header.propTypes = {
       href: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  // Propiedades para los elementos del menú
+  // Props para los elementos del menú
   menuItems: PropTypes.arrayOf(
     PropTypes.shape({
       href: PropTypes.string.isRequired,

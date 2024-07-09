@@ -1,9 +1,7 @@
-// AuthProvider.js
-
 import { createContext, useState } from "react";
 import PropTypes from "prop-types";
 
-// Creacion de  un contexto para la autenticación
+// Creación de un contexto para la autenticación
 const AuthContext = createContext();
 
 // Definir el proveedor de autenticación

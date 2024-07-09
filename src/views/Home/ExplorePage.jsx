@@ -1,11 +1,10 @@
 import { Helmet } from "react-helmet-async";
-import { Header } from "../../components/Header";
-import { Footer } from "../../components/Footer";
+import { Header, Footer } from "../../components/";;
 
 const ExplorePage = () => {
   const headerImages = [
-    "/img/header/HeaderExp1.webp",
-    "/img/header/HeaderExp2.webp",
+    "/img/header/SectionExplore1.webp",
+    "/img/header/SectionExplore2.webp",
   ];
 
   const navItems = [
