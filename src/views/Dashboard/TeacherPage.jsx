@@ -5,8 +5,6 @@ import { jwtDecode } from "jwt-decode";
 import { Sidebar, Footer } from "../../components/";
 import { Loader } from "../../components/Layout";
 
-import { faRightFromBracket,} from "@fortawesome/free-solid-svg-icons";
-
 import { getSidebarLinks } from "../../utils"
 
 const URL = import.meta.env.VITE_BACKEND_URL;

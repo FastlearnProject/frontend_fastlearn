@@ -236,7 +236,7 @@ const SearchPage = () => {
                   >
                     <div className="flex justify-center">
                       <img
-                        src={URL.createObjectURL(new Blob, curso.imagen)}
+                        src={curso.imagen}
                         alt=""
                         className="object-cover w-full h-52 rounded-sm"
                       />

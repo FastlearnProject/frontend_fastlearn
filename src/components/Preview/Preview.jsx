@@ -1,105 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const Preview = () => {
-  const [videoSrc, setVideoSrc] = useState(null);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [tags, setTags] = useState("");
-  const [links, setLinks] = useState([]);
-  const [newLink, setNewLink] = useState("");
-  const [category, setCategory] = useState("");
-  const [imageSrc, setImageSrc] = useState(null);
+const URLB = import.meta.env.VITE_BACKEND_URL;
 
-  const categories = ["Nivel 1", "Nivel 2", "Nivel 3"]; // Lista de categorías
+const Preview = () => {
+  const [videoFile, setVideoFile] = useState(null);
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [categoria, setCategoria] = useState("");
+
+  const categorias = ["Nivel 1", "Nivel 2", "Nivel 3"]; // Lista de categorías
 
   const handleVideoUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setVideoSrc(URL.createObjectURL(file));
-      // Subir el archivo al servidor aquí si es necesario
+      setVideoFile(file);
     }
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageSrc(URL.createObjectURL(file));
-      // Subir el archivo al servidor aquí si es necesario
-    }
-  };
-
-  const handleAddLink = () => {
-    if (newLink) {
-      setLinks([...links, newLink]);
-      setNewLink("");
-    }
-  };
-
-  const handleRemoveLink = (index) => {
-    setLinks(links.filter((_, i) => i !== index));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      console.error("Token no encontrado en localStorage.");
-      return;
-    }
-
-    const cursoData = {
-      imagen: imageSrc,
-      video: videoSrc,
-      titulo: title,
-      descripcion: description,
-      linkCurso: links.join(", "),
-      tagsCurso: tags,
-      categoria: category,
-    };
-
-    console.log(cursoData);
-
+  const enviarFormulario = async (formData) => {
     try {
-      const response = await axios.post(
-        "https://service-fastlearn.onrender.com/cursos/",
-        cursoData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.status === 201) {
-        alert("Curso creado exitosamente");
-        // Limpiar formulario o redirigir al usuario aquí
-      } else {
-        alert("Error al crear curso");
-      }
+      const token = localStorage.getItem('token'); // Asumiendo que el token se almacena en localStorage
+  
+      const response = await axios.post(`${URLB}/cursos`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`, // Incluye el token en el encabezado
+        },
+      });
+  
+      console.log('Respuesta del servidor:', response.data);
     } catch (error) {
-      console.error("Error en la conexión:", error);
-      if (error.response) {
-        // El servidor respondió con un código de estado fuera del rango 2xx
-        console.error("Datos de error del servidor:", error.response.data);
-      } else if (error.request) {
-        // La solicitud se realizó pero no se recibió respuesta
-        console.error("No se recibió respuesta del servidor:", error.request);
-      } else {
-        // Ocurrió un error al configurar la solicitud
-        console.error("Error al configurar la solicitud:", error.message);
-      }
+      console.error('Error al enviar el formulario:', error);
     }
+  };
+
+
+  
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+  
+    const formData = new FormData();
+    formData.append('titulo', titulo);
+    formData.append('descripcion', descripcion);
+    formData.append('linkCurso', event.target.linkCurso.value);
+    formData.append('tagsCurso', event.target.tagsCurso.value);
+    formData.append('imagen', event.target.imagen.files[0]);
+    formData.append('video', event.target.video.files[0]);
+  
+    enviarFormulario(formData);
   };
 
   return (
     <section className="flex flex-wrap w-full">
       <div className="w-full sm:w-5/12 m-5 h-60 flex justify-center items-center border border-dashed border-gray-300">
-        {videoSrc ? (
+      {videoFile ? (
           <video className="w-full h-full object-cover" controls>
-            <source src={videoSrc} type="video/mp4" />
+            <source src={URL.createObjectURL(videoFile)}  type="video/mp4" />
             Tu navegador no soporta este formato de video.
           </video>
         ) : (
@@ -108,17 +65,16 @@ const Preview = () => {
       </div>
 
       <div className="w-full sm:w-5/12 m-5">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleFormSubmit}>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Título
             </label>
             <input
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => setTitulo(e.target.value)}
               className="border border-primary rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-              required
+              name="titulo"
             />
           </div>
           <div className="mb-4">
@@ -126,10 +82,10 @@ const Preview = () => {
               Descripción
             </label>
             <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              type="text"
+              onChange={(e) => setDescripcion(e.target.value)}
               className="border border-primary rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-              required
+              name="descripcion"
             />
           </div>
           <div className="mb-4">
@@ -138,10 +94,10 @@ const Preview = () => {
             </label>
             <input
               type="text"
-              value={tags}
-              onChange={(e) => setTags(e.target.value)}
+              
+              
+              name="tagsCurso"
               className="border border-primary rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-              required
             />
           </div>
           <div className="mb-4">
@@ -151,50 +107,24 @@ const Preview = () => {
             <div className="flex flex-col md:flex-row">
               <input
                 type="text"
-                value={newLink}
-                onChange={(e) => setNewLink(e.target.value)}
+                name="linkCurso"
                 className="border border-primary rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline mb-2 md:mb-0 md:mr-2"
               />
-              <button
-                type="button"
-                onClick={handleAddLink}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Añadir
-              </button>
             </div>
-            <ul className="mt-2 space-y-5">
-              {links.map((link, index) => (
-                <li
-                  key={index}
-                  className="text-blue-500 flex justify-between items-center"
-                >
-                  {link}
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveLink(index)}
-                    className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                  >
-                    Eliminar
-                  </button>
-                </li>
-              ))}
-            </ul>
           </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Categoría
             </label>
             <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => setCategoria(e.target.value)}
               className="border border-primary rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
-              required
+              name="categoria"
             >
               <option value="" disabled>
                 Seleccione una categoría
               </option>
-              {categories.map((cat, index) => (
+              {categorias.map((cat, index) => (
                 <option key={index} value={cat}>
                   {cat}
                 </option>
@@ -209,66 +139,10 @@ const Preview = () => {
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageUpload}
+                name="imagen"
                 className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-                required
               />
-              <label
-                className="btn"
-                onClick={() => document.getElementById("modal-1").showModal()}
-              >
-                Ver Preview
-              </label>
             </div>
-            <dialog id="modal-1" className="modal">
-              <section className="modal-box w-11/12 max-w-5xl">
-                <h3 className="font-bold text-lg">Preview</h3>
-                <article className="flex w-full space-x-5">
-                  <figure className="flex space-x-10 justify-start items-start">
-                    {imageSrc && (
-                      <img
-                        src={imageSrc}
-                        alt="Preview"
-                        className="h-60 object-cover rounded-md"
-                      />
-                    )}
-                  </figure>
-                  <div className="flex flex-col">
-                    <p className="mb-2">
-                      <strong>Título:</strong> {title}
-                    </p>
-                    <p className="mb-2">
-                      <strong>Descripción:</strong> {description}
-                    </p>
-                    <p className="mb-2">
-                      <strong>Categoría:</strong> {category}
-                    </p>
-                    <span>
-                      <p className="mb-2">
-                        <strong>Links:</strong>
-                      </p>
-                      <ul className="flex flex-col">
-                        {links.map((link, index) => (
-                          <a key={index} href={link} className="text-blue-500">
-                            {link}
-                          </a>
-                        ))}
-                      </ul>
-                    </span>
-                    <div className="modal-action flex justify-start">
-                      <span
-                        className="btn"
-                        onClick={() =>
-                          document.getElementById("modal-1").close()
-                        }
-                      >
-                        Cerrar
-                      </span>
-                    </div>
-                  </div>
-                </article>
-              </section>
-            </dialog>
           </div>
           <div className="mb-4 space-x-5 flex flex-col">
             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -277,10 +151,10 @@ const Preview = () => {
             <div className="flex space-x-5">
               <input
                 type="file"
-                accept="video/*"
+                accept="video/mp4*"
                 onChange={handleVideoUpload}
+                name="video"
                 className="file-input file-input-bordered file-input-primary w-full max-w-xs"
-                required
               />
             </div>
           </div>

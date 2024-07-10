@@ -6,7 +6,6 @@ import { Sidebar } from "../../../components";
 import { Preview } from "../../../components";
 import { getSidebarLinks } from "../../../utils";
 
-import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 
 const ThemesPage = () => {
   const navigate = useNavigate();
