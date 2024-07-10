@@ -8,7 +8,6 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
-import {jwtDecode} from "jwt-decode";
 
 
 /**
