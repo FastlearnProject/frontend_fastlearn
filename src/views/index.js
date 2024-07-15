@@ -5,6 +5,7 @@ export { default as ExplorePage } from './Home/ExplorePage';
 export { default as ArticlesPage } from './Home/ArticlesPage';
 export { default as PublicCoursesPage } from './Home/PublicCoursesPage';
 export { default as PublicArticlesPage } from './Home/PublicArticlesPage'
+export { default as SupportPage } from './Home/SupportPage'
 
 // Formularios
 

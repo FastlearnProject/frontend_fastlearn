@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import { Header, Footer } from "../../components/";
 
-const Soporte = () => {
+const SupportPage = () => {
   const headerImages = [
     "/img/header/HeaderBlue.jpg",
   ];
@@ -198,4 +198,4 @@ const Soporte = () => {
   );
 };
 
-export default Soporte ;
+export default SupportPage ;

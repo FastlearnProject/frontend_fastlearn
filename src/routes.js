@@ -16,10 +16,10 @@ import {
   AdminPage,
   SettingsPage,
   SearchPage,
-  ThemesPage
+  ThemesPage,
+  SupportPage
 } from "./views";
 import RouteProtected from "./auth/RouteProtected";
-import Soporte from "./views/Home/SoportePage";
 
 const publicRoutes = [
   { path: "/", component: HomePage },
@@ -27,7 +27,7 @@ const publicRoutes = [
   { path: "/articles", component: ArticlesPage },
   { path: "/signup", component: SignUpPage },
   { path: "/login", component: LoginPage },
-  { path: "/support", component: Soporte },
+  { path: "/support", component: SupportPage },
   { path: "/recovery", component: RecoveryPage },
   { path: "/docs", component: DocsPage },
   { path: "/all-courses", component: PublicCoursesPage },
