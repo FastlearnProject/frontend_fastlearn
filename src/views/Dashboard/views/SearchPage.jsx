@@ -98,28 +98,32 @@ const SearchPage = () => {
     fetchCursoData()
   }, [])
 
+
   const handleSubmit = async e => {
-    e.preventDefault()
+  e.preventDefault();
 
-    // Filtrar userData según el searchTerm
-    const filteredUserData = userData.filter(user => {
-      return (
-        user.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.correo.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    })
-
-    const filteredCursoData = cursoData.filter(curso => {
-      return (
-        curso.nombre_curso.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        curso.desc_curso.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        curso.tags_curso.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    })
-
-    setUserDataFiltered(filteredUserData)
-    setCursoDataFiltered(filteredCursoData)
+  if (!userData || !cursoData) {
+    return; // Salir de la función si los datos no están disponibles aún
   }
+
+  // Filtrar userData según el searchTerm
+  const filteredUserData = userData.filter(user => (
+    (user.nombre && user.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (user.correo && user.correo.toLowerCase().includes(searchTerm.toLowerCase()))
+  ));
+
+  // Filtrar cursoData según el searchTerm
+  const filteredCursoData = Object.values(cursoData).filter(curso => (
+    (curso.titulo && curso.titulo.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (curso.descripcion && curso.descripcion.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (curso.tags && curso.tags.toLowerCase().includes(searchTerm.toLowerCase()))
+  ));
+
+  setUserDataFiltered(filteredUserData);
+  setCursoDataFiltered(filteredCursoData);
+};
+
+
   const services = {
     title: 'Información',
     links: [

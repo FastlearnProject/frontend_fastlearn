@@ -12,6 +12,7 @@ const LoginPage = () => {
     { type: "email", placeholder: "Correo electrónico", id: "correo" },
     { type: "password", placeholder: "Contraseña", id: "contrasena" },
   ]);
+  const [errorMessage, setErrorMessage] = useState(""); // Estado para manejar errores
 
   const navigate = useNavigate();
 
@@ -37,7 +38,7 @@ const LoginPage = () => {
 
         console.log("Token decodificado", decodedToken);
 
-        const role = decodedToken.rol
+        const role = decodedToken.rol;
 
         if (role === "student") {
           navigate("/student");
@@ -51,6 +52,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
+      setErrorMessage("Datos de inicio de sesión incorrectos. Por favor, verifica tus credenciales e intenta de nuevo."); // Establece el mensaje de error
     }
   };
 
@@ -61,7 +63,7 @@ const LoginPage = () => {
       </Helmet>
 
       <main
-        className="h-screen bg-center bg-cover flex justify-center items-center"
+        className="h-screen bg-center bg-cover flex justify-center items-center relative"
         style={{ backgroundImage: "url(/img/forms/img2.webp)" }}
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -76,6 +78,11 @@ const LoginPage = () => {
           onSubmit={handleLogin}
           formType="login"
         />
+        {errorMessage && (
+          <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded">
+            {errorMessage}
+          </div>
+        )}
       </main>
     </>
   );
