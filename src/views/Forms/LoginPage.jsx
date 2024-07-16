@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
@@ -55,6 +55,17 @@ const LoginPage = () => {
       setErrorMessage("Datos de inicio de sesión incorrectos. Por favor, verifica tus credenciales e intenta de nuevo."); // Establece el mensaje de error
     }
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+      }, 5000); // El mensaje se borra después de 5 segundos (5000 ms)
+
+      // Limpia el temporizador si el componente se desmonta o el errorMessage cambia
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
 
   return (
     <>

@@ -8,8 +8,9 @@ const Preview = () => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState("");
-  const [errorMessage, setErrorMessage] = useState(""); 
-  const [successMessage, setSuccessMessage] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const categorias = ["Nivel 1", "Nivel 2", "Nivel 3"]; // Lista de categorías
 
@@ -22,46 +23,67 @@ const Preview = () => {
 
   const enviarFormulario = async (formData) => {
     try {
-      const token = localStorage.getItem('token'); // Asumiendo que el token se almacena en localStorage
-  
+      const token = localStorage.getItem("token");
+
+      setLoading(true); 
+
       const response = await axios.post(`${URLB}/cursos`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`, // Incluye el token en el encabezado
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
-  
-      console.log('Respuesta del servidor:', response.data);
+
+      console.log("Respuesta del servidor:", response.data);
       setSuccessMessage("Creado correctamente.");
     } catch (error) {
-      console.error('Error al enviar el formulario:', error);
+      console.error("Error al enviar el formulario:", error);
       setErrorMessage("Error, no se pudo crear.");
-
+    } finally {
+      setLoading(false); 
     }
   };
 
-
-  
   const handleFormSubmit = (event) => {
     event.preventDefault();
-  
+
     const formData = new FormData();
-    formData.append('titulo', titulo);
-    formData.append('descripcion', descripcion);
-    formData.append('linkCurso', event.target.linkCurso.value);
-    formData.append('tagsCurso', event.target.tagsCurso.value);
-    formData.append('imagen', event.target.imagen.files[0]);
-    formData.append('video', event.target.video.files[0]);
-  
+    formData.append("titulo", titulo);
+    formData.append("descripcion", descripcion);
+    formData.append("linkCurso", event.target.linkCurso.value);
+    formData.append("tagsCurso", event.target.tagsCurso.value);
+    formData.append("imagen", event.target.imagen.files[0]);
+    formData.append("video", event.target.video.files[0]);
+
     enviarFormulario(formData);
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage("");
+      }, 4000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [errorMessage]);
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+      }, 4000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage]);
 
   return (
     <section className="flex flex-wrap w-full">
       <div className="w-full sm:w-5/12 m-5 h-60 flex justify-center items-center border border-dashed border-gray-300">
-      {videoFile ? (
+        {videoFile ? (
           <video className="w-full h-full object-cover" controls>
-            <source src={URL.createObjectURL(videoFile)}  type="video/mp4" />
+            <source src={URL.createObjectURL(videoFile)} type="video/mp4" />
             Tu navegador no soporta este formato de video.
           </video>
         ) : (
@@ -87,7 +109,6 @@ const Preview = () => {
               Descripción
             </label>
             <textarea
-              type="text"
               onChange={(e) => setDescripcion(e.target.value)}
               className="border border-primary rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
               name="descripcion"
@@ -99,8 +120,6 @@ const Preview = () => {
             </label>
             <input
               type="text"
-              
-              
               name="tagsCurso"
               className="border border-primary rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
             />
@@ -169,24 +188,24 @@ const Preview = () => {
         </form>
       </div>
 
+      {loading && (
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded">
+          Cargando...
+        </div>
+      )}
+
       {errorMessage && (
-        
         <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded">
           {errorMessage}
         </div>
-    
-         )}
+      )}
 
       {successMessage && (
-        
         <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded">
           {successMessage}
         </div>
-    
-         )}
-
+      )}
     </section>
-    
   );
 };
 
