@@ -35,9 +35,9 @@ export const getSidebarLinks = (token) => {
     } else if (role === "teacher") {
       return [
         { text: "Dashboard", href: "/teacher", icon: faSchool },
-        { text: "Asignar", href: "/assign", icon: faCalendar },
         { text: "Buscar", href: "/search", icon: faSearch },
         { text: "Mis temas", href: "/my-themes", icon: faSchool },
+        { text: "Crear articulo", href: "/create-article", icon: faCalendar },
         { text: "Crear tema", href: "/create-theme", icon: faUserPlus },
         { text: "Ajustes", href: "/settings", icon: faGear },
       ];

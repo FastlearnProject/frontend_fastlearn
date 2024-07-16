@@ -13,7 +13,7 @@ const FilterBar = ({ filters, setFilters }) => {
       <input
         type="text"
         name="name"
-        value={filters.name}
+        value={filters.titulo}
         onChange={handleInputChange}
         placeholder="Buscar por nombre"
         className="input input-bordered w-full md:w-1/3"
@@ -21,7 +21,7 @@ const FilterBar = ({ filters, setFilters }) => {
       <input
         type="text"
         name="category"
-        value={filters.category}
+        value={filters.categoria}
         onChange={handleInputChange}
         placeholder="Buscar por categoría"
         className="input input-bordered w-full md:w-1/3"
@@ -40,8 +40,8 @@ const FilterBar = ({ filters, setFilters }) => {
 
 FilterBar.propTypes = {
   filters: PropTypes.shape({
-    name: PropTypes.string,
-    category: PropTypes.string,
+    titulo: PropTypes.string,
+    categoria: PropTypes.string,
     tags: PropTypes.string,
   }).isRequired,
   setFilters: PropTypes.func.isRequired,

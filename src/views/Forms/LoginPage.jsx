@@ -36,8 +36,6 @@ const LoginPage = () => {
 
         const decodedToken = jwtDecode(token);
 
-        console.log("Token decodificado", decodedToken);
-
         const role = decodedToken.rol;
 
         if (role === "student") {
@@ -79,8 +77,8 @@ const LoginPage = () => {
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <SectionForm
-          title="Inicia sesión en tu cuenta"
-          text="Introduce tus credenciales para acceder a tu cuenta."
+          title="Accede a tu espacio educativo"
+          text="Ingresa tus datos de inicio de sesión para disfrutar de todos los recursos educativos que hemos preparado para ti"
           textRecovery="Olvidé mi contraseña"
           linkRecovery="/recovery"
           formFields={initialFields}

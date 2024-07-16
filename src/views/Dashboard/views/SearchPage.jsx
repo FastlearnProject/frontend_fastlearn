@@ -191,7 +191,7 @@ const SearchPage = () => {
               </button>
             </form>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-4 mt-8">
               {loading ? (
                 <p className="text-center">Cargando...</p>
               ) : Array.isArray(userDataFiltered) &&
@@ -256,9 +256,13 @@ const SearchPage = () => {
                       href={curso.links}
                       className="text-blue-500 hover:underline"
                     >
-                      {curso.links}
+                      Links adjuntos
                     </a>
                     <p className="text-gray-600">{curso.tags}</p>
+                    <p className="text-gray-600">{curso.categoria}</p>
+                    <br />
+                    <a key={index} href={`/course/${curso.id_cursos}`} className='bg-primary p-2 text-white rounded-md'>Ver</a>
+
                   </div>
                 ))
               ) : (

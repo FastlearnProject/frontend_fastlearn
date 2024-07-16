@@ -12,18 +12,18 @@ const Courses = ({ courses }) => {
         >
           <figure>
             <img
-              src={course.imagen_curso}
-              alt={course.nombre_curso}
+              src={course.imagen}
+              alt={course.imagen}
               className="w-full h-40 object-cover rounded-md mb-4"
             />
           </figure>
           <div className="card-body">
             <h2 className="card-title">
-              {course.nombre_curso}
+              {course.titulo}
               <div className="badge badge-secondary">NEW</div>
             </h2>
-            <p>{course.desc_curso}</p>
-            <p className="badge badge-outline">{course.tags_curso}</p>
+            <p>{course.descripcion}</p>
+            <p className="badge badge-outline">{course.tags}</p>
             <p className="badge badge-outline">{course.categoria}</p>
           </div>
         </div>
@@ -36,10 +36,10 @@ Courses.propTypes = {
   courses: PropTypes.arrayOf(
     PropTypes.shape({
       id_cursos: PropTypes.number.isRequired,
-      imagen_curso: PropTypes.string.isRequired,
-      nombre_curso: PropTypes.string.isRequired,
-      desc_curso: PropTypes.string.isRequired,
-      tags_curso: PropTypes.string,
+      imagen: PropTypes.string.isRequired,
+      titulo: PropTypes.string.isRequired,
+      descripcion: PropTypes.string.isRequired,
+      tags: PropTypes.string,
       categoria: PropTypes.string,
     })
   ).isRequired,

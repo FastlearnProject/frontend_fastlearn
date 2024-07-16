@@ -4,7 +4,7 @@ import { Header, SectionBenefits, SectionCourses, Footer } from "../../component
 const HomePage = () => {
   const headerImages = [
     "/img/header/SectionMain1.webp",
-    "/img/header/SectionMain1.webp",
+    "/img/header/SectionMain2.webp",
   ];
 
   const navItems = [

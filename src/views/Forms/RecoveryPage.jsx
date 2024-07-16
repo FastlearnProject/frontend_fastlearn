@@ -19,8 +19,8 @@ const RecoveryPage = () => {
       >
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <SectionForm
-          title="Comienza tu viaje de aventuras"
-          text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur labore tempora, voluptatum cupiditate quis aspernatur sequi perferendis voluptatibus! Voluptas placeat illum eum tempore cupiditate, facilis nemo doloremque optio temporibus."
+          title="Recupera tu acceso"
+          text="No te preocupes si has olvidado tu contraseña, estamos aquí para ayudarte a restablecer tu acceso de manera rápida y segura. Sigue los pasos a continuación y vuelve a disfrutar de todos los beneficios que FastLearn tiene para ti"
           formFields={formFields}
           linkText="Crear una nueva cuenta"
           linkHref="/signup"
