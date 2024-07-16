@@ -8,6 +8,8 @@ const Preview = () => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [categoria, setCategoria] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [successMessage, setSuccessMessage] = useState(""); 
 
   const categorias = ["Nivel 1", "Nivel 2", "Nivel 3"]; // Lista de categorías
 
@@ -30,8 +32,11 @@ const Preview = () => {
       });
   
       console.log('Respuesta del servidor:', response.data);
+      setSuccessMessage("Creado correctamente.");
     } catch (error) {
       console.error('Error al enviar el formulario:', error);
+      setErrorMessage("Error, no se pudo crear.");
+
     }
   };
 
@@ -163,7 +168,25 @@ const Preview = () => {
           </button>
         </form>
       </div>
+
+      {errorMessage && (
+        
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-red-500 text-white px-4 py-2 rounded">
+          {errorMessage}
+        </div>
+    
+         )}
+
+      {successMessage && (
+        
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded">
+          {successMessage}
+        </div>
+    
+         )}
+
     </section>
+    
   );
 };
 
