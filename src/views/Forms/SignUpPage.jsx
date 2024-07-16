@@ -13,7 +13,12 @@ const SignUpPage = () => {
     { type: "email", placeholder: "Correo electrónico", id: "correo" },
     { type: "password", placeholder: "Contraseña", id: "contrasenaPlain" },
     { type: "date", placeholder: "Fecha de nacimiento", id: "fechaNacimiento" },
-    { type: "tel", placeholder: "Teléfono", id: "telefono", pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}" },
+    {
+      type: "tel",
+      placeholder: "Teléfono",
+      id: "telefono",
+      pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}",
+    },
   ]);
 
   // Navegación
@@ -57,7 +62,8 @@ const SignUpPage = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <SectionForm
           title="Comienza tu viaje de aventuras"
-          text="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit consectetur labore tempora, voluptatum cupiditate quis aspernatur sequi perferendis voluptatibus! Voluptas placeat illum eum tempore cupiditate, facilis nemo doloremque optio temporibus."
+          text="Descubre una nueva forma de aprendizaje con FastLearn. Nuestra plataforma te ofrece recursos educativos, personalizados y gratuitos para mejorar tu rendimiento académico. Únete a nuestra comunidad de estudiantes y docentes comprometidos con la educación de calidad. Aprende a tu ritmo, en cualquier lugar y momento.
+          ¡Empieza tu viaje educativo hoy mismo!"
           textRecovery="Olvidé mi contraseña"
           linkRecovery="/recovery"
           formFields={initialFields}

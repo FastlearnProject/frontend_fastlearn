@@ -17,6 +17,7 @@ import {
   SettingsPage,
   SearchPage,
   ThemesPage,
+  CoursePage,
   SupportPage
 } from "./views";
 import RouteProtected from "./auth/RouteProtected";
@@ -45,6 +46,7 @@ const dashboardRoutes = [
   { path: "/search", component: SearchPage },
   { path: "/settings", component: SettingsPage },
   { path: "/create-theme", component: ThemesPage },
+  { path: "/course/:id", component: CoursePage },
 ];
 
 export { publicRoutes, protectedRoutes, dashboardRoutes, RouteProtected, ErrorPage };

@@ -17,15 +17,15 @@ const PublicCoursesPage = () => {
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
-    name: "",
-    category: "",
+    titulo: "",
+    categoria: "",
     tags: "",
   });
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const response = await fetch(`${URL}/cursos-free/`);
+        const response = await fetch(`${URL}/cursos/free`);
         if (response.ok) {
           const responseData = await response.json();
           const coursesData = Array.isArray(responseData)
@@ -48,21 +48,21 @@ const PublicCoursesPage = () => {
   useEffect(() => {
     const applyFilters = () => {
       let updatedCourses = [...courses];
-      if (filters.name) {
+      if (filters.titulo) {
         updatedCourses = updatedCourses.filter((course) =>
-          course.nombre_curso.toLowerCase().includes(filters.name.toLowerCase())
+          course.titulo.toLowerCase().includes(filters.titulo.toLowerCase())
         );
       }
-      if (filters.category) {
+      if (filters.categoria) {
         updatedCourses = updatedCourses.filter((course) =>
-          course.categoria_curso
+          course.categoria
             ?.toLowerCase()
-            .includes(filters.category.toLowerCase())
+            .includes(filters.categoria.toLowerCase())
         );
       }
       if (filters.tags) {
         updatedCourses = updatedCourses.filter((course) =>
-          course.tags_curso.toLowerCase().includes(filters.tags.toLowerCase())
+          course.tags.toLowerCase().includes(filters.tags.toLowerCase())
         );
       }
       setFilteredCourses(updatedCourses);

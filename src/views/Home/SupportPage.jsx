@@ -3,14 +3,16 @@ import { Header, Footer } from "../../components/";
 
 const SupportPage = () => {
   const headerImages = [
-    "/img/header/HeaderBlue.jpg",
+    "/img/header/SectionSupport1.png",
+    "/img/header/SectionSupport2.png",
   ];
 
   const navItems = [
+    { href: "/", label: "Inicio" },
     { href: "/explore", label: "Explorar" },
     { href: "/articles", label: "Articulos" },
     { href: "/signup", label: "Crear cuenta" },
-    { href: "/support", label: "Soporte" },
+
   ];
 
   const headerProps = {

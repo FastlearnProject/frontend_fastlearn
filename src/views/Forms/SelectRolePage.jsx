@@ -62,15 +62,10 @@ const SelectRolePage = () => {
       <section className="relative flex flex-col md:flex-row w-full bg-gray-900 py-12 px-6">
         <article className="md:w-1/2 flex flex-col justify-center items-start p-6 text-white">
           <div className="md:mx-16">
-            <h1 className="text-2xl md:text-4xl font-bold mb-4">¡Hola!</h1>
+            <h1 className="text-2xl md:text-4xl font-bold mb-4">Selecciona tu rol</h1>
             <p className="mb-4 hidden md:block">
-              ¡Bienvenido a nuestra plataforma!
+            Selecciona si eres docente o estudiante para personalizar tu experiencia en FastLearn. Así, podremos ofrecerte los recursos y herramientas adecuados para tu aprendizaje o enseñanza. ¡Tu camino hacia el conocimiento comienza aquí!
             </p>
-            <div className="my-4">
-              <a href="#" className="text-blue-300 hover:underline">
-                Olvidé mi contraseña
-              </a>
-            </div>
           </div>
         </article>
         <article className="md:w-1/2 flex justify-center items-center">
