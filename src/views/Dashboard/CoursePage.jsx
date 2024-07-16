@@ -72,21 +72,17 @@ const CoursePage = () => {
       </Helmet>
       <div className="flex h-screen">
         <Sidebar links={sidebarLinks} />
-        <main className="flex flex-col m-5">
+        <main className="flex flex-col m-5 w-full">
           <section className="flex flex-wrap gap-5">
-            <div className="w-6/12 shadow-lg">
-              <video className="w-full h-full object-cover" controls>
+            <div className="flex-1 w-full md:w-6/12 aspect-w-16 aspect-h-9">
+              <video className="w-full h-full" controls>
                 <source src={cursoData.video} type="video/mp4" />
                 Tu navegador no soporta este formato de video.
               </video>
             </div>
-            <div className="flex flex-col space-y-5">
-              <p>
-                Tags: {cursoData.tags}
-              </p>
-              <p>
-                Categoria: {cursoData.categoria}
-              </p>
+            <div className="flex flex-col space-y-5 w-full md:w-6/12">
+              <p>Tags: {cursoData.tags}</p>
+              <p>Categoria: {cursoData.categoria}</p>
               <a
                 href={cursoData.video}
                 className="btn"
@@ -97,7 +93,7 @@ const CoursePage = () => {
             </div>
           </section>
           <article className="my-4">
-            <h1 className="text-sm md:text-md lg:text-lg">
+            <h1 className="text-lg font-bold">
               {cursoData.titulo}
             </h1>
             <p>{cursoData.descripcion}</p>

@@ -46,7 +46,7 @@ const dashboardRoutes = [
   { path: "/search", component: SearchPage },
   { path: "/settings", component: SettingsPage },
   { path: "/create-theme", component: ThemesPage },
-  { path: "/course/:id", component: CoursePage },
+  { path: "/search/:id", component: CoursePage },
 ];
 
 export { publicRoutes, protectedRoutes, dashboardRoutes, RouteProtected, ErrorPage };

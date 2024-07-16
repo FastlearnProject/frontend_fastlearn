@@ -15,7 +15,7 @@ const SignUpPage = () => {
     { type: "date", placeholder: "Fecha de nacimiento", id: "fechaNacimiento" },
     {
       type: "tel",
-      placeholder: "Teléfono",
+      placeholder: "Formato correcto 123-456-7890",
       id: "telefono",
       pattern: "[0-9]{3}-[0-9]{3}-[0-9]{4}",
     },

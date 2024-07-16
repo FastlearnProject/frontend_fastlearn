@@ -142,21 +142,8 @@ const HeroDash = ({ userData }) => {
                 className="object-cover w-full h-full rounded-full"
                 id="img"
               />
-              <input
-                type="file"
-                name="foto"
-                id="foto"
-                accept="image/*"
-                className="hidden"
-                onChange={handleImageChange}
-              />
+
             </div>
-            <label htmlFor="foto" className="text-black btn">
-              Cambiar foto
-            </label>
-            <label htmlFor="save" className="text-black btn" onClick={() => document.getElementById("my_modal_3").showModal()}>
-              Guardar foto
-            </label>
           </div>
           <div className="flex flex-col space-y-2 text-md">
             <span>

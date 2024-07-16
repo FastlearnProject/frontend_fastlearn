@@ -2,127 +2,123 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Sidebar, Footer } from '../../../components/';
-import { Loader } from "../../../components/Layout";
+import { Loader } from '../../../components/Layout';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { getSidebarLinks } from '../../../utils';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faRightFromBracket, faSearch} from '@fortawesome/free-solid-svg-icons'
-
-import { getSidebarLinks } from '../../../utils'
-
-const URLB = import.meta.env.VITE_BACKEND_URL
+const URLB = import.meta.env.VITE_BACKEND_URL;
 
 const SearchPage = () => {
-  const navigate = useNavigate()
-  const [userData, setUserData] = useState([])
-  const [userDataFiltered, setUserDataFiltered] = useState([])
-  const [cursoData, setCursoData] = useState([])
-  const [cursoDataFiltered, setCursoDataFiltered] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [searchTerm, setSearchTerm] = useState('')
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState([]);
+  const [userDataFiltered, setUserDataFiltered] = useState([]);
+  const [cursoData, setCursoData] = useState([]);
+  const [cursoDataFiltered, setCursoDataFiltered] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
 
-  const sidebarLinks = getSidebarLinks(token)
+  const sidebarLinks = getSidebarLinks(token);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem('token');
         if (!token) {
-          throw new Error('Token no encontrado en localStorage')
+          throw new Error('Token no encontrado en localStorage');
         }
 
         const response = await fetch(`${URLB}/usuario/`, {
           headers: { Authorization: `Bearer ${token}` },
-        })
+        });
 
         if (!response.ok) {
           throw new Error(
             `Error al obtener los datos del usuario: ${response.statusText}`
-          )
+          );
         }
 
-        const responseData = await response.json()
+        const responseData = await response.json();
         if (Array.isArray(responseData) && responseData.length > 0) {
-          setUserData(responseData[0])
-          setUserDataFiltered(responseData[0])
+          setUserData(responseData[0]);
+          setUserDataFiltered(responseData[0]);
         } else {
-          console.error('No se encontraron datos de usuario.')
+          console.error('No se encontraron datos de usuario.');
         }
 
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
-        console.error('Error en la conexión:', error)
-        setError(error.message)
-        setLoading(false)
+        console.error('Error en la conexión:', error);
+        setError(error.message);
+        setLoading(false);
       }
-    }
+    };
 
     const fetchCursoData = async () => {
       try {
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem('token');
         if (!token) {
-          throw new Error('Token no encontrado en localStorage')
+          throw new Error('Token no encontrado en localStorage');
         }
 
         const response = await fetch(`${URLB}/cursos/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        })
+        });
 
         if (!response.ok) {
           throw new Error(
             `Error al obtener los datos de cursos: ${response.statusText}`
-          )
+          );
         }
 
-        const responseData = await response.json()
+        const responseData = await response.json();
         if (Array.isArray(responseData) && responseData.length > 0) {
-          setCursoData(responseData[0])
-          setCursoDataFiltered(responseData[0])
+          setCursoData(responseData[0]);
+          setCursoDataFiltered(responseData[0]);
         } else {
-          console.error('No se encontraron datos de cursos.')
+          console.error('No se encontraron datos de cursos.');
         }
 
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
-        console.error('Error en la conexión:', error)
-        setError(error.message)
-        setLoading(false)
+        console.error('Error en la conexión:', error);
+        setError(error.message);
+        setLoading(false);
       }
+    };
+
+    fetchUserData();
+    fetchCursoData();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!userData || !cursoData) {
+      return; // Salir de la función si los datos no están disponibles aún
     }
 
-    fetchUserData()
-    fetchCursoData()
-  }, [])
+    // Filtrar userData según el searchTerm
+    const filteredUserData = userData.filter((user) => (
+      (user.nombre && user.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (user.correo && user.correo.toLowerCase().includes(searchTerm.toLowerCase()))
+    ));
 
+    // Filtrar cursoData según el searchTerm
+    const filteredCursoData = Object.values(cursoData).filter((curso) => (
+      (curso.titulo && curso.titulo.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (curso.descripcion && curso.descripcion.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (curso.tags && curso.tags.toLowerCase().includes(searchTerm.toLowerCase()))
+    ));
 
-  const handleSubmit = async e => {
-  e.preventDefault();
-
-  if (!userData || !cursoData) {
-    return; // Salir de la función si los datos no están disponibles aún
-  }
-
-  // Filtrar userData según el searchTerm
-  const filteredUserData = userData.filter(user => (
-    (user.nombre && user.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (user.correo && user.correo.toLowerCase().includes(searchTerm.toLowerCase()))
-  ));
-
-  // Filtrar cursoData según el searchTerm
-  const filteredCursoData = Object.values(cursoData).filter(curso => (
-    (curso.titulo && curso.titulo.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (curso.descripcion && curso.descripcion.toLowerCase().includes(searchTerm.toLowerCase())) ||
-    (curso.tags && curso.tags.toLowerCase().includes(searchTerm.toLowerCase()))
-  ));
-
-  setUserDataFiltered(filteredUserData);
-  setCursoDataFiltered(filteredCursoData);
-};
-
+    setUserDataFiltered(filteredUserData);
+    setCursoDataFiltered(filteredCursoData);
+  };
 
   const services = {
     title: 'Información',
@@ -134,7 +130,7 @@ const SearchPage = () => {
       { text: 'FAQS', href: '/faqs' },
       { text: 'Reportar un problema', href: '/report' },
     ],
-  }
+  };
 
   const company = {
     title: 'Compañia',
@@ -143,7 +139,7 @@ const SearchPage = () => {
       { text: 'Manual de usuario', href: '/manual-user' },
       { text: 'Manual técnico', href: '/manual-tech' },
     ],
-  }
+  };
 
   const legal = {
     title: 'Legal',
@@ -152,13 +148,13 @@ const SearchPage = () => {
       { text: 'Política de privacidad', href: '/policy' },
       { text: 'Derechos de autor', href: '/rights-autor' },
     ],
-  }
+  };
 
-  const companyName = 'FastLearn INC'
-  const companyDescription = 'Todos los derechos reservados'
+  const companyName = 'FastLearn INC';
+  const companyDescription = 'Todos los derechos reservados';
 
   if (!userData || !cursoData) {
-    return(
+    return (
       <Loader />
     ); // Mostrar indicador de carga mientras se cargan los datos
   }
@@ -196,38 +192,42 @@ const SearchPage = () => {
                 <p className="text-center">Cargando...</p>
               ) : Array.isArray(userDataFiltered) &&
                 userDataFiltered.length > 0 ? (
-                userDataFiltered.map((user, index) => (
-                  <div
-                    key={index}
-                    className="bg-white flex flex-col justify-start items-start w-48 p-5 shadow-md text-sm rounded-lg"
-                  >
-                    <div className="w-full h-40 overflow-hidden rounded-t-lg">
-                      <img
-                        src={user.foto_perfil}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <h2 className="font-semibold mt-4">
-                      {user.nombre}
-                    </h2>
-                    <a
-                      href={`mailto:${user.correo}`}
-                      className="text-gray-600 break-words w-full text-primary"
+                userDataFiltered.map((user, index) => {
+                  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.nombre)}&background=random`;
+
+                  return (
+                    <div
+                      key={index}
+                      className="bg-white flex flex-col justify-start items-start w-48 p-5 shadow-md text-sm rounded-lg"
                     >
-                      {user.correo}
-                    </a>
-                    <p className="text-gray-600">{user.rol}</p>
-                    <p className="text-gray-600 text-primary">
-                      {user.telefono}
-                    </p>
-                  </div>
-                ))
+                      <div className="w-full h-40 overflow-hidden rounded-t-lg">
+                        <img
+                          src={avatarUrl}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <h2 className="font-semibold mt-4">
+                        {user.nombre}
+                      </h2>
+                      <a
+                        href={`mailto:${user.correo}`}
+                        className="text-gray-600 break-words w-full text-primary"
+                      >
+                        {user.correo}
+                      </a>
+                      <p className="text-gray-600">{user.rol}</p>
+                      <p className="text-gray-600 text-primary">
+                        {user.telefono}
+                      </p>
+                    </div>
+                  );
+                })
               ) : (
                 <p>No se encontraron datos de usuarios</p>
               )}
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
               {loading ? (
                 <p className="text-center">Cargando...</p>
@@ -260,9 +260,6 @@ const SearchPage = () => {
                     </a>
                     <p className="text-gray-600">{curso.tags}</p>
                     <p className="text-gray-600">{curso.categoria}</p>
-                    <br />
-                    <a key={index} href={`/course/${curso.id_cursos}`} className='bg-primary p-2 text-white rounded-md'>Ver</a>
-
                   </div>
                 ))
               ) : (
@@ -270,7 +267,6 @@ const SearchPage = () => {
               )}
             </div>
           </main>
-
           <Footer
             services={services}
             company={company}
@@ -281,7 +277,7 @@ const SearchPage = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default SearchPage
+export default SearchPage;

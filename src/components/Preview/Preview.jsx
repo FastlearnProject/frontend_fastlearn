@@ -52,6 +52,7 @@ const Preview = () => {
     formData.append('tagsCurso', event.target.tagsCurso.value);
     formData.append('imagen', event.target.imagen.files[0]);
     formData.append('video', event.target.video.files[0]);
+    formData.append('categoria', categoria);
   
     enviarFormulario(formData);
   };
@@ -99,8 +100,6 @@ const Preview = () => {
             </label>
             <input
               type="text"
-              
-              
               name="tagsCurso"
               className="border border-primary rounded w-full py-2 px-3 text-gray-700 focus:outline-none focus:shadow-outline"
             />
