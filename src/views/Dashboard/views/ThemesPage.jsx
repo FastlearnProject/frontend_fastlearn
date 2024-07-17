@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { jwtDecode } from "jwt-decode";
-import { Sidebar } from "../../../components";
+import { Sidebar, Footer } from "../../../components/";
 import { Preview } from "../../../components";
 import { getSidebarLinks } from "../../../utils";
 
@@ -57,6 +57,13 @@ const ThemesPage = () => {
         <Sidebar links={sidebarLinks} />
         <Preview />
       </div>
+      <Footer
+            services={services}
+            company={company}
+            legal={legal}
+            companyName={companyName}
+            companyDescription={companyDescription}
+          />
     </>
   );
 };

@@ -12,7 +12,7 @@ const FilterBar = ({ filters, setFilters }) => {
     <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4 mb-4">
       <input
         type="text"
-        name="name"
+        name="titulo"
         value={filters.titulo}
         onChange={handleInputChange}
         placeholder="Buscar por nombre"
@@ -20,7 +20,7 @@ const FilterBar = ({ filters, setFilters }) => {
       />
       <input
         type="text"
-        name="category"
+        name="categoria"
         value={filters.categoria}
         onChange={handleInputChange}
         placeholder="Buscar por categoría"

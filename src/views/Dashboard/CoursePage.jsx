@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import {jwtDecode} from "jwt-decode";
 import { Sidebar } from "../../components";
 import { getSidebarLinks } from "../../utils";
 
@@ -14,6 +16,16 @@ const CoursePage = () => {
   const token = localStorage.getItem("token");
 
   const sidebarLinks = getSidebarLinks(token);
+
+  const navigateTo = useNavigate();
+
+  // Decode token to get role
+  let decodedToken = null;
+  if (token) {
+    decodedToken = jwtDecode(token);
+  }
+
+  const isAdmin = decodedToken && decodedToken.rol === "admin";
 
   useEffect(() => {
     const fetchCursoData = async () => {
@@ -41,7 +53,7 @@ const CoursePage = () => {
           setCursoData(cursoData);
           setLoading(false);
         } else {
-          setError("No se encontraron datos de cursos.");
+          setError("No se encontraron datos del curso.");
           setLoading(false);
         }
       } catch (error) {
@@ -52,6 +64,29 @@ const CoursePage = () => {
 
     fetchCursoData();
   }, [id, token]);
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`${URL}/cursos/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Error al borrar el curso: ${response.statusText}`
+        );
+      }
+
+      alert("Curso eliminado correctamente")
+      navigateTo("/search")
+
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -93,11 +128,19 @@ const CoursePage = () => {
             </div>
           </section>
           <article className="my-4">
-            <h1 className="text-lg font-bold">
-              {cursoData.titulo}
-            </h1>
+            <h1 className="text-lg font-bold">{cursoData.titulo}</h1>
             <p>{cursoData.descripcion}</p>
           </article>
+          {isAdmin && (
+            <div className="mt-4">
+              <button
+                onClick={handleDelete}
+                className="bg-red-500 text-white px-4 py-2 rounded"
+              >
+                Borrar curso
+              </button>
+            </div>
+          )}
         </main>
       </div>
     </>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const URLB = import.meta.env.VITE_BACKEND_URL;
 
@@ -11,6 +12,7 @@ const Preview = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigateTo = useNavigate();
 
   const categorias = ["Nivel 1", "Nivel 2", "Nivel 3"]; // Lista de categorías
 
@@ -34,8 +36,8 @@ const Preview = () => {
         },
       });
 
-      console.log("Respuesta del servidor:", response.data);
       setSuccessMessage("Creado correctamente.");
+      navigateTo("/search")
     } catch (error) {
       console.error("Error al enviar el formulario:", error);
       setErrorMessage("Error, no se pudo crear.");

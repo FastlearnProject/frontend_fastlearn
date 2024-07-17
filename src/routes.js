@@ -3,9 +3,8 @@ import {
   ErrorPage,
   HomePage,
   ExplorePage,
-  ArticlesPage,
-  PublicCoursesPage,
   PublicArticlesPage,
+  PublicCoursesPage,
   SignUpPage,
   LoginPage,
   RecoveryPage,
@@ -20,21 +19,23 @@ import {
   CoursePage,
   SupportPage,
   UserPage,
-  SettingsAdmin
+  SettingsAdmin,
+  ArticlesPage,
+  CreateArticle,
+  PersonalArticlesPage
 } from "./views";
 import RouteProtected from "./auth/RouteProtected";
 
 const publicRoutes = [
   { path: "/", component: HomePage },
   { path: "/explore", component: ExplorePage },
-  { path: "/articles", component: ArticlesPage },
+  { path: "/articles", component: PublicArticlesPage },
   { path: "/signup", component: SignUpPage },
   { path: "/login", component: LoginPage },
   { path: "/support", component: SupportPage },
   { path: "/recovery", component: RecoveryPage },
   { path: "/docs", component: DocsPage },
   { path: "/all-courses", component: PublicCoursesPage },
-  { path: "/all-articles", component: PublicArticlesPage },
 ];
 
 const protectedRoutes = [
@@ -51,6 +52,9 @@ const dashboardRoutes = [
   { path: "/create-theme", component: ThemesPage },
   { path: "/search/:id", component: CoursePage },
   { path: "/search/user/:id", component: UserPage },
+  { path: "/articles-page", component: ArticlesPage },
+  { path: "/create-article", component: CreateArticle },
+  { path: "/my-articles", component: PersonalArticlesPage },
 ];
 
 export { publicRoutes, protectedRoutes, dashboardRoutes, RouteProtected, ErrorPage };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { jwtDecode } from "jwt-decode";
 import { Sidebar } from "../../components";
 import { getSidebarLinks } from "../../utils";
 
@@ -14,6 +16,16 @@ const UserPage = () => {
   const token = localStorage.getItem("token");
 
   const sidebarLinks = getSidebarLinks(token);
+
+  const navigateTo = useNavigate();
+
+  // Decode token to get role
+  let decodedToken = null;
+  if (token) {
+    decodedToken = jwtDecode(token);
+  }
+
+  const isAdmin = decodedToken && decodedToken.rol === "admin";
 
   useEffect(() => {
     const fetchuserData = async () => {
@@ -30,7 +42,7 @@ const UserPage = () => {
 
         if (!response.ok) {
           throw new Error(
-            `Error al obtener los datos del curso: ${response.statusText}`
+            `Error al obtener los datos del usuario: ${response.statusText}`
           );
         }
 
@@ -41,7 +53,7 @@ const UserPage = () => {
           setuserData(userData);
           setLoading(false);
         } else {
-          setError("No se encontraron datos de cursos.");
+          setError("No se encontraron datos del usuario.");
           setLoading(false);
         }
       } catch (error) {
@@ -52,6 +64,26 @@ const UserPage = () => {
 
     fetchuserData();
   }, [id, token]);
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`${URL}/usuario/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error al borrar el usuario: ${response.statusText}`);
+      }
+      alert("Usuario eliminado correctamente")
+      navigateTo("/search")
+
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -99,6 +131,16 @@ const UserPage = () => {
                 )}
               </div>
             </div>
+            {isAdmin && (
+              <div className="mt-4">
+                <button
+                  onClick={handleDelete}
+                  className="bg-red-500 text-white px-4 py-2 rounded"
+                >
+                  Borrar usuario
+                </button>
+              </div>
+            )}
           </div>
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-bold mb-4">Información del usuario</h2>
