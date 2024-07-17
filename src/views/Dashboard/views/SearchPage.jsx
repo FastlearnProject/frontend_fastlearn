@@ -6,6 +6,8 @@ import { Loader } from '../../../components/Layout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { getSidebarLinks } from '../../../utils';
+import reporteCursos from '../../../components/Reporte/CursosReporte';
+import reporteUsuarios from '../../../components/Reporte/UserReporte';
 
 const URLB = import.meta.env.VITE_BACKEND_URL;
 
@@ -266,6 +268,18 @@ const SearchPage = () => {
                 <p>No se encontraron datos de cursos</p>
               )}
             </div>
+
+            <div className="flex justify-center mt-8 gap-5">
+              <button onClick={() => reporteCursos(cursoDataFiltered)} className="bg-primary p-2 text-white rounded-md">
+                Generar Reporte Cursos
+              </button>
+            
+              <button onClick={() => reporteUsuarios(userDataFiltered)} className="bg-primary p-2 text-white rounded-md">
+                Generar Reporte Usuarios
+              </button>
+            </div>
+
+
           </main>
           <Footer
             services={services}
