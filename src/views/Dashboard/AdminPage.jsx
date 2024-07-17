@@ -35,7 +35,7 @@ const StudentPage = () => {
       { text: "Cursos", href: "/courses" },
       { text: "Soporte", href: "/support" },
       { text: "FAQS", href: "/faqs" },
-      { text: "Reportar un problema", href: "/report" },
+      { text: "Reportar un problema", href: "mailto:Info.fastlearn.project@gmail.com?subject=Reporte%20-%20FastLearn" },
     ],
   };
 

@@ -78,7 +78,7 @@ const TeacherPage = () => {
       { text: "Cursos", href: "/courses" },
       { text: "Soporte", href: "/support" },
       { text: "FAQS", href: "/faqs" },
-      { text: "Reportar un problema", href: "mailto:richieskata@gmail.com?subject=Reporte%20-%20FastLearn" },
+      { text: "Reportar un problema", href: "mailto:Info.fastlearn.project@gmail.com?subject=Reporte%20-%20FastLearn" },
     ],
   };
 
