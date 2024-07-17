@@ -35,8 +35,7 @@ const SupportPage = () => {
       { text: "Articulos", href: "/articles" },
       { text: "Cursos", href: "/courses" },
       { text: "Soporte", href: "/support" },
-      { text: "FAQS", href: "/faqs" },
-      { text: "Reportar un problema", href: "/report" },
+      { text: "Reportar un problema", href: "mailto:Info.fastlearn.project@gmail.com?subject=Reporte%20-%20FastLearn" },
     ],
   };
 
@@ -44,8 +43,8 @@ const SupportPage = () => {
     title: "Compañia",
     links: [
       { text: "Documentación", href: "/docs" },
-      { text: "Manual de usuario", href: "/manual-usewr" },
-      { text: "Manual técnico", href: "/manual-tech" },
+      { text: "Manual de usuario", href: "https://fastlearn.blob.core.windows.net/fastlearn/manualDeUsuario.pdf" },
+      { text: "Manual técnico", href: "https://fastlearn.blob.core.windows.net/fastlearn/manualTecnico.pdf" },
     ],
   };
 

@@ -80,19 +80,19 @@ const PublicCoursesPage = () => {
     title: "Información",
     links: [
       { text: "Explorar", href: "/explore" },
-      { text: "Artículos", href: "/articles" },
+      { text: "Articulos", href: "/articles" },
+      { text: "Cursos", href: "/courses" },
       { text: "Soporte", href: "/support" },
-      { text: "FAQS", href: "/faqs" },
-      { text: "Reportar un problema", href: "/report" },
+      { text: "Reportar un problema", href: "mailto:Info.fastlearn.project@gmail.com?subject=Reporte%20-%20FastLearn" },
     ],
   };
 
   const company = {
-    title: "Compañía",
+    title: "Compañia",
     links: [
       { text: "Documentación", href: "/docs" },
-      { text: "Manual de usuario", href: "/manual-user" },
-      { text: "Manual técnico", href: "/manual-tech" },
+      { text: "Manual de usuario", href: "https://fastlearn.blob.core.windows.net/fastlearn/manualDeUsuario.pdf" },
+      { text: "Manual técnico", href: "https://fastlearn.blob.core.windows.net/fastlearn/manualTecnico.pdf" },
     ],
   };
 

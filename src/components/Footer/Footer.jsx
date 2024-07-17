@@ -9,7 +9,7 @@ const Footer = ({
   companyDescription,
 }) => {
   return (
-    <footer>
+    <footer className="my-5">
       {/* Primera sección del pie de página */}
       <footer className="footer bg-base-200 text-base-content p-10">
         <nav>
