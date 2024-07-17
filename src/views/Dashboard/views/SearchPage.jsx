@@ -116,7 +116,7 @@ const SearchPage = () => {
     e.preventDefault();
 
     if (!userData || !cursoData) {
-      return; // Salir de la función si los datos no están disponibles aún
+      return;
     }
 
     // Filtrar userData según el searchTerm

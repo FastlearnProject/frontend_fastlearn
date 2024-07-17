@@ -1,4 +1,5 @@
 export { default as AlertInfo } from './Alerts/AlertInfo';
+export { default as AlertInfoCategory } from './Alerts/AlertInfoCategory';
 export { default as AlertLoad } from './Alerts/AlertLoad';
 export { default as Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
 export { default as Card } from './Card/Card';

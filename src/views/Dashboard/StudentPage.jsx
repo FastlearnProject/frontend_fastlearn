@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { Sidebar, Footer } from "../../components/";
 import { getSidebarLinks } from "../../utils";
-import { Loader } from "../../components/Layout";
+import { Loader, AlertInfoCategory   } from "../../components/Layout";
 import { jwtDecode } from "jwt-decode";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
@@ -11,6 +11,7 @@ const URL = import.meta.env.VITE_BACKEND_URL;
 const StudentPage = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [courses, setCourses] = useState([]);
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -64,7 +65,10 @@ const StudentPage = () => {
       { text: "Articulos", href: "/articles" },
       { text: "Cursos", href: "/courses" },
       { text: "Soporte", href: "/support" },
-      { text: "Reportar un problema", href: "mailto:Info.fastlearn.project@gmail.com?subject=Reporte%20-%20FastLearn" },
+      {
+        text: "Reportar un problema",
+        href: "mailto:Info.fastlearn.project@gmail.com?subject=Reporte%20-%20FastLearn",
+      },
     ],
   };
 
@@ -72,8 +76,14 @@ const StudentPage = () => {
     title: "Compañia",
     links: [
       { text: "Documentación", href: "/docs" },
-      { text: "Manual de usuario", href: "https://fastlearn.blob.core.windows.net/fastlearn/manualDeUsuario.pdf" },
-      { text: "Manual técnico", href: "https://fastlearn.blob.core.windows.net/fastlearn/manualTecnico.pdf" },
+      {
+        text: "Manual de usuario",
+        href: "https://fastlearn.blob.core.windows.net/fastlearn/manualDeUsuario.pdf",
+      },
+      {
+        text: "Manual técnico",
+        href: "https://fastlearn.blob.core.windows.net/fastlearn/manualTecnico.pdf",
+      },
     ],
   };
 
@@ -105,6 +115,8 @@ const StudentPage = () => {
             <h1 className="text-xl font-bold">
               Bienvenido, Estudiante {userData.nombre}
             </h1>
+            <h2 className="text-lg font-semibold mt-4">Cursos</h2>
+            <AlertInfoCategory />
           </main>
           <Footer
             services={services}

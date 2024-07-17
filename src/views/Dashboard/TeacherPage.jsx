@@ -3,15 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { jwtDecode } from "jwt-decode";
 import { Sidebar, Footer } from "../../components/";
-import { Loader } from "../../components/Layout";
+import { Loader, AlertInfoCategory} from "../../components/Layout";
+import { getSidebarLinks } from "../../utils";
 
-import { getSidebarLinks } from "../../utils"
-
-const URL = import.meta.env.VITE_BACKEND_URL;
+const URL = "https://service-fastlearn.onrender.com"; // URL del backend
 
 const TeacherPage = () => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const [courses, setCourses] = useState([]);
   const token = localStorage.getItem("token");
 
   const sidebarLinks = getSidebarLinks(token);
@@ -47,6 +47,27 @@ const TeacherPage = () => {
       }
     };
 
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch(`${URL}/cursos/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const coursesData = await response.json();
+          setCourses(coursesData);
+        } else {
+          console.error(
+            "Error al obtener cursos:",
+            response.statusText
+          );
+        }
+      } catch (error) {
+        console.error("Error en la conexión:", error);
+      }
+    };
+
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
@@ -58,6 +79,7 @@ const TeacherPage = () => {
           navigate("/login");
         } else {
           fetchUserData(userId);
+          fetchCourses();
         }
       } catch (error) {
         console.error("Error al decodificar el token:", error);
@@ -69,7 +91,6 @@ const TeacherPage = () => {
     }
   }, [navigate, token]);
 
-
   const services = {
     title: "Información",
     links: [
@@ -77,7 +98,10 @@ const TeacherPage = () => {
       { text: "Articulos", href: "/articles" },
       { text: "Cursos", href: "/courses" },
       { text: "Soporte", href: "/support" },
-      { text: "Reportar un problema", href: "mailto:Info.fastlearn.project@gmail.com?subject=Reporte%20-%20FastLearn" },
+      {
+        text: "Reportar un problema",
+        href: "mailto:Info.fastlearn.project@gmail.com?subject=Reporte%20-%20FastLearn",
+      },
     ],
   };
 
@@ -85,8 +109,14 @@ const TeacherPage = () => {
     title: "Compañia",
     links: [
       { text: "Documentación", href: "/docs" },
-      { text: "Manual de usuario", href: "https://fastlearn.blob.core.windows.net/fastlearn/manualDeUsuario.pdf" },
-      { text: "Manual técnico", href: "https://fastlearn.blob.core.windows.net/fastlearn/manualTecnico.pdf" },
+      {
+        text: "Manual de usuario",
+        href: "https://fastlearn.blob.core.windows.net/fastlearn/manualDeUsuario.pdf",
+      },
+      {
+        text: "Manual técnico",
+        href: "https://fastlearn.blob.core.windows.net/fastlearn/manualTecnico.pdf",
+      },
     ],
   };
 
@@ -103,9 +133,7 @@ const TeacherPage = () => {
   const companyDescription = "Todos los derechos reservados";
 
   if (!userData) {
-    return(
-      <Loader />
-    ); // Mostrar indicador de carga mientras se cargan los datos
+    return <Loader />; // Mostrar indicador de carga mientras se cargan los datos
   }
 
   return (
@@ -118,7 +146,8 @@ const TeacherPage = () => {
         <div className="flex flex-col w-full">
           <main className="p-4">
             <h1 className="text-xl font-bold">Bienvenido, Docente {userData.nombre}</h1>
-            <p className="mt-2">Bienvenido al panel de control.</p>
+            <h2 className="text-lg font-semibold mt-4">Todos los Cursos</h2>
+            <AlertInfoCategory />
           </main>
           <Footer
             services={services}
