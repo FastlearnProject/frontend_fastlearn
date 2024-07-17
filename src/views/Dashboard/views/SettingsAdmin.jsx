@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-import { Sidebar, HeroDash, Footer } from "../../../components";
+import { Sidebar, HeroAdmin, Footer } from "../../../components";
 import { getSidebarLinks } from "../../../utils";
 import { jwtDecode } from "jwt-decode";
 import { Loader } from "../../../components/Layout";
@@ -9,7 +9,7 @@ import { Loader } from "../../../components/Layout";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
-const SettingsPage = () => {
+const SettingsAdmin = () => {
   const navigateTo = useNavigate();
   const [userData, setUserData] = useState(null);
   const [sidebarLinks, setSidebarLinks] = useState([]);
@@ -25,11 +25,10 @@ const SettingsPage = () => {
 
     try {
       const decodedToken = jwtDecode(token);
-      const userId = decodedToken.id_usuario;
+      const userId = decodedToken.id_admin;
 
       if (
-        decodedToken.rol !== "student" &&
-        decodedToken.rol !== "teacher"
+        decodedToken.rol !== "admin"
       ) {
         console.error("Rol no autorizado:", decodedToken.rol);
         navigateTo("/login");
@@ -38,26 +37,26 @@ const SettingsPage = () => {
 
       setSidebarLinks(getSidebarLinks(token));
 
-      const fetchUserData = async (id_usuario) => {
+      const fetchUserData = async (id_admin) => {
         try {
-          const response = await fetch(`${URL}/usuario/${id_usuario}`, {
+          const response = await fetch(`${URL}/admin/${id_admin}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
 
           if (response.ok) {
-            const userArray = await response.json();
-            if (userArray.length > 0) {
-              setUserData(userArray[0]);
+            const [userDataArray, additionalData] = await response.json();
+            console.log("User data received:", userDataArray);
+            
+            if (Array.isArray(userDataArray) && userDataArray.length > 0) {
+              const userDataObject = userDataArray[0];
+              setUserData(userDataObject);
             } else {
-              console.error("No se encontraron datos del usuario.");
+              console.error("No se encontraron datos del usuario o el formato no es el esperado.");
             }
           } else {
-            console.error(
-              "Error al obtener los datos del usuario:",
-              response.statusText
-            );
+            console.error("Error al obtener los datos del usuario:", response.statusText);
           }
         } catch (error) {
           console.error("Error en la conexión:", error);
@@ -111,14 +110,14 @@ const SettingsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Ajustes | {userData.nombre}</title>
+        <title>Ajustes </title>
       </Helmet>
       <div className="flex h-screen">
         <Sidebar links={sidebarLinks} />
         <main className="flex flex-col w-full">
           <section className="p-4">
-            <h1 className="text-xl font-bold">Ajustes</h1>
-            <HeroDash userData={userData} />
+            <h1 className="text-xl font-bold">Ajustes </h1>
+            <HeroAdmin userData={userData} />
           </section>
           <Footer
             services={services}
@@ -133,4 +132,4 @@ const SettingsPage = () => {
   );
 };
 
-export default SettingsPage;
+export default SettingsAdmin;

@@ -8,6 +8,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { getSidebarLinks } from '../../../utils';
 import reporteCursos from '../../../components/Reporte/CursosReporte';
 import reporteUsuarios from '../../../components/Reporte/UserReporte';
+import { jwtDecode } from 'jwt-decode'; // Importar jwtDecode
 
 const URLB = import.meta.env.VITE_BACKEND_URL;
 
@@ -20,6 +21,7 @@ const SearchPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false); // Estado para almacenar si el usuario es admin
 
   const token = localStorage.getItem("token");
 
@@ -28,7 +30,6 @@ const SearchPage = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("Token no encontrado en localStorage");
         }
@@ -61,7 +62,6 @@ const SearchPage = () => {
 
     const fetchCursoData = async () => {
       try {
-        const token = localStorage.getItem("token");
         if (!token) {
           throw new Error("Token no encontrado en localStorage");
         }
@@ -94,8 +94,22 @@ const SearchPage = () => {
       }
     };
 
+    const checkUserRole = () => {
+      try {
+        if (token) {
+          const decodedToken = jwtDecode(token);
+          if (decodedToken.rol === "admin") {
+            setIsAdmin(true); // Establecer isAdmin a true si el rol es admin
+          }
+        }
+      } catch (error) {
+        console.error("Error al decodificar el token:", error);
+      }
+    };
+
     fetchUserData();
     fetchCursoData();
+    checkUserRole(); // Llamar a la función para verificar el rol del usuario
   }, []);
 
   const handleSubmit = async (e) => {
@@ -227,10 +241,10 @@ const SearchPage = () => {
                         {user.telefono}
                       </p>
                       <a
-                      key={index}
-                      href={`/search/user/${user.id_usuario}`}
-                      className="btn"
-                    >Información</a>
+                        key={index}
+                        href={`/search/user/${user.id_usuario}`}
+                        className="btn"
+                      >Información</a>
                     </div>
                   );
                 })
@@ -286,16 +300,17 @@ const SearchPage = () => {
               )}
             </div>
 
-            <div className="flex justify-center mt-8 gap-5">
-              <button onClick={() => reporteCursos(cursoDataFiltered)} className="bg-primary p-2 text-white rounded-md">
-                Generar Reporte Cursos
-              </button>
+            {isAdmin && (
+              <div className="flex justify-center mt-8 gap-5">
+                <button onClick={() => reporteCursos(cursoDataFiltered)} className="bg-primary p-2 text-white rounded-md">
+                  Generar Reporte Cursos
+                </button>
             
-              <button onClick={() => reporteUsuarios(userDataFiltered)} className="bg-primary p-2 text-white rounded-md">
-                Generar Reporte Usuarios
-              </button>
-            </div>
-
+                <button onClick={() => reporteUsuarios(userDataFiltered)} className="bg-primary p-2 text-white rounded-md">
+                  Generar Reporte Usuarios
+                </button>
+              </div>
+            )}
 
           </main>
           <Footer

@@ -5,16 +5,13 @@ import PropTypes from "prop-types";
 
 const URL = import.meta.env.VITE_BACKEND_URL;
 
-const HeroDash = ({ userData }) => {
+const HeroAdMIN = ({ userData }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [avatarUrl, setAvatarUrl] = useState("");
   const [formData, setFormData] = useState({
     nombre: "",
     correo: "",
     contrasenaPlain: "",
-    fechaNacimiento: "",
-    telefono: "",
-    genero: "",
   });
 
   const navigateTo = useNavigate();
@@ -32,9 +29,6 @@ const HeroDash = ({ userData }) => {
         nombre: userData.nombre,
         correo: userData.correo,
         contrasenaPlain: "",
-        fechaNacimiento: userData.fechaNacimiento,
-        telefono: userData.telefono,
-        genero: userData.genero,
       });
     }
   }, [userData]);
@@ -69,14 +63,11 @@ const HeroDash = ({ userData }) => {
 
     try {
       const response = await axios.put(
-        `${URL}/usuario/${userData.id_usuario}`,
+        `${URL}/admin/${userData.id_admin}`,
         {
           nombre: formData.nombre,
           correo: formData.correo,
           contrasenaPlain: formData.contrasenaPlain,
-          fechaNacimiento: formData.fechaNacimiento,
-          genero: formData.genero,
-          telefono: formData.telefono,
         },
         {
           headers: {
@@ -86,8 +77,8 @@ const HeroDash = ({ userData }) => {
       );
 
       if (response.status === 200) {
-        alert("Usuario modificado exitosamente");
-        navigateTo('/settings')
+        alert("Admin modificado exitosamente");
+        navigateTo('/settings-admin')
       } else {
         alert("Error al actualizar el usuario");
       }
@@ -106,7 +97,7 @@ const HeroDash = ({ userData }) => {
     }
 
     try {
-      const response = await axios.delete(`${URL}/usuario/${userData.id_usuario}`, {
+      const response = await axios.delete(`${URL}/admin/${userData.id_admin}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -155,12 +146,8 @@ const HeroDash = ({ userData }) => {
               {userData.correo}
             </span>
             <span>
-              <b>Fecha de nacimiento: </b>
-              {userData.fechaNacimiento}
-            </span>
-            <span>
-              <b>Teléfono: </b>
-              {userData.telefono}
+              <b>Rol: </b>
+              {userData.rol}
             </span>
           </div>
         </article>
@@ -214,35 +201,6 @@ const HeroDash = ({ userData }) => {
                 placeholder="Nueva Contraseña"
                 required
               />
-              <input
-                type="date"
-                name="fechaNacimiento"
-                value={formData.fechaNacimiento}
-                onChange={handleChange}
-                className="px-2 py-3 outline-primary"
-                required
-              />
-              <select
-                name="genero"
-                value={formData.genero}
-                onChange={handleChange}
-                className="select select-info w-full"
-                required
-              >
-                <option selected>Seleccionar género</option>
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-                <option value="otro">Otro</option>
-              </select>
-              <input
-                type="tel"
-                name="telefono"
-                value={formData.telefono}
-                onChange={handleChange}
-                className="px-2 py-3 outline-primary"
-                placeholder="Formato 123-456-7890"
-                required
-              />
               <button
                 type="submit"
                 className="btn bg-primary hover:bg-green-500 text-white"
@@ -287,22 +245,18 @@ const HeroDash = ({ userData }) => {
             </div>
           </div>
         </dialog>
-
       </div>
     </>
   );
 };
 
-// Definición de PropTypes para el componente HeroDash
-HeroDash.propTypes = {
+// Definición de PropTypes para el componente HeroAdMIN
+HeroAdMIN.propTypes = {
   userData: PropTypes.shape({
-    id_usuario: PropTypes.number.isRequired, // Id del usuario
+    id_admin: PropTypes.number.isRequired, // Id del usuario
     nombre: PropTypes.string.isRequired, // Nombre completo del usuario
     correo: PropTypes.string.isRequired, // Correo electrónico del usuario
-    fechaNacimiento: PropTypes.string.isRequired, // Fecha de nacimiento del usuario
-    telefono: PropTypes.string.isRequired, // Teléfono del usuario
-    genero: PropTypes.string.isRequired, // Género del usuario
   }).isRequired,
 };
 
-export default HeroDash;
+export default HeroAdMIN;

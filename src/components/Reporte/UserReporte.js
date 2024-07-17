@@ -1,7 +1,7 @@
 // CursosReporte.js
 
 import jsPDF from 'jspdf';
-import logo from "../../../public/img/logo/logo.webp"
+import logo from "/img/logo/logo.webp"
 
 const reporteUsuarios = (userDataFiltered) => {
   // Verificar que userDataFiltered tenga datos antes de proceder

@@ -19,7 +19,8 @@ import {
   ThemesPage,
   CoursePage,
   SupportPage,
-  UserPage
+  UserPage,
+  SettingsAdmin
 } from "./views";
 import RouteProtected from "./auth/RouteProtected";
 
@@ -46,6 +47,7 @@ const protectedRoutes = [
 const dashboardRoutes = [
   { path: "/search", component: SearchPage },
   { path: "/settings", component: SettingsPage },
+  { path: "/settings-admin", component: SettingsAdmin },
   { path: "/create-theme", component: ThemesPage },
   { path: "/search/:id", component: CoursePage },
   { path: "/search/user/:id", component: UserPage },

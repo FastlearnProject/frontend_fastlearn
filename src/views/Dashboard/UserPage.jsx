@@ -65,6 +65,10 @@ const UserPage = () => {
     return <div>No se encontraron datos del usuario.</div>;
   }
 
+  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+    userData.nombre
+  )}&background=0D8ABC&color=fff&size=128`;
+
   return (
     <>
       <Helmet>
@@ -72,8 +76,68 @@ const UserPage = () => {
       </Helmet>
       <div className="flex h-screen">
         <Sidebar links={sidebarLinks} />
-        <main className="flex flex-col m-5 w-full">
-            <h1>{userData.nombre}</h1>
+        <main className="flex flex-col m-5 w-full space-y-6">
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="flex items-center space-x-4">
+              <img
+                src={avatarUrl}
+                alt="Foto de perfil"
+                className="w-32 h-32 rounded-full"
+              />
+              <div>
+                <h1 className="text-2xl font-bold">{userData.nombre}</h1>
+                <p className="text-gray-600">{userData.correo}</p>
+                {userData.telefono && (
+                  <p className="text-gray-600">
+                    <a
+                      href={`tel:+57${userData.telefono}`}
+                      className="text-blue-500 underline"
+                    >
+                      {userData.telefono}
+                    </a>
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h2 className="text-xl font-bold mb-4">Información del usuario</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <h3 className="font-semibold">Nombre</h3>
+                <p className="text-gray-600">{userData.nombre}</p>
+              </div>
+              <div>
+                <h3 className="font-semibold">Correo Electrónico</h3>
+                <p className="text-gray-600">{userData.correo}</p>
+              </div>
+              {userData.telefono && (
+                <div>
+                  <h3 className="font-semibold">Teléfono</h3>
+                  <p className="text-gray-600">
+                    <a
+                      href={`tel:+57${userData.telefono}`}
+                      className="text-blue-500 underline"
+                    >
+                      {userData.telefono}
+                    </a>
+                  </p>
+                </div>
+              )}
+              <div>
+                <h3 className="font-semibold">Rol</h3>
+                <p className="text-gray-600">{userData.rol}</p>
+              </div>
+              <div>
+                <h3 className="font-semibold">Genero</h3>
+                <p className="text-gray-600">{userData.genero}</p>
+              </div>
+              <div>
+                <h3 className="font-semibold">Fecha de nacimiento</h3>
+                <p className="text-gray-600">{userData.fechaNacimiento}</p>
+              </div>
+            </div>
+          </div>
         </main>
       </div>
     </>

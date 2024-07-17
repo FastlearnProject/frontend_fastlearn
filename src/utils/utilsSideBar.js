@@ -1,11 +1,12 @@
 import {
   faSchool,
   faSearch,
-  faCubes,
-  faNoteSticky,
   faGear,
-  faCalendar,
   faUserPlus,
+  faArchive,
+  faNewspaper,
+  faMagicWandSparkles,
+  faBook,
 } from "@fortawesome/free-solid-svg-icons";
 import { jwtDecode } from "jwt-decode";
 
@@ -34,16 +35,17 @@ export const getSidebarLinks = (token) => {
       return [
         { text: "Dashboard", href: "/teacher", icon: faSchool },
         { text: "Buscar", href: "/search", icon: faSearch },
-        { text: "Mis temas", href: "/my-themes", icon: faSchool },
-        { text: "Crear articulo", href: "/create-article", icon: faCalendar },
-        { text: "Crear tema", href: "/create-theme", icon: faUserPlus },
+        { text: "Crear articulo", href: "/create-article", icon: faNewspaper },
+        { text: "Crear tema", href: "/create-theme", icon: faMagicWandSparkles },
+        { text: "Ver articulos", href: "/article/:id", icon: faArchive },
+        { text: "Ver mis temas", href: "/create-theme", icon: faBook },
         { text: "Ajustes", href: "/settings", icon: faGear },
       ];
     }else if (role === "admin") {
       return [
         { text: "Dashboard", href: "/admin", icon: faSchool },
         { text: "Buscar", href: "/search", icon: faSearch },
-        { text: "Ajustes", href: "/settings", icon: faGear },
+        { text: "Ajustes", href: "/settings-admin", icon: faGear },
       ];
     }
   } catch (error) {
