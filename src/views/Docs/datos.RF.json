@@ -25,7 +25,7 @@
     },
     {
         "numero": "RF005",
-        "descripcion": "El sistema deberá permitir al usuario mostrar su información como su nombre de usuario, correo, número y documento",
+        "descripcion": "El sistema deberá permitir al usuario generar una imagen de perfil con sus iniciales",
         "proceso": "Registro",
         "stakeholder": "STK001 - RECTOR"
     },
@@ -55,7 +55,7 @@
     },
     {
         "numero": "RF010",
-        "descripcion": "El sistema deberá permitir al usuario recuperar su cuenta en caso de perdida",
+        "descripcion": "el sistema deberá permitir al usuario hacer un cambio de contraseña",
         "proceso": "Registro",
         "stakeholder": "STK001 - RECTOR"
     },
@@ -79,7 +79,7 @@
     },
     {
         "numero": "RF014",
-        "descripcion": "El sistema deberá permitir al usuario visualizar en el dashboard cursos, articulos aleatorios",
+        "descripcion": "El sistema deberá permitir al usuario visualizar en el dashboard cursos y articulos",
         "proceso": "Educativo",
         "stakeholder": "STK005 - DOCENTE"
     },
