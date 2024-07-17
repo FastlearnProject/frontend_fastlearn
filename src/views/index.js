@@ -23,6 +23,7 @@ export { default as SettingsPage } from './Dashboard/views/SettingsPage';
 export { default as SearchPage } from './Dashboard/views/SearchPage';
 export { default as ThemesPage } from './Dashboard/views/ThemesPage';
 export { default as CoursePage } from './Dashboard/CoursePage';
+export { default as UserPage } from './Dashboard/UserPage';
 
 // Rutas de documentación
 

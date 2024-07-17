@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { Sidebar, Footer } from '../../../components/';
-import { Loader } from '../../../components/Layout';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { getSidebarLinks } from '../../../utils';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { Sidebar, Footer } from "../../../components/";
+import { Loader } from "../../../components/Layout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { getSidebarLinks } from "../../../utils";
 
 const URLB = import.meta.env.VITE_BACKEND_URL;
 
@@ -17,18 +17,18 @@ const SearchPage = () => {
   const [cursoDataFiltered, setCursoDataFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const sidebarLinks = getSidebarLinks(token);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          throw new Error('Token no encontrado en localStorage');
+          throw new Error("Token no encontrado en localStorage");
         }
 
         const response = await fetch(`${URLB}/usuario/`, {
@@ -46,12 +46,12 @@ const SearchPage = () => {
           setUserData(responseData[0]);
           setUserDataFiltered(responseData[0]);
         } else {
-          console.error('No se encontraron datos de usuario.');
+          console.error("No se encontraron datos de usuario.");
         }
 
         setLoading(false);
       } catch (error) {
-        console.error('Error en la conexión:', error);
+        console.error("Error en la conexión:", error);
         setError(error.message);
         setLoading(false);
       }
@@ -59,9 +59,9 @@ const SearchPage = () => {
 
     const fetchCursoData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          throw new Error('Token no encontrado en localStorage');
+          throw new Error("Token no encontrado en localStorage");
         }
 
         const response = await fetch(`${URLB}/cursos/`, {
@@ -81,12 +81,12 @@ const SearchPage = () => {
           setCursoData(responseData[0]);
           setCursoDataFiltered(responseData[0]);
         } else {
-          console.error('No se encontraron datos de cursos.');
+          console.error("No se encontraron datos de cursos.");
         }
 
         setLoading(false);
       } catch (error) {
-        console.error('Error en la conexión:', error);
+        console.error("Error en la conexión:", error);
         setError(error.message);
         setLoading(false);
       }
@@ -104,59 +104,64 @@ const SearchPage = () => {
     }
 
     // Filtrar userData según el searchTerm
-    const filteredUserData = userData.filter((user) => (
-      (user.nombre && user.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (user.correo && user.correo.toLowerCase().includes(searchTerm.toLowerCase()))
-    ));
+    const filteredUserData = userData.filter(
+      (user) =>
+        (user.nombre &&
+          user.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (user.correo &&
+          user.correo.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
 
     // Filtrar cursoData según el searchTerm
-    const filteredCursoData = Object.values(cursoData).filter((curso) => (
-      (curso.titulo && curso.titulo.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (curso.descripcion && curso.descripcion.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      (curso.tags && curso.tags.toLowerCase().includes(searchTerm.toLowerCase()))
-    ));
+    const filteredCursoData = Object.values(cursoData).filter(
+      (curso) =>
+        (curso.titulo &&
+          curso.titulo.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (curso.descripcion &&
+          curso.descripcion.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (curso.tags &&
+          curso.tags.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
 
     setUserDataFiltered(filteredUserData);
     setCursoDataFiltered(filteredCursoData);
   };
 
   const services = {
-    title: 'Información',
+    title: "Información",
     links: [
-      { text: 'Explorar', href: '/explore' },
-      { text: 'Articulos', href: '/articles' },
-      { text: 'Cursos', href: '/courses' },
-      { text: 'Soporte', href: '/support' },
-      { text: 'FAQS', href: '/faqs' },
-      { text: 'Reportar un problema', href: '/report' },
+      { text: "Explorar", href: "/explore" },
+      { text: "Articulos", href: "/articles" },
+      { text: "Cursos", href: "/courses" },
+      { text: "Soporte", href: "/support" },
+      { text: "FAQS", href: "/faqs" },
+      { text: "Reportar un problema", href: "/report" },
     ],
   };
 
   const company = {
-    title: 'Compañia',
+    title: "Compañia",
     links: [
-      { text: 'Documentación', href: '/docs' },
-      { text: 'Manual de usuario', href: '/manual-user' },
-      { text: 'Manual técnico', href: '/manual-tech' },
+      { text: "Documentación", href: "/docs" },
+      { text: "Manual de usuario", href: "/manual-user" },
+      { text: "Manual técnico", href: "/manual-tech" },
     ],
   };
 
   const legal = {
-    title: 'Legal',
+    title: "Legal",
     links: [
-      { text: 'Términos y condiciones', href: '/terms' },
-      { text: 'Política de privacidad', href: '/policy' },
-      { text: 'Derechos de autor', href: '/rights-autor' },
+      { text: "Términos y condiciones", href: "/terms" },
+      { text: "Política de privacidad", href: "/policy" },
+      { text: "Derechos de autor", href: "/rights-autor" },
     ],
   };
 
-  const companyName = 'FastLearn INC';
-  const companyDescription = 'Todos los derechos reservados';
+  const companyName = "FastLearn INC";
+  const companyDescription = "Todos los derechos reservados";
 
   if (!userData || !cursoData) {
-    return (
-      <Loader />
-    ); // Mostrar indicador de carga mientras se cargan los datos
+    return <Loader />; // Mostrar indicador de carga mientras se cargan los datos
   }
 
   return (
@@ -169,13 +174,12 @@ const SearchPage = () => {
         <Sidebar links={sidebarLinks} />
         <div className="flex flex-col w-full">
           <main className="p-4">
-
             <h1 className="text-xl font-bold">Buscar contenido</h1>
             <form onSubmit={handleSubmit} className="flex mx-10 space-x-5">
               <input
                 type="search"
                 value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
                 className="bg-slate-100 w-full p-4 rounded-xl outline-primary"
                 placeholder="Buscar contenido"
               />
@@ -193,12 +197,14 @@ const SearchPage = () => {
               ) : Array.isArray(userDataFiltered) &&
                 userDataFiltered.length > 0 ? (
                 userDataFiltered.map((user, index) => {
-                  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.nombre)}&background=random`;
+                  const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    user.nombre
+                  )}&background=random`;
 
                   return (
                     <div
                       key={index}
-                      className="bg-white flex flex-col justify-start items-start w-48 p-5 shadow-md text-sm rounded-lg"
+                      className="bg-white flex flex-col justify-between items-start w-48 p-5 shadow-md text-sm rounded-lg"
                     >
                       <div className="w-full h-40 overflow-hidden rounded-t-lg">
                         <img
@@ -207,9 +213,7 @@ const SearchPage = () => {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      <h2 className="font-semibold mt-4">
-                        {user.nombre}
-                      </h2>
+                      <h2 className="font-semibold mt-4">{user.nombre}</h2>
                       <a
                         href={`mailto:${user.correo}`}
                         className="text-gray-600 break-words w-full text-primary"
@@ -220,6 +224,11 @@ const SearchPage = () => {
                       <p className="text-gray-600 text-primary">
                         {user.telefono}
                       </p>
+                      <a
+                      key={index}
+                      href={`/search/user/${user.id_usuario}`}
+                      className="btn"
+                    >Información</a>
                     </div>
                   );
                 })
@@ -260,6 +269,14 @@ const SearchPage = () => {
                     </a>
                     <p className="text-gray-600">{curso.tags}</p>
                     <p className="text-gray-600">{curso.categoria}</p>
+                    <br />
+                    <a
+                      key={index}
+                      href={`/search/${curso.id_cursos}`}
+                      className="btn"
+                    >
+                      Ver
+                    </a>
                   </div>
                 ))
               ) : (

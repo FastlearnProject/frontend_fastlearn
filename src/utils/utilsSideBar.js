@@ -28,8 +28,6 @@ export const getSidebarLinks = (token) => {
       return [
         { text: "Dashboard", href: "/student", icon: faSchool },
         { text: "Buscar", href: "/search", icon: faSearch },
-        { text: "Personalizar", href: "/custom", icon: faCubes },
-        { text: "Mis notas", href: "/my-notes", icon: faNoteSticky },
         { text: "Ajustes", href: "/settings", icon: faGear },
       ];
     } else if (role === "teacher") {
@@ -39,6 +37,12 @@ export const getSidebarLinks = (token) => {
         { text: "Mis temas", href: "/my-themes", icon: faSchool },
         { text: "Crear articulo", href: "/create-article", icon: faCalendar },
         { text: "Crear tema", href: "/create-theme", icon: faUserPlus },
+        { text: "Ajustes", href: "/settings", icon: faGear },
+      ];
+    }else if (role === "admin") {
+      return [
+        { text: "Dashboard", href: "/admin", icon: faSchool },
+        { text: "Buscar", href: "/search", icon: faSearch },
         { text: "Ajustes", href: "/settings", icon: faGear },
       ];
     }

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode"; // Corrige la importación de jwtDecode
 import axios from "axios";
 import { SectionForm } from "../../components/";
 
-const URL = import.meta.env.VITE_BACKEND_URL;
+const URLB = import.meta.env.VITE_BACKEND_URL;;
 
 const LoginPage = () => {
   const [initialFields] = useState([
@@ -14,19 +14,22 @@ const LoginPage = () => {
   ]);
   const [errorMessage, setErrorMessage] = useState(""); // Estado para manejar errores
 
+  const URLUSER = `${URLB}/login`
+  const URLADMIN = `${URLB}/loginAdmin`
+  
   const navigate = useNavigate();
 
   const handleLogin = async (formData) => {
     try {
-      const response = await axios.post(
-        `${URL}/login`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      // Determina la URL basada en el tipo de usuario
+      const isAdmin = formData.correo.includes('@admin.com'); // Cambia esta lógica según tus necesidades
+      const url = isAdmin ? URLADMIN : URLUSER;
+
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       console.log("Respuesta del servidor:", response.data);
 
